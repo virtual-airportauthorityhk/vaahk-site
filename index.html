@@ -1,0 +1,2500 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>虚拟香港机场管理局</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* 虚拟香港机场管理局网站样式 */
+
+        /* 配色方案 */
+        :root {
+            --white: #ffffff;
+            --black: #333333;
+            --light-green: #90EE90;
+            --hover-green: #7FDD7F;
+            --light-grey: #f8f9fa;
+            --medium-grey: #e0e0e0;
+            --dark-grey: #666666;
+            --border-green: #90EE90;
+            --text-green: #228B22;
+        }
+
+        /* 全局样式 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', 'Microsoft JhengHei', 'Arial', sans-serif;
+            background-color: var(--white);
+            color: var(--black);
+            line-height: 1.6;
+            font-size: 16px;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        /* 导航栏样式 */
+        header {
+            background-color: var(--white);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 2px solid var(--light-green);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            white-space: nowrap;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo h1 {
+            color: var(--black);
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin: 0;
+            border-left: 4px solid var(--light-green);
+            padding-left: 12px;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            gap: 15px;
+        }
+
+        .nav-links li {
+            margin: 0;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--black);
+            font-weight: 500;
+            font-size: 1rem;
+            padding: 8px 12px;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+            border: 1px solid transparent;
+            cursor: pointer;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: var(--text-green);
+            border-color: var(--light-green);
+            background-color: rgba(144, 238, 144, 0.1);
+        }
+
+        /* 页面内容样式 */
+        main {
+            margin-top: 80px;
+            min-height: calc(100vh - 160px);
+            padding: 0;
+        }
+
+        /* 英雄区域样式 */
+        .hero {
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+                url('https://images.unsplash.com/photo-1436491865332-7a61a109cc05?ixlib=rb-4.0.3&auto=format&fit=crop&w=1500&q=80');
+            background-size: cover;
+            background-position: center;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            z-index: 1;
+            position: relative;
+            color: white;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            color: var(--white);
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            line-height: 1.8;
+            text-indent: 2em;
+            color: var(--white);
+        }
+
+        /* 按钮样式 */
+        .btn {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--light-green), var(--hover-green));
+            color: var(--black);
+            padding: 12px 24px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: 2px solid var(--light-green);
+            margin: 5px;
+            box-shadow: 0 4px 8px rgba(144, 238, 144, 0.3);
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background: linear-gradient(135deg, var(--hover-green), var(--light-green));
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(144, 238, 144, 0.4);
+            border-color: var(--hover-green);
+        }
+
+        .btn-secondary {
+            background: var(--white);
+            color: var(--text-green);
+            border: 2px solid var(--light-green);
+        }
+
+        .btn-secondary:hover {
+            background: var(--light-green);
+            color: var(--black);
+        }
+
+        /* 内容区域样式 */
+        .section {
+            padding: 60px 0;
+            display: none;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .section-title h1,
+        .section-title h2 {
+            font-size: 2.5rem;
+            color: var(--black);
+            position: relative;
+            display: inline-block;
+            padding-bottom: 15px;
+            margin-bottom: 10px;
+        }
+
+        .section-title h1:after,
+        .section-title h2:after {
+            content: '';
+            position: absolute;
+            width: 60%;
+            height: 3px;
+            background: linear-gradient(90deg, var(--light-green), var(--hover-green));
+            bottom: 0;
+            left: 20%;
+            border-radius: 2px;
+        }
+
+        .section-title p {
+            color: var(--dark-grey);
+            font-size: 1.1rem;
+        }
+
+        /* 卡片样式 */
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .card {
+            background: var(--white);
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            border: 1px solid var(--medium-grey);
+            border-left: 4px solid var(--light-green);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--light-green), transparent);
+            opacity: 0.1;
+            border-radius: 0 12px 0 60px;
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.12);
+            border-left-color: var(--hover-green);
+        }
+
+        .card-icon {
+            font-size: 2.5rem;
+            color: var(--text-green);
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: var(--black);
+            text-align: center;
+        }
+
+        .card p {
+            color: var(--dark-grey);
+            line-height: 1.6;
+            text-align: center;
+        }
+
+        /* 文本样式 */
+        .text-indent {
+            text-indent: 2em;
+            margin-bottom: 15px;
+            text-align: justify;
+            line-height: 1.8;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .text-left {
+            text-align: left;
+        }
+
+        /* 内容容器 */
+        .content-container {
+            background: var(--white);
+            border-radius: 12px;
+            padding: 40px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+            border: 1px solid var(--medium-grey);
+            border-top: 4px solid var(--light-green);
+            margin-bottom: 30px;
+        }
+
+        .content-container h3 {
+            color: var(--black);
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--light-green);
+            font-size: 1.4rem;
+        }
+
+        /* 联系信息样式 */
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: flex-start;
+            padding: 25px;
+            background: var(--light-grey);
+            border-radius: 8px;
+            border-left: 4px solid var(--light-green);
+            min-height: 120px;
+        }
+
+        .contact-icon {
+            margin-right: 15px;
+            font-size: 1.3rem;
+            color: var(--text-green);
+            width: 30px;
+            text-align: center;
+            margin-top: 2px;
+        }
+
+        .contact-content h4 {
+            color: var(--black);
+            margin-bottom: 8px;
+            font-size: 1.1rem;
+        }
+
+        .contact-content p {
+            color: var(--dark-grey);
+            margin: 0;
+        }
+
+        .contact-link {
+            color: var(--text-green);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .contact-link:hover {
+            color: var(--hover-green);
+            text-decoration: underline;
+        }
+
+        /* 工具容器样式 */
+        .tool-container {
+            background: var(--white);
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+            margin-bottom: 30px;
+            border: 1px solid var(--medium-grey);
+            border-left: 4px solid var(--light-green);
+        }
+
+        .tool-container h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: var(--black);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        textarea,
+        input[type="text"] {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid var(--medium-grey);
+            border-radius: 8px;
+            font-size: 1rem;
+            margin-bottom: 15px;
+            resize: vertical;
+            font-family: inherit;
+            transition: border-color 0.3s ease;
+        }
+
+        textarea:focus,
+        input[type="text"]:focus {
+            outline: none;
+            border-color: var(--light-green);
+            box-shadow: 0 0 8px rgba(144, 238, 144, 0.3);
+        }
+
+        .result-box {
+            background: var(--light-grey);
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+            border: 1px solid var(--medium-grey);
+        }
+
+        .result-item {
+            margin-bottom: 10px;
+            padding-bottom: 10px;
+            border-bottom: 1px dashed var(--medium-grey);
+        }
+
+        .result-item:last-child {
+            border-bottom: none;
+        }
+
+        /* 组织结构样式 */
+        .org-category {
+            margin-bottom: 40px;
+        }
+
+        .org-category h3 {
+            font-size: 1.6rem;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid var(--light-green);
+            color: var(--black);
+        }
+
+        .org-list {
+            list-style: none;
+        }
+
+        .org-item {
+            margin-bottom: 10px;
+            padding: 15px;
+            background: var(--light-grey);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-left: 4px solid var(--light-green);
+        }
+
+        .org-item:hover {
+            background: var(--medium-grey);
+            transform: translateX(5px);
+        }
+
+        .org-details {
+            padding: 15px;
+            background: var(--white);
+            border-radius: 8px;
+            margin-top: 10px;
+            display: none;
+            border: 1px solid var(--medium-grey);
+        }
+
+        .org-details.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        /* 频率表格样式 */
+        .frequency-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        .frequency-table th,
+        .frequency-table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid var(--medium-grey);
+        }
+
+        .frequency-table th {
+            background-color: var(--light-green);
+            color: var(--black);
+            font-weight: 600;
+        }
+
+        .frequency-table tr:hover {
+            background-color: rgba(144, 238, 144, 0.1);
+        }
+
+        .frequency-section {
+            margin-bottom: 40px;
+        }
+
+        .frequency-section h4 {
+            color: var(--text-green);
+            margin-bottom: 15px;
+            padding-bottom: 5px;
+            border-bottom: 2px solid var(--light-green);
+        }
+
+        /* 页脚样式 */
+        footer {
+            background: linear-gradient(135deg, var(--black), #2a2a2a);
+            color: var(--white);
+            padding: 50px 0 20px;
+            position: relative;
+        }
+
+        footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--light-green), var(--hover-green));
+        }
+
+        /* 三栏布局 */
+        .footer-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            /* 三等分 */
+            gap: 40px;
+            margin-bottom: 30px;
+        }
+
+        /* 左边栏：快速链接 */
+        .footer-section:nth-child(1) {
+            text-align: left;
+        }
+
+        /* 中间栏：参与我们 */
+        .footer-section:nth-child(2) {
+            text-align: center;
+        }
+
+        /* 右边栏：QQ群和电邮 */
+        .footer-section:nth-child(3) {
+            text-align: right;
+        }
+
+        .footer-section h3 {
+            color: var(--white);
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+            border-bottom: 2px solid var(--light-green);
+            padding-bottom: 8px;
+            display: inline-block;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 8px;
+        }
+
+        .footer-links a {
+            color: #cccccc;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--light-green);
+        }
+
+        .footer-contact {
+            margin-top: 10px;
+            color: #cccccc;
+        }
+
+        .footer-contact p {
+            margin-bottom: 8px;
+        }
+
+        .footer-contact a {
+            color: var(--light-green);
+            text-decoration: none;
+        }
+
+        .footer-contact a:hover {
+            text-decoration: underline;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #cccccc;
+        }
+
+        .footer-bottom p {
+            margin-bottom: 5px;
+        }
+
+        .disclaimer {
+            font-size: 0.85rem;
+            color: #999999;
+            line-height: 1.4;
+            max-width: 800px;
+            margin: 10px auto 0;
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 30px;
+                text-align: center;
+            }
+
+            .footer-section:nth-child(1),
+            .footer-section:nth-child(2),
+            .footer-section:nth-child(3) {
+                text-align: center;
+            }
+        }
+
+        /* 增加内容容器之间的间距 */
+        .content-container {
+            margin-bottom: 40px !important;
+            /* 从30px增加到40px */
+            padding: 35px;
+            /* 从40px减少到35px，保持整体平衡 */
+        }
+
+        /* 增加工具容器的间距 */
+        .tool-container {
+            margin-bottom: 35px !important;
+            /* 从30px增加到35px */
+            padding: 25px;
+            /* 从30px减少到25px */
+        }
+
+        /* 增加卡片网格的间距 */
+        .card-grid {
+            gap: 35px !important;
+            /* 从30px增加到35px */
+        }
+
+        .card {
+            margin-bottom: 20px;
+        }
+
+        /* 动画 */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .animate.animated {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+
+            .card-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .contact-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
+
+            .btn {
+                display: block;
+                width: 100%;
+                margin: 10px 0;
+                text-align: center;
+            }
+
+            .content-container {
+                padding: 20px;
+            }
+
+            .frequency-table {
+                display: block;
+                overflow-x: auto;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 导航栏 -->
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">
+                    <h1>虚拟香港机场管理局</h1>
+                </div>
+                <ul class="nav-links">
+                    <li><a class="active" data-page="index">主页</a></li>
+                    <li><a data-page="service-center">虚拟香港航空服务中心</a></li>
+                    <li><a data-page="aviation-knowledge">航空知识</a></li>
+                    <li><a data-page="events">连飞活动</a></li>
+                    <li><a data-page="structure">架构</a></li>
+                    <li><a data-page="join-us">加入我们</a></li>
+                    <li><a data-page="contact">联系我们</a></li>
+                    <li><a data-page="about">关于我们</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- 主要内容 -->
+    <main>
+        <!-- 主页内容 -->
+        <section id="index" class="section active">
+            <!-- 英雄区域 -->
+            <div class="hero">
+                <div class="hero-content">
+                    <h1>欢迎访问虚拟香港机场网站</h1>
+                    <p class="text-indent">
+                        在这里，您将踏入一场关于航空的奇妙之旅。我们深知每一次飞行都承载着乘客的梦想与期待。因此，我们致力于打造一个集高效、便捷、安全于一体的虚拟航空枢纽。我们坚信，每一次飞行都是一次全新的开始。在虚拟航空枢纽，我们将携手合作伙伴，共同为您创造难忘的航空旅行体验。期待您的光临，愿您的旅程充满惊喜与快乐!
+                    </p>
+                </div>
+            </div>
+
+            <div class="container">
+                <!-- 公告区域 -->
+                <div class="content-container">
+                    <h3><i class="fas fa-bullhorn"></i> 最新公告</h3>
+                    <div class="text-indent">
+                        <strong>网站开始测试</strong><br>
+                        虚拟香港机场管理局网站现已开始测试阶段，欢迎各位提出宝贵意见。<br>
+                        <small style="color: var(--dark-grey);">发布日期: 2025年8月21日</small>
+                    </div>
+                </div>
+
+                <!-- 最近连飞活动 -->
+                <div class="content-container">
+                    <h3><i class="fas fa-calendar-alt"></i> 最近连飞活动</h3>
+                    <div class="card">
+                        <div class="card-icon"><i class="fas fa-plane"></i></div>
+                        <h3>香港回归28周年纪念 · 京港连飞活动</h3>
+                        <div style="margin: 20px 0;">
+                            <p><strong>航线：</strong> 北京首都国际机场 (ZBAA) - 香港国际机场 (VHHH)</p>
+                            <p><strong>日期：</strong> 2024年7月1日</p>
+                            <p><strong>时间：</strong> 13：00(UTC+8)</p>
+                            <p><strong>简介：</strong> 已完成的北京至香港特别联飞活动，感谢各位参与</p>
+                        </div>
+                        <div class="text-center">
+                            <a data-page="history" class="btn">查看活动详情</a>
+                            <a data-page="events" class="btn btn-secondary">查看所有活动</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 快速服务入口 -->
+                <div class="section-title">
+                    <h2>快速服务入口</h2>
+                    <p>专业的航空信息解读服务</p>
+                </div>
+                <div class="card-grid">
+                    <div class="card">
+                        <div class="card-icon"><i class="fas fa-cloud-sun"></i></div>
+                        <h3>METAR解码</h3>
+                        <p>实时天气报告解码服务，为您提供准确的机场天气信息</p>
+                        <div class="text-center" style="margin-top: 20px;">
+                            <a data-page="service-center" class="btn">立即使用</a>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon"><i class="fas fa-chart-line"></i></div>
+                        <h3>TAF解码</h3>
+                        <p>机场天气预报解码服务，助您了解未来天气趋势</p>
+                        <div class="text-center" style="margin-top: 20px;">
+                            <a data-page="service-center" class="btn">立即使用</a>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon"><i class="fas fa-radio"></i></div>
+                        <h3>ATIS信息</h3>
+                        <p>自动终端情报服务，获取最新的机场运行信息</p>
+                        <div class="text-center" style="margin-top: 20px;">
+                            <a data-page="service-center" class="btn">查看详情</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 关于我们简介 -->
+                <div class="section-title">
+                    <h2>关于我们</h2>
+                </div>
+                <div class="content-container">
+                    <p class="text-indent">
+                        2024年10月20日，虚拟香港机场管理局及虚拟香港民航处正式成立，前身为四川虚拟航空负责香港国际机场事务的部门。随着四川虚拟航空停运，香港机管局与香港民航处应运而生，填补了管理空白。香港民航处并入香港机管局后，双方资源整合，提升管理效能，构建了包括气象预报、情报服务、空中交通管制及航线规划在内的全面航空服务体系，推动虚拟航空事业稳健发展。
+                    </p>
+                    <div class="text-center" style="margin-top: 30px;">
+                        <a data-page="about" class="btn btn-secondary">了解更多</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 服务中心内容 -->
+        <section id="service-center" class="section">
+            <div class="container">
+                <div class="section-title">
+                    <h1>虚拟香港航空服务中心</h1>
+                    <p>为您提供专业的航空信息解读服务</p>
+                </div>
+
+                <!-- METAR解码器 -->
+                <div class="tool-container" id="metar">
+                    <h3><i class="fas fa-cloud-sun"></i> METAR 解码器</h3>
+                    <p class="text-indent">METAR代表 '例行天气报告'，每隔一小时或半小时发出一次。这种报告载述在指定时间内在机场所观察到的气象要素。</p>
+
+                    <textarea id="metar-input" rows="3"
+                        placeholder="请输入METAR代码，例如: VHHH 251600Z 24015G25KT 0600 FG SCT010 OVC020 17/16 Q1018"></textarea>
+                    <button class="btn" onclick="decodeMETAR()">解码 METAR</button>
+
+                    <div id="metar-result" class="result-box">
+                        <p>解码结果将显示在这里...</p>
+                    </div>
+
+                    <div style="margin-top: 20px; text-align: center;">
+                        <a href="https://www.hko.gov.hk/sc/aviat/wxobs_decode.htm" class="btn btn-secondary"
+                            target="_blank">查看实时METAR</a>
+                    </div>
+                </div>
+
+                <!-- TAF解码器 -->
+                <div class="tool-container" id="taf">
+                    <h3><i class="fas fa-chart-line"></i> TAF 解码器</h3>
+                    <p class="text-indent">机场天气预报 (TAF) 载述关于某个机场在预测期内预料会出现的气象要素。</p>
+
+                    <textarea id="taf-input" rows="4"
+                        placeholder="请输入TAF代码，例如: TAF VHHH 160500Z 1606/1712 13018KT 9000 BKN020 TX30/1606Z TN26/1622Z"></textarea>
+                    <button class="btn" onclick="decodeTAF()">解码 TAF</button>
+
+                    <div id="taf-result" class="result-box">
+                        <p>解码结果将显示在这里...</p>
+                    </div>
+
+                    <div style="margin-top: 20px; text-align: center;">
+                        <a href="https://www.hko.gov.hk/sc/aviat/taf_decode.htm" class="btn btn-secondary"
+                            target="_blank">查看实时TAF</a>
+                    </div>
+                </div>
+
+                <!-- ATIS信息 -->
+                <div class="tool-container" id="atis">
+                    <h3><i class="fas fa-radio"></i> ATIS 信息</h3>
+                    <p class="text-indent">
+                        ATIS是在繁忙的机场自动连续播放的讯息服务。通常在一个单独的无线电频率上进行广播，包括主要的与飞行相关的讯息，如天气、可用跑道、气压及高度表拨正值等讯息。</p>
+                    <p class="text-indent">飞行员通常在和管制员等单位建立联系前收听通播，了解相关情况以减少管制员的工作量及避免频道拥挤。正常情况下通播每小时更新一次，天气变化迅速时也可随时更新。
+                    </p>
+
+                    <div style="margin-top: 20px; text-align: center;">
+                        <a href="https://atis.cad.gov.hk/ATIS/ATISweb/atis.php" class="btn" target="_blank">访问实时ATIS</a>
+                        <a href="https://zh.wikipedia.org/wiki/自动终端情报服务" class="btn btn-secondary"
+                            target="_blank">了解更多</a>
+                    </div>
+                </div>
+
+                <!-- 香港飞行情报区管制频率 -->
+                <div class="content-container">
+                    <h3><i class="fas fa-tower-broadcast"></i> 香港飞行情报区管制频率</h3>
+                    <div class="frequency-section">
+                        <h4>香港飞行情报区 Hong Kong FIR (VHHK)</h4>
+                        <p><strong>管制单位：</strong>香港区域管制中心（Hong Kong ACC）<br>
+                            <strong>呼号（Call Sign）：</strong>Hong Kong Radar
+                        </p>
+                        <div class="text-center">
+                            <button class="btn" onclick="toggleFrequency('fir-frequencies')">显示/隐藏频率列表</button>
+                        </div>
+                        <div id="fir-frequencies" class="frequency-list" style="display: none; margin-top: 20px;">
+                            <table class="frequency-table">
+                                <tr>
+                                    <th>频率</th>
+                                    <th>用途</th>
+                                </tr>
+                                <tr>
+                                    <td>118.925 MHz</td>
+                                    <td>区域管制</td>
+                                </tr>
+                                <tr>
+                                    <td>121.300 MHz</td>
+                                    <td>区域管制</td>
+                                </tr>
+                                <tr>
+                                    <td>122.950 MHz</td>
+                                    <td>区域管制</td>
+                                </tr>
+                                <tr>
+                                    <td>123.475 MHz</td>
+                                    <td>区域管制</td>
+                                </tr>
+                                <tr>
+                                    <td>123.700 MHz</td>
+                                    <td>区域管制</td>
+                                </tr>
+                                <tr>
+                                    <td>123.950 MHz</td>
+                                    <td>区域管制</td>
+                                </tr>
+                                <tr>
+                                    <td>125.175 MHz</td>
+                                    <td>区域管制</td>
+                                </tr>
+                                <tr>
+                                    <td>125.325 MHz</td>
+                                    <td>区域管制</td>
+                                </tr>
+                                <tr>
+                                    <td>125.800 MHz</td>
+                                    <td>区域管制</td>
+                                </tr>
+                                <tr>
+                                    <td>126.300 MHz</td>
+                                    <td>区域管制</td>
+                                </tr>
+                                <tr>
+                                    <td>126.500 MHz</td>
+                                    <td>区域管制</td>
+                                </tr>
+                                <tr>
+                                    <td>127.100 MHz</td>
+                                    <td>区域管制</td>
+                                </tr>
+                                <tr>
+                                    <td>127.550 MHz</td>
+                                    <td>区域管制</td>
+                                </tr>
+                                <tr>
+                                    <td>128.125 MHz</td>
+                                    <td>区域管制</td>
+                                </tr>
+                                <tr>
+                                    <td>128.750 MHz</td>
+                                    <td>区域管制</td>
+                                </tr>
+                                <tr>
+                                    <td>129.900 MHz</td>
+                                    <td>区域管制</td>
+                                </tr>
+                                <tr>
+                                    <td>132.150 MHz</td>
+                                    <td>区域管制</td>
+                                </tr>
+                                <tr>
+                                    <td>132.225 MHz</td>
+                                    <td>区域管制</td>
+                                </tr>
+                                <tr>
+                                    <td>132.525 MHz</td>
+                                    <td>区域管制</td>
+                                </tr>
+                                <tr>
+                                    <td>132.600 MHz</td>
+                                    <td>区域管制</td>
+                                </tr>
+                                <tr>
+                                    <td>132.775 MHz</td>
+                                    <td>区域管制</td>
+                                </tr>
+                                <tr>
+                                    <td>132.800 MHz</td>
+                                    <td>区域管制</td>
+                                </tr>
+                                <tr>
+                                    <td>133.825 MHz</td>
+                                    <td>区域管制</td>
+                                </tr>
+                                <tr>
+                                    <td>134.300 MHz</td>
+                                    <td>区域管制</td>
+                                </tr>
+                                <tr>
+                                    <td>135.600 MHz</td>
+                                    <td>区域管制</td>
+                                </tr>
+                                <tr>
+                                    <td>121.500 MHz</td>
+                                    <td>紧急频率</td>
+                                </tr>
+                                <tr>
+                                    <td>5655.000 kHz</td>
+                                    <td>高频通信</td>
+                                </tr>
+                                <tr>
+                                    <td>8942.000 kHz</td>
+                                    <td>高频通信</td>
+                                </tr>
+                                <tr>
+                                    <td>13309.000 kHz</td>
+                                    <td>高频通信</td>
+                                </tr>
+                                <tr>
+                                    <td>123.100 MHz</td>
+                                    <td>搜索与救援(SAR)</td>
+                                </tr>
+                                <tr>
+                                    <td>3023.000 kHz</td>
+                                    <td>搜索与救援(SAR)</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="frequency-section">
+                        <h4>香港终端管制区 Hong Kong TMA</h4>
+                        <p><strong>管制单位：</strong>香港进近管制（Hong Kong Approach）<br>
+                            <strong>呼号：</strong>Hong Kong Radar
+                        </p>
+                        <div class="text-center">
+                            <button class="btn" onclick="toggleFrequency('tma-frequencies')">显示/隐藏频率列表</button>
+                        </div>
+                        <div id="tma-frequencies" class="frequency-list" style="display: none; margin-top: 20px;">
+                            <table class="frequency-table">
+                                <tr>
+                                    <th>频率</th>
+                                    <th>用途</th>
+                                </tr>
+                                <tr>
+                                    <td>118.825 MHz</td>
+                                    <td>进近管制</td>
+                                </tr>
+                                <tr>
+                                    <td>119.100 MHz</td>
+                                    <td>进近管制</td>
+                                </tr>
+                                <tr>
+                                    <td>119.350 MHz</td>
+                                    <td>进近管制</td>
+                                </tr>
+                                <tr>
+                                    <td>119.500 MHz</td>
+                                    <td>进近管制</td>
+                                </tr>
+                                <tr>
+                                    <td>121.300 MHz</td>
+                                    <td>进近管制</td>
+                                </tr>
+                                <tr>
+                                    <td>122.000 MHz</td>
+                                    <td>进近管制</td>
+                                </tr>
+                                <tr>
+                                    <td>122.650 MHz</td>
+                                    <td>进近管制</td>
+                                </tr>
+                                <tr>
+                                    <td>123.250 MHz</td>
+                                    <td>进近管制</td>
+                                </tr>
+                                <tr>
+                                    <td>123.475 MHz</td>
+                                    <td>进近管制</td>
+                                </tr>
+                                <tr>
+                                    <td>123.700 MHz</td>
+                                    <td>进近管制</td>
+                                </tr>
+                                <tr>
+                                    <td>123.800 MHz</td>
+                                    <td>进近管制</td>
+                                </tr>
+                                <tr>
+                                    <td>123.950 MHz</td>
+                                    <td>进近管制</td>
+                                </tr>
+                                <tr>
+                                    <td>124.050 MHz</td>
+                                    <td>进近管制</td>
+                                </tr>
+                                <tr>
+                                    <td>125.175 MHz</td>
+                                    <td>进近管制</td>
+                                </tr>
+                                <tr>
+                                    <td>125.325 MHz</td>
+                                    <td>进近管制</td>
+                                </tr>
+                                <tr>
+                                    <td>125.800 MHz</td>
+                                    <td>进近管制</td>
+                                </tr>
+                                <tr>
+                                    <td>126.300 MHz</td>
+                                    <td>进近管制</td>
+                                </tr>
+                                <tr>
+                                    <td>126.500 MHz</td>
+                                    <td>进近管制</td>
+                                </tr>
+                                <tr>
+                                    <td>127.100 MHz</td>
+                                    <td>进近管制</td>
+                                </tr>
+                                <tr>
+                                    <td>127.550 MHz</td>
+                                    <td>进近管制</td>
+                                </tr>
+                                <tr>
+                                    <td>128.125 MHz</td>
+                                    <td>进近管制</td>
+                                </tr>
+                                <tr>
+                                    <td>128.750 MHz</td>
+                                    <td>进近管制</td>
+                                </tr>
+                                <tr>
+                                    <td>129.900 MHz</td>
+                                    <td>进近管制</td>
+                                </tr>
+                                <tr>
+                                    <td>132.150 MHz</td>
+                                    <td>进近管制</td>
+                                </tr>
+                                <tr>
+                                    <td>132.225 MHz</td>
+                                    <td>进近管制</td>
+                                </tr>
+                                <tr>
+                                    <td>132.525 MHz</td>
+                                    <td>进近管制</td>
+                                </tr>
+                                <tr>
+                                    <td>132.600 MHz</td>
+                                    <td>进近管制</td>
+                                </tr>
+                                <tr>
+                                    <td>132.775 MHz</td>
+                                    <td>进近管制</td>
+                                </tr>
+                                <tr>
+                                    <td>132.800 MHz</td>
+                                    <td>进近管制</td>
+                                </tr>
+                                <tr>
+                                    <td>134.300 MHz</td>
+                                    <td>进近管制</td>
+                                </tr>
+                                <tr>
+                                    <td>121.500 MHz</td>
+                                    <td>紧急频率</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="frequency-section">
+                        <h4>香港控制区 Hong Kong CTR</h4>
+                        <p><strong>管制单位：</strong>香港塔台（Hong Kong Tower）/ 进近（Hong Kong Approach）<br>
+                            <strong>呼号：</strong>Hong Kong Tower, Hong Kong Zone, Hong Kong Approach, Hong Kong Departure
+                        </p>
+                        <div class="text-center">
+                            <button class="btn" onclick="toggleFrequency('ctr-frequencies')">显示/隐藏频率列表</button>
+                        </div>
+                        <div id="ctr-frequencies" class="frequency-list" style="display: none; margin-top: 20px;">
+                            <table class="frequency-table">
+                                <tr>
+                                    <th>频率</th>
+                                    <th>用途</th>
+                                </tr>
+                                <tr>
+                                    <td>118.200 MHz</td>
+                                    <td>塔台管制</td>
+                                </tr>
+                                <tr>
+                                    <td>118.400 MHz</td>
+                                    <td>塔台管制</td>
+                                </tr>
+                                <tr>
+                                    <td>118.700 MHz</td>
+                                    <td>塔台管制</td>
+                                </tr>
+                                <tr>
+                                    <td>119.100 MHz</td>
+                                    <td>进近管制</td>
+                                </tr>
+                                <tr>
+                                    <td>119.350 MHz</td>
+                                    <td>进近管制</td>
+                                </tr>
+                                <tr>
+                                    <td>119.500 MHz</td>
+                                    <td>进近管制</td>
+                                </tr>
+                                <tr>
+                                    <td>120.600 MHz</td>
+                                    <td>塔台管制</td>
+                                </tr>
+                                <tr>
+                                    <td>122.000 MHz</td>
+                                    <td>进近管制</td>
+                                </tr>
+                                <tr>
+                                    <td>122.075 MHz</td>
+                                    <td>进近管制</td>
+                                </tr>
+                                <tr>
+                                    <td>122.650 MHz</td>
+                                    <td>进近管制</td>
+                                </tr>
+                                <tr>
+                                    <td>123.225 MHz</td>
+                                    <td>进近管制</td>
+                                </tr>
+                                <tr>
+                                    <td>123.800 MHz</td>
+                                    <td>进近管制</td>
+                                </tr>
+                                <tr>
+                                    <td>124.050 MHz</td>
+                                    <td>进近管制</td>
+                                </tr>
+                                <tr>
+                                    <td>124.850 MHz</td>
+                                    <td>塔台管制</td>
+                                </tr>
+                                <tr>
+                                    <td>121.500 MHz</td>
+                                    <td>紧急频率</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="frequency-section">
+                        <h4>香港 TMA 以南空域 South of Hong Kong TMA</h4>
+                        <p><strong>管制单位：</strong>香港区域管制（Hong Kong ACC）/ 香港情报服务（Hong Kong Information）<br>
+                            <strong>呼号：</strong>Hong Kong Radar, Hong Kong Information
+                        </p>
+                        <div class="text-center">
+                            <button class="btn" onclick="toggleFrequency('south-tma-frequencies')">显示/隐藏频率列表</button>
+                        </div>
+                        <div id="south-tma-frequencies" class="frequency-list" style="display: none; margin-top: 20px;">
+                            <table class="frequency-table">
+                                <tr>
+                                    <th>频率</th>
+                                    <th>用途</th>
+                                </tr>
+                                <tr>
+                                    <td>122.950 MHz</td>
+                                    <td>区域管制</td>
+                                </tr>
+                                <tr>
+                                    <td>123.700 MHz</td>
+                                    <td>区域管制</td>
+                                </tr>
+                                <tr>
+                                    <td>125.325 MHz</td>
+                                    <td>区域管制</td>
+                                </tr>
+                                <tr>
+                                    <td>125.800 MHz</td>
+                                    <td>区域管制</td>
+                                </tr>
+                                <tr>
+                                    <td>127.100 MHz</td>
+                                    <td>区域管制</td>
+                                </tr>
+                                <tr>
+                                    <td>128.125 MHz</td>
+                                    <td>区域管制</td>
+                                </tr>
+                                <tr>
+                                    <td>128.750 MHz</td>
+                                    <td>区域管制</td>
+                                </tr>
+                                <tr>
+                                    <td>129.900 MHz</td>
+                                    <td>区域管制</td>
+                                </tr>
+                                <tr>
+                                    <td>132.150 MHz</td>
+                                    <td>区域管制</td>
+                                </tr>
+                                <tr>
+                                    <td>132.525 MHz</td>
+                                    <td>区域管制</td>
+                                </tr>
+                                <tr>
+                                    <td>132.775 MHz</td>
+                                    <td>区域管制</td>
+                                </tr>
+                                <tr>
+                                    <td>135.600 MHz</td>
+                                    <td>区域管制</td>
+                                </tr>
+                                <tr>
+                                    <td>122.400 MHz</td>
+                                    <td>情报服务</td>
+                                </tr>
+                                <tr>
+                                    <td>122.075 MHz</td>
+                                    <td>情报服务</td>
+                                </tr>
+                                <tr>
+                                    <td>121.500 MHz</td>
+                                    <td>紧急频率</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="frequency-section">
+                        <h4>香港 TMA 下方空域 Airspace Beneath Hong Kong TMA</h4>
+                        <p><strong>管制单位：</strong>香港飞行情报服务 (Hong Kong FIS)<br>
+                            <strong>呼号：</strong>Hong Kong Information
+                        </p>
+                        <div class="text-center">
+                            <button class="btn" onclick="toggleFrequency('beneath-tma-frequencies')">显示/隐藏频率列表</button>
+                        </div>
+                        <div id="beneath-tma-frequencies" class="frequency-list"
+                            style="display: none; margin-top: 20px;">
+                            <table class="frequency-table">
+                                <tr>
+                                    <th>频率</th>
+                                    <th>用途</th>
+                                </tr>
+                                <tr>
+                                    <td>122.400 MHz</td>
+                                    <td>飞行情报服务</td>
+                                </tr>
+                                <tr>
+                                    <td>122.075 MHz</td>
+                                    <td>飞行情报服务</td>
+                                </tr>
+                                <tr>
+                                    <td>121.500 MHz</td>
+                                    <td>紧急频率</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="frequency-section">
+                        <h4>非管制空域报告区 UCARAs - Uncontrolled Airspace</h4>
+                        <p><strong>管制单位：</strong>无（需保持双向通信能力）<br>
+                            <strong>频率：</strong>需与 ATC 保持通信（无固定频率）
+                        </p>
+                    </div>
+
+                    <div class="frequency-section">
+                        <h4>搜索与救援 (SAR) 专用频率</h4>
+                        <p><strong>呼号：</strong>Hong Kong Rescue</p>
+                        <div class="text-center">
+                            <button class="btn" onclick="toggleFrequency('sar-frequencies')">显示/隐藏频率列表</button>
+                        </div>
+                        <div id="sar-frequencies" class="frequency-list" style="display: none; margin-top: 20px;">
+                            <table class="frequency-table">
+                                <tr>
+                                    <th>频率</th>
+                                    <th>用途</th>
+                                </tr>
+                                <tr>
+                                    <td>123.100 MHz</td>
+                                    <td>搜索与救援</td>
+                                </tr>
+                                <tr>
+                                    <td>3023.000 kHz</td>
+                                    <td>搜索与救援</td>
+                                </tr>
+                                <tr>
+                                    <td>5555.000 kHz</td>
+                                    <td>搜索与救援</td>
+                                </tr>
+                                <tr>
+                                    <td>8942.000 kHz</td>
+                                    <td>搜索与救援</td>
+                                </tr>
+                                <tr>
+                                    <td>13308.000 kHz</td>
+                                    <td>搜索与救援</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="frequency-section">
+                        <h4>终端过渡航路 Terminal Transition Routes</h4>
+                        <p><strong>管制单位：</strong>香港进近/离场 (Hong Kong Approach/Departure)</p>
+                        <div class="text-center">
+                            <button class="btn" onclick="toggleFrequency('transition-frequencies')">显示/隐藏频率列表</button>
+                        </div>
+                        <div id="transition-frequencies" class="frequency-list"
+                            style="display: none; margin-top: 20px;">
+                            <table class="frequency-table">
+                                <tr>
+                                    <th>频率</th>
+                                    <th>用途</th>
+                                </tr>
+                                <tr>
+                                    <td>121.300 MHz</td>
+                                    <td>终端过渡航路</td>
+                                </tr>
+                                <tr>
+                                    <td>127.100 MHz</td>
+                                    <td>终端过渡航路</td>
+                                </tr>
+                                <tr>
+                                    <td>128.750 MHz</td>
+                                    <td>终端过渡航路</td>
+                                </tr>
+                                <tr>
+                                    <td>123.125 MHz</td>
+                                    <td>终端过渡航路</td>
+                                </tr>
+                                <tr>
+                                    <td>123.700 MHz</td>
+                                    <td>终端过渡航路</td>
+                                </tr>
+                                <tr>
+                                    <td>129.900 MHz</td>
+                                    <td>终端过渡航路</td>
+                                </tr>
+                                <tr>
+                                    <td>132.150 MHz</td>
+                                    <td>终端过渡航路</td>
+                                </tr>
+                                <tr>
+                                    <td>126.100 MHz</td>
+                                    <td>终端过渡航路</td>
+                                </tr>
+                                <tr>
+                                    <td>128.125 MHz</td>
+                                    <td>终端过渡航路</td>
+                                </tr>
+                                <tr>
+                                    <td>122.950 MHz</td>
+                                    <td>终端过渡航路</td>
+                                </tr>
+                                <tr>
+                                    <td>135.600 MHz</td>
+                                    <td>终端过渡航路</td>
+                                </tr>
+                                <tr>
+                                    <td>123.750 MHz</td>
+                                    <td>终端过渡航路</td>
+                                </tr>
+                                <tr>
+                                    <td>125.225 MHz</td>
+                                    <td>终端过渡航路</td>
+                                </tr>
+                                <tr>
+                                    <td>132.175 MHz</td>
+                                    <td>终端过渡航路</td>
+                                </tr>
+                                <tr>
+                                    <td>127.550 MHz</td>
+                                    <td>终端过渡航路</td>
+                                </tr>
+                                <tr>
+                                    <td>134.300 MHz</td>
+                                    <td>终端过渡航路</td>
+                                </tr>
+                                <tr>
+                                    <td>123.950 MHz</td>
+                                    <td>终端过渡航路</td>
+                                </tr>
+                                <tr>
+                                    <td>132.225 MHz</td>
+                                    <td>终端过渡航路</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+        </section>
+
+        <!-- 航空知识内容 -->
+        <section id="aviation-knowledge" class="section">
+            <div class="container">
+                <div class="section-title">
+                    <h1>航空知识</h1>
+                    <p>探索航空世界的奥秘，掌握专业飞行知识</p>
+                </div>
+
+                <!-- 天气知识 -->
+                <div class="content-container">
+                    <h3><i class="fas fa-cloud-sun"></i> 天气知识</h3>
+                    <p class="text-indent">
+                        在航空领域，天气可谓是飞行安全的生命线。从苏醒到默默无闻的露水，到汹涌澎湃的雷雨云，每一种天气现象都对飞行产生着深远的影响。航空气象学正是研究这些影响并为飞行员提供准确信息的关键学科。</p>
+
+                    <div class="card-grid" style="margin-top: 30px;">
+                        <div class="card">
+                            <h4>METAR报告</h4>
+                            <p>例行航空天气报告，每半小时或一小时发布一次，提供当前天气观测数据。</p>
+                        </div>
+                        <div class="card">
+                            <h4>TAF预报</h4>
+                            <p>终端机场天气预报，提供24-30小时内的机场天气预测信息。</p>
+                        </div>
+                        <div class="card">
+                            <h4>SIGMET通告</h4>
+                            <p>重要气象情报，警告飞行员关于危险天气现象的信息。</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 飞行原理 -->
+                <div class="content-container">
+                    <h3><i class="fas fa-paper-plane"></i> 飞行原理</h3>
+                    <p class="text-indent">
+                        飞行原理是理解航空的基石。从伯努利定律到牛顿运动定律，从流体力学到空气动力学，这些科学原理共同编织成了飞行器能够翙翔蓝天的奥秘。理解这些原理，不仅能让我们更好地掌握飞行技巧，也能加深我们对航空科学的敬畴与理解。
+                    </p>
+
+                    <div class="card-grid" style="margin-top: 30px;">
+                        <div class="card">
+                            <h4>四大力</h4>
+                            <p>升力、重力、推力和阻力——这四股力量的平衡决定了飞机的飞行状态。</p>
+                        </div>
+                        <div class="card">
+                            <h4>空气动力学</h4>
+                            <p>研究空气流动与机翼交互产生升力的科学，是飞行器设计的核心。</p>
+                        </div>
+                        <div class="card">
+                            <h4>飞行控制</h4>
+                            <p>通过操纵舵面、副翼和方向舵来控制飞机的三个轴向运动。</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 空中交通管制 -->
+                <div class="content-container">
+                    <h3><i class="fas fa-tower-broadcast"></i> 空中交通管制</h3>
+                    <p class="text-indent">
+                        空中交通管制（ATC）是航空安全的守护神，空管员像指挥家一样精心编排着天空中的交通交响曲。从机场地面的滚行授权，到高空航路的精准导航，再到降落时的精密指引，每一个步骤都体现着ATC系统的专业与高效。
+                    </p>
+
+                    <div class="card-grid" style="margin-top: 30px;">
+                        <div class="card">
+                            <h4>地面管制</h4>
+                            <p>负责机场地面区域的飞机滚行、推出和停靠指引。</p>
+                        </div>
+                        <div class="card">
+                            <h4>塔台管制</h4>
+                            <p>管理机场跑道的起降许可，确保跑道安全使用。</p>
+                        </div>
+                        <div class="card">
+                            <h4>进近管制</h4>
+                            <p>引导飞机安全进近机场，并在终端区域提供分离服务。</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 导航系统 -->
+                <div class="content-container">
+                    <h3><i class="fas fa-satellite"></i> 导航系统</h3>
+                    <p class="text-indent">
+                        现代航空导航系统如同飞行员手中的指南针，引导着飞机在浩瀚天空中找到正确的航向。从早期的地面無線電台導航，到现在的GPS卫星定位，导航技术的发展使得飞行更加精准和安全。理解各种导航方式的原理和使用方法，是每一位飞行员必备的技能。
+                    </p>
+
+                    <div class="card-grid" style="margin-top: 30px;">
+                        <div class="card">
+                            <h4>GPS导航</h4>
+                            <p>全球定位系统，提供高精度的位置和时间信息。</p>
+                        </div>
+                        <div class="card">
+                            <h4>VOR导航</h4>
+                            <p>甚高频全向信标，通过地面电台提供方位信息。</p>
+                        </div>
+                        <div class="card">
+                            <h4>ILS系统</h4>
+                            <p>仪表着陆系统，为飞机提供精准的进近和着陆引导。</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 飞行安全 -->
+                <div class="content-container">
+                    <h3><i class="fas fa-shield-alt"></i> 飞行安全</h3>
+                    <p class="text-indent">
+                        飞行安全是航空业的最高宗旨，它不仅仅是冰冷数据和程序的简单堆砸，更是一种文化、一种理念、一种从设计到运行的全方位思维方式。每一个新的安全程序都是用血淋淋的教训换来的，每一项安全技术的进步都代表着无数生命的保障。
+                    </p>
+
+                    <div class="card-grid" style="margin-top: 30px;">
+                        <div class="card">
+                            <h4>CRM资源管理</h4>
+                            <p>机组资源管理，强调团队协作和沟通的重要性。</p>
+                        </div>
+                        <div class="card">
+                            <h4>威胁识别</h4>
+                            <p>及时识别飞行中的潜在危险和非正常情况。</p>
+                        </div>
+                        <div class="card">
+                            <h4>应急程序</h4>
+                            <p>针对各种紧急情况的标准化处理流程。</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 航空法规 -->
+                <div class="content-container">
+                    <h3><i class="fas fa-balance-scale"></i> 航空法规</h3>
+                    <p class="text-indent">
+                        航空法规是天空秩序的基石，它不仅仅是冷冰冰的条文和条例，更是用智慧和经验凝结成的安全卫士。从国际民航组织的基本原则，到各国各地的具体实施细则，每一项法规都是为了保障航空安全、提高运行效率而制定的。
+                    </p>
+
+                    <div class="card-grid" style="margin-top: 30px;">
+                        <div class="card">
+                            <h4>ICAO标准</h4>
+                            <p>国际民用航空组织制定的全球航空标准和建议措施。</p>
+                        </div>
+                        <div class="card">
+                            <h4>航空器适航</h4>
+                            <p>确保飞行器符合安全标准的证明和检验程序。</p>
+                        </div>
+                        <div class="card">
+                            <h4>飞行员执照</h4>
+                            <p>飞行员资格认证和持续培训的法律要求。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 连飞活动内容 -->
+        <section id="events" class="section">
+            <div class="container">
+                <div class="section-title">
+                    <h1>连飞活动</h1>
+                    <p>加入我们的虚拟飞行活动，与全球航空爱好者一同体验飞行乐趣</p>
+                </div>
+
+                <!-- 即将到来的活动 -->
+                <div class="content-container">
+                    <h3><i class="fas fa-calendar-alt"></i> 即将到来的活动</h3>
+                    <div class="text-center" style="padding: 40px 0;">
+                        <p style="font-size: 1.2rem; color: var(--dark-grey);">目前暂无即将开始的活动</p>
+                        <p style="color: var(--text-green); margin-top: 15px;">更多活动信息将会陆续更新</p>
+                    </div>
+                </div>
+
+                <!-- 历史活动链接 -->
+                <div class="text-center" style="margin: 40px 0;">
+                    <a data-page="history" class="btn">查看所有活动</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- 架构内容 -->
+        <section id="structure" class="section">
+            <div class="container">
+                <div class="section-title">
+                    <h1>组织架构</h1>
+                    <p>了解我们的组织结构和各部门职能</p>
+                </div>
+
+                <!-- 核心管理机构 -->
+                <div class="content-container">
+                    <h3><i class="fas fa-building"></i> 核心管理机构</h3>
+                    <div class="org-category">
+                        <div class="org-list">
+                            <div class="org-item" onclick="toggleDetails('A01')">
+                                <span>A01 虚拟香港机场管理局（VAAHK）</span>
+                                <i class="fas fa-chevron-down"></i>
+                            </div>
+                            <div class="org-details" id="A01">
+                                <p>虚拟香港机场管理局(VAAHK)是负责管理和运营虚拟香港国际机场的核心机构，统筹机场整体运营、安全管理、发展规划和战略决策，确保机场高效安全运行。</p>
+                            </div>
+
+                            <div class="org-item" onclick="toggleDetails('A02')">
+                                <span>A02 虚拟香港民航处（VHKCAD）</span>
+                                <i class="fas fa-chevron-down"></i>
+                            </div>
+                            <div class="org-details" id="A02">
+                                <p>虚拟香港民航处(VHKCAD)负责监管香港飞行情报区的空中交通管理、航空安全标准、航空法规执行以及飞行员和航空器认证等工作，确保航空安全合规。</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 虚拟航空公司及相关旗下公司或组织 -->
+                <div class="content-container">
+                    <h3><i class="fas fa-plane"></i> 虚拟航空公司及相关旗下公司或组织</h3>
+                    <div class="text-center" style="padding: 30px 0;">
+                        <p style="color: var(--dark-grey); margin-bottom: 20px;">暂无虚拟航空公司入驻</p>
+                        <a data-page="join-us" class="btn">成为我们旗下虚拟航空</a>
+                    </div>
+                </div>
+
+                <!-- 机场服务、管理及运营相关公司 -->
+                <div class="content-container">
+                    <h3><i class="fas fa-cogs"></i> 机场服务、管理及运营相关公司</h3>
+                    <div class="org-category">
+                        <div class="org-list">
+                            <div class="org-item" onclick="toggleDetails('C01')">
+                                <span>C01 虚拟香港国际机场服务控股有限公司（VHIAS Holdings）</span>
+                                <i class="fas fa-chevron-down"></i>
+                            </div>
+                            <div class="org-details" id="C01">
+                                <p>负责管理和控股所有机场服务相关子公司，统筹机场服务业务发展战略规划、资源整合和投资管理。</p>
+                            </div>
+
+                            <div class="org-item" onclick="toggleDetails('C02')">
+                                <span>C02 虚拟香港航煤供应运营有限公司（VAFSCO）</span>
+                                <i class="fas fa-chevron-down"></i>
+                            </div>
+                            <div class="org-details" id="C02">
+                                <p>负责航空燃油的采购、储存、质量控制和供应链管理，确保机场燃油供应安全稳定可靠。</p>
+                            </div>
+
+                            <div class="org-item" onclick="toggleDetails('C03')">
+                                <span>C03 虚拟香港航煤供应加油有限公司（VAFSCR）</span>
+                                <i class="fas fa-chevron-down"></i>
+                            </div>
+                            <div class="org-details" id="C03">
+                                <p>提供专业的航空器地面加油服务，执行标准化加油作业流程，确保加油作业安全高效。</p>
+                            </div>
+
+                            <div class="org-item" onclick="toggleDetails('C04')">
+                                <span>C04 虚拟香港飞机工程有限公司（VHAECO）</span>
+                                <i class="fas fa-chevron-down"></i>
+                            </div>
+                            <div class="org-details" id="C04">
+                                <p>提供飞机维修、检查、保养和改装服务，拥有专业的机务工程师团队，确保航空器适航安全。</p>
+                            </div>
+
+                            <div class="org-item" onclick="toggleDetails('C05')">
+                                <span>C05 虚拟港龙机场地面设备服务有限公司（VDAS）</span>
+                                <i class="fas fa-chevron-down"></i>
+                            </div>
+                            <div class="org-details" id="C05">
+                                <p>提供各类地面特种设备租赁、维护、维修和管理服务，保障地面作业设备正常运行。</p>
+                            </div>
+
+                            <div class="org-item" onclick="toggleDetails('C06')">
+                                <span>C06 虚拟地勤设备工程有限公司（VGSEL）</span>
+                                <i class="fas fa-chevron-down"></i>
+                            </div>
+                            <div class="org-details" id="C06">
+                                <p>专注于地勤设备的设计研发、制造改装、技术支持和工程解决方案提供。</p>
+                            </div>
+
+                            <div class="org-item" onclick="toggleDetails('C07')">
+                                <span>C07 虚拟香港机场地勤服务有限公司（VHAS）</span>
+                                <i class="fas fa-chevron-down"></i>
+                            </div>
+                            <div class="org-details" id="C07">
+                                <p>提供全面的地勤服务，包括旅客服务、行李处理、客舱清洁、特种车辆服务和站坪协调等。</p>
+                            </div>
+
+                            <div class="org-item" onclick="toggleDetails('C08')">
+                                <span>C08 虚拟国泰航空饮食服务有限公司（VCPCS）</span>
+                                <i class="fas fa-chevron-down"></i>
+                            </div>
+                            <div class="org-details" id="C08">
+                                <p>提供航空餐饮服务，包括餐食设计、食材采购、食品加工和机上餐食配送，确保餐食质量和安全。</p>
+                            </div>
+
+                            <div class="org-item" onclick="toggleDetails('C09')">
+                                <span>C09 虚拟香港机场工程与基建控股有限公司（VHEIH）</span>
+                                <i class="fas fa-chevron-down"></i>
+                            </div>
+                            <div class="org-details" id="C09">
+                                <p>负责机场基础设施的规划、设计、建设、改造和维护工作，保障机场设施完好运行。</p>
+                            </div>
+
+                            <div class="org-item" onclick="toggleDetails('C10')">
+                                <span>C10 虚拟香港国际航空学院（VHKIAA）</span>
+                                <i class="fas fa-chevron-down"></i>
+                            </div>
+                            <div class="org-details" id="C10">
+                                <p>提供航空相关专业培训和教育，培养航空专业人才，开展航空知识普及和技能培训课程。</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 支持部门 -->
+                <div class="content-container">
+                    <h3><i class="fas fa-hands-helping"></i> 支持部门</h3>
+                    <div class="org-category">
+                        <div class="org-list">
+                            <div class="org-item" onclick="toggleDetails('D01')">
+                                <span>D01 机场运营中心（AOC）</span>
+                                <i class="fas fa-chevron-down"></i>
+                            </div>
+                            <div class="org-details" id="D01">
+                                <p>负责协调和监督机场日常运营，处理突发事件和应急情况，确保机场运行顺畅高效。</p>
+                            </div>
+
+                            <div class="org-item" onclick="toggleDetails('D02')">
+                                <span>D02 航班事务及安全管理部（FOSMD）</span>
+                                <i class="fas fa-chevron-down"></i>
+                            </div>
+                            <div class="org-details" id="D02">
+                                <p>负责航班事务管理、运行标准制定和安全监督管理，确保航班运行安全合规。</p>
+                            </div>
+
+                            <div class="org-item" onclick="toggleDetails('D03')">
+                                <span>D03 航空交通管理部（ATMD）</span>
+                                <i class="fas fa-chevron-down"></i>
+                            </div>
+                            <div class="org-details" id="D03">
+                                <p>负责空中交通管制服务管理，协调空域使用，确保航班运行安全和空域资源高效利用。</p>
+                            </div>
+
+                            <div class="org-item" onclick="toggleDetails('D04')">
+                                <span>D04 工程服务部（ESD）</span>
+                                <i class="fas fa-chevron-down"></i>
+                            </div>
+                            <div class="org-details" id="D04">
+                                <p>提供工程技术支持和服务，负责设备维护、故障处理和技术改造工作。</p>
+                            </div>
+
+                            <div class="org-item" onclick="toggleDetails('D05')">
+                                <span>D05 品牌宣传与传播部（BPCD）</span>
+                                <i class="fas fa-chevron-down"></i>
+                            </div>
+                            <div class="org-details" id="D05">
+                                <p>负责品牌建设、形象塑造、宣传推广和媒体关系管理，提升机构知名度和影响力。</p>
+                            </div>
+
+                            <div class="org-item" onclick="toggleDetails('D06')">
+                                <span>D06 人力资源与组织发展部（HROD）</span>
+                                <i class="fas fa-chevron-down"></i>
+                            </div>
+                            <div class="org-details" id="D06">
+                                <p>负责人力资源管理、员工培训、组织发展和人才队伍建设工作。</p>
+                            </div>
+
+                            <div class="org-item" onclick="toggleDetails('D07')">
+                                <span>D07 虚拟香港国际机场顾问服务</span>
+                                <i class="fas fa-chevron-down"></i>
+                            </div>
+                            <div class="org-details" id="D07">
+                                <p>提供专业的机场规划、运营管理、技术咨询和业务优化等顾问服务。</p>
+                            </div>
+
+                            <div class="org-item" onclick="toggleDetails('D08')">
+                                <span>D08 法律事务及支援部（LASD）</span>
+                                <i class="fas fa-chevron-down"></i>
+                            </div>
+                            <div class="org-details" id="D08">
+                                <p>处理法律事务、合同管理、合规性审查和法律风险防控工作。</p>
+                            </div>
+
+                            <div class="org-item" onclick="toggleDetails('D09')">
+                                <span>D09 财务与资产管理部（FAMD）</span>
+                                <i class="fas fa-chevron-down"></i>
+                            </div>
+                            <div class="org-details" id="D09">
+                                <p>负责财务管理、预算控制、资金运作和资产管理工作。</p>
+                            </div>
+
+                            <div class="org-item" onclick="toggleDetails('D10')">
+                                <span>D10 虚航合作与拓展部（VCAED）</span>
+                                <i class="fas fa-chevron-down"></i>
+                            </div>
+                            <div class="org-details" id="D10">
+                                <p>负责与虚拟航空公司的合作洽谈、业务拓展和合作关系维护。</p>
+                            </div>
+
+                            <div class="org-item" onclick="toggleDetails('D11')">
+                                <span>D11 客户服务与体验部（CSED）</span>
+                                <i class="fas fa-chevron-down"></i>
+                            </div>
+                            <div class="org-details" id="D11">
+                                <p>负责提升客户服务质量、优化旅客体验和处理客户投诉建议。</p>
+                            </div>
+
+                            <div class="org-item" onclick="toggleDetails('D12')">
+                                <span>D12 风险管理与应急响应部（RMERD）</span>
+                                <i class="fas fa-chevron-down"></i>
+                            </div>
+                            <div class="org-details" id="D12">
+                                <p>负责风险评估、应急预案制定、危机管理和应急响应协调工作。</p>
+                            </div>
+
+                            <div class="org-item" onclick="toggleDetails('D13')">
+                                <span>D13 战略规划与发展部（SPD）</span>
+                                <i class="fas fa-chevron-down"></i>
+                            </div>
+                            <div class="org-details" id="D13">
+                                <p>负责制定长期发展战略、业务规划和发展方向研究。</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 加入我们内容 -->
+        <section id="join-us" class="section">
+            <div class="container">
+                <div class="section-title">
+                    <h1>加入我们</h1>
+                    <p>欢迎来到虚拟香港机场管理局大家庭</p>
+                </div>
+
+                <!-- 加入方式 -->
+                <div class="card-grid">
+                    <div class="card">
+                        <div class="card-icon"><i class="fas fa-users"></i></div>
+                        <h3>QQ交流群</h3>
+                        <p>加入我们的QQ群与其他航空爱好者交流</p>
+                        <div class="text-center" style="margin-top: 20px;">
+                            <p style="font-size: 1.3rem; font-weight: bold; color: var(--text-green);">
+                                <a href="https://qm.qq.com/q/8POrKppSRa" class="contact-link"
+                                    target="_blank">937248928</a>
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-icon"><i class="fas fa-handshake"></i></div>
+                        <h3>成为我们的旗下</h3>
+                        <p>对于组织或公司，欢迎成为我们的合作伙伴</p>
+                        <div class="text-center" style="margin-top: 20px;">
+                            <p>联系方式：</p>
+                            <p><strong>QQ：</strong> <span style="color: var(--text-green);">2603417645</span></p>
+                            <p><strong>电邮：</strong> <a href="mailto:virtual-airportauthorityhk@gmail.com"
+                                    class="contact-link">virtual-airportauthorityhk@gmail.com</a></p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 我们可以提供的 -->
+                <div class="content-container">
+                    <h3><i class="fas fa-gift"></i> 我们可以提供的</h3>
+
+                    <div class="card-grid" style="margin-top: 30px;">
+                        <div class="card">
+                            <h4>专业培训</h4>
+                            <p>提供航空知识和模拟飞行技巧的专业培训</p>
+                        </div>
+                        <div class="card">
+                            <h4>交流平台</h4>
+                            <p>与全球航空爱好者交流的专业平台</p>
+                        </div>
+                        <div class="card">
+                            <h4>活动机会</h4>
+                            <p>参与丰富多彩的联飞活动和竞赛</p>
+                        </div>
+                        <div class="card">
+                            <h4>技术支持</h4>
+                            <p>专业的技术支持和问题解决服务</p>
+                        </div>
+                        <div class="card">
+                            <h4>资源共享</h4>
+                            <p>丰富的航空资源和学习材料共享</p>
+                        </div>
+                        <div class="card">
+                            <h4>发展机会</h4>
+                            <p>在虚拟航空领域的个人发展机会</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 联系我们内容 -->
+        <section id="contact" class="section">
+            <div class="container">
+                <div class="section-title">
+                    <h1>联系我们</h1>
+                    <p>我们随时为您提供专业的服务和支持</p>
+                </div>
+
+                <!-- 联系信息 -->
+                <div class="content-container">
+                    <h3 class="text-left"><i class="fas fa-address-book"></i> 联系信息</h3>
+
+                    <div class="contact-grid">
+                        <div class="contact-item">
+                            <div class="contact-icon"><i class="fas fa-envelope"></i></div>
+                            <div class="contact-content">
+                                <h4>联系/投诉/反馈电邮</h4>
+                                <p><a href="mailto:virtual-airportauthorityhk@gmail.com"
+                                        class="contact-link">virtual-airportauthorityhk@gmail.com</a></p>
+                            </div>
+                        </div>
+
+                        <div class="contact-item">
+                            <div class="contact-icon"><i class="fas fa-balance-scale"></i></div>
+                            <div class="contact-content">
+                                <h4>法务部电邮</h4>
+                                <p><a href="mailto:2629940182@qq.com" class="contact-link">l2629940182@qq.com</a></p>
+                            </div>
+                        </div>
+
+                        <div class="contact-item">
+                            <div class="contact-icon"><i class="fas fa-comment-dots"></i></div>
+                            <div class="contact-content">
+                                <h4>法务部投诉/反馈电邮</h4>
+                                <p><a href="mailto:aahkemail@sina.com" class="contact-link">aahkemail@sina.com</a></p>
+                            </div>
+                        </div>
+
+                        <div class="contact-item">
+                            <div class="contact-icon"><i class="fas fa-users"></i></div>
+                            <div class="contact-content">
+                                <h4>QQ交流群</h4>
+                                <p><a href="https://qm.qq.com/q/8POrKppSRa" class="contact-link"
+                                        target="_blank">937248928</a></p>
+                            </div>
+                        </div>
+
+                        <div class="contact-item">
+                            <div class="contact-icon"><i class="fas fa-handshake"></i></div>
+                            <div class="contact-content">
+                                <h4>合作洽谈</h4>
+                                <p>QQ号：2603417645</p>
+                                <p>电邮：<a href="mailto:virtual-airportauthorityhk@gmail.com"
+                                        class="contact-link">virtual-airportauthorityhk@gmail.com</a></p>
+                            </div>
+                        </div>
+
+                        <div class="contact-item">
+                            <div class="contact-icon"><i class="fas fa-info-circle"></i></div>
+                            <div class="contact-content">
+                                <h4>温馨提示</h4>
+                                <p>请在邮件标题注明来意</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </section>
+
+        <!-- 关于我们内容 -->
+        <section id="about" class="section">
+            <div class="container">
+                <div class="section-title">
+                    <h1>关于我们</h1>
+                    <p>了解虚拟香港机场管理局的创立及发展历程</p>
+                </div>
+
+                <!-- 成立与运作 -->
+                <div class="content-container">
+                    <h3 class="text-center"><i class="fas fa-history"></i> 成立与运作</h3>
+                    <div style="margin-top: 30px;">
+                        <p class="text-indent">
+                            在2024年10月20日这个特殊的日子里，虚拟香港机场管理局VAAHK正式宣告创立，开启了虚拟航空领域的全新篇章。它的前身是四川虚拟航空旗下负责香港国际机场事务的部门，然而世事无常，随着暑假结束，四川虚拟航空停止了运营。为了填补这一空白，确保香港国际机场及相关航空事务得以高效、有序地管理，虚拟香港机场管理局VAAHK与虚拟香港民航处VHKCAD应运而生。二者携手共进，其中虚拟香港民航处VHKCAD并入虚拟香港机场管理局VAAHK，通过资源整合与协同合作，致力于提升整体管理效能，为虚拟航空事业注入新的活力。
+                        </p>
+                    </div>
+                </div>
+
+                <!-- 专业服务体系 -->
+                <div class="content-container">
+                    <h3 class="text-center"><i class="fas fa-cogs"></i> 专业服务体系</h3>
+                    <div style="margin-top: 30px;">
+                        <p class="text-indent">
+                            虚拟香港机场管理局VAAHK与虚拟香港民航处VHKCAD凭借专业的素养与卓越的服务理念，为虚拟航空领域打造了一套全面且专业的航空服务体系。终端机场天气预报（TAF），犹如精准的气象导航仪，为机场日常运营和航班科学规划提供至关重要的气象数据，是保障飞行安全的坚固防线。例行航空天气报告（METAR），实时反馈机场当下的天气状况，宛如飞行员手中的天气晴雨表，助力他们做出精准无误的飞行决策。特殊航空天气报告（SPECI）则是应对突发气象变化的急先锋，一旦出现异常天气，便迅速更新信息，为相关部门及时响应提供有力依据。
+                        </p>
+
+                        <p class="text-indent">
+                            此外，终端自动情报服务（ATIS）涵盖进近（ARR）和离场（DEP）的详尽信息，像一位贴心的情报员，将机场的最新运行动态传递给每一位飞行员。而空中交通管制（ATC）服务在香港飞行情报区（VHHK）更是发挥着中流砥柱的作用，无论是飞机起飞时的昂首冲刺，降落时的平稳着陆，还是巡航时的高空翑翔，都离不开它安全、高效的指挥与管理。这些专业且细致入微的服务，共同筑牢了虚拟香港机场管理局VAAHK及虚拟香港民航处VHKCAD高效运转的坚实根基，推动着虚拟航空事业稳健前行。
+                        </p>
+                    </div>
+                </div>
+
+                <!-- 我们的使命 -->
+                <div class="content-container">
+                    <h3 class="text-center"><i class="fas fa-bullseye"></i> 我们的使命</h3>
+                    <div class="card-grid" style="margin-top: 30px;">
+                        <div class="card">
+                            <div class="card-icon"><i class="fas fa-shield-alt"></i></div>
+                            <h4>保障安全</h4>
+                            <p>始终将飞行安全放在第一位，为虚拟航空提供最高标准的安全保障。</p>
+                        </div>
+                        <div class="card">
+                            <div class="card-icon"><i class="fas fa-users"></i></div>
+                            <h4>服务社区</h4>
+                            <p>为全球航空爱好者提供专业、优质的虚拟航空服务和支持。</p>
+                        </div>
+                        <div class="card">
+                            <div class="card-icon"><i class="fas fa-graduation-cap"></i></div>
+                            <h4>知识传播</h4>
+                            <p>推广航空知识，提高公众对航空事业的认知和理解。</p>
+                        </div>
+                        <div class="card">
+                            <div class="card-icon"><i class="fas fa-rocket"></i></div>
+                            <h4>创新发展</h4>
+                            <p>不断探索和应用新技术，推动虚拟航空领域的创新发展。</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 核心价值观 -->
+                <div class="content-container">
+                    <h3 class="text-center"><i class="fas fa-heart"></i> 核心价值观</h3>
+                    <div class="card-grid" style="margin-top: 30px;">
+                        <div class="card">
+                            <h4>专业至上</h4>
+                            <p>始终保持专业的态度和精神，为用户提供最优质的服务。</p>
+                        </div>
+                        <div class="card">
+                            <h4>安全第一</h4>
+                            <p>将安全作为一切工作的前提和基础，绝不妥协。</p>
+                        </div>
+                        <div class="card">
+                            <h4>开放包容</h4>
+                            <p>欢迎不同背景的航空爱好者，共同建设和谐社区。</p>
+                        </div>
+                        <div class="card">
+                            <h4>持续改进</h4>
+                            <p>不断学习和改进，追求卓越，永不停止前进的脚步。</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 联系我们 -->
+                <div class="content-container">
+                    <h3 class="text-center"><i class="fas fa-envelope"></i> 联系我们</h3>
+                    <div class="text-center" style="margin-top: 30px;">
+                        <p style="margin-bottom: 30px; font-size: 1.1rem; color: var(--dark-grey);">
+                            如果您对我们有任何问题或建议，欢迎随时联系我们。
+                        </p>
+                        <a data-page="contact" class="btn">联系我们</a>
+                        <a data-page="join-us" class="btn btn-secondary">加入我们</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 活动历史内容 -->
+        <section id="history" class="section">
+            <div class="container">
+                <div class="section-title">
+                    <h1>历史活动</h1>
+                    <p>回顾我们举办过的精彩连飞活动</p>
+                </div>
+
+                <!-- 已完成的活动 -->
+                <div class="content-container">
+                    <h3><i class="fas fa-history"></i> 已完成的活动</h3>
+
+                    <div class="card">
+                        <div class="card-icon"><i class="fas fa-plane"></i></div>
+                        <h3>香港回归28周年纪念 · 京港连飞活动</h3>
+                        <div style="margin: 20px 0;">
+                            <p><strong>航线：</strong> 北京首都国际机场 (ZBAA) - 香港国际机场 (VHHH)</p>
+                            <p><strong>日期：</strong> 2024年7月1日</p>
+                            <p><strong>时间：</strong> 13：00 (UTC+8)</p>
+                            <p><strong>简介：</strong> 已完成的北京至香港特别联飞活动，感谢各位参与</p>
+                        </div>
+                        <div class="text-center">
+                            <a href="https://virtual-airportauthorityhk.github.io/7.1-Beijing-HongKong-OnlineFlightEvent/"
+                                class="btn" target="_blank">活动详情</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 活动统计 -->
+                <div class="content-container">
+                    <h3><i class="fas fa-chart-bar"></i> 活动统计</h3>
+
+                    <div class="card-grid" style="margin-top: 30px;">
+                        <div class="card">
+                            <div class="card-icon"><i class="fas fa-calendar-check"></i></div>
+                            <h4>已举办活动</h4>
+                            <p style="font-size: 2rem; font-weight: bold; color: var(--text-green); margin: 10px 0;">1
+                            </p>
+                            <p>已成功举办连飞活动</p>
+                        </div>
+                        <div class="card">
+                            <div class="card-icon"><i class="fas fa-users"></i></div>
+                            <h4>参与人数</h4>
+                            <p style="font-size: 2rem; font-weight: bold; color: var(--text-green); margin: 10px 0;">15+
+                            </p>
+                            <p>累计参与活动的人数</p>
+                        </div>
+                        <div class="card">
+                            <div class="card-icon"><i class="fas fa-route"></i></div>
+                            <h4>飞行里程</h4>
+                            <p style="font-size: 2rem; font-weight: bold; color: var(--text-green); margin: 10px 0;">
+                                4000+</p>
+                            <p>累计飞行里程 (海里)</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 活动照片集锦 -->
+                <div class="content-container">
+                    <h3><i class="fas fa-images"></i> 活动照片集锦</h3>
+                    <div class="text-center" style="padding: 40px 0;">
+                        <p style="font-size: 1.1rem; color: var(--dark-grey); margin-bottom: 20px;">
+                            精彩的活动照片即将上线，敬请期待！
+                        </p>
+                        <div
+                            style="background: var(--light-grey); padding: 60px; border-radius: 8px; border: 2px dashed var(--medium-grey);">
+                            <i class="fas fa-camera"
+                                style="font-size: 3rem; color: var(--medium-grey); margin-bottom: 20px;"></i>
+                            <p style="color: var(--dark-grey);">活动照片正在整理中...</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 返回活动页面 -->
+                <div class="text-center" style="margin: 50px 0;">
+                    <a data-page="events" class="btn">返回连飞活动</a>
+                    <a data-page="join-us" class="btn btn-secondary">加入我们</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <!-- 左边：快速链接 -->
+                <div class="footer-section">
+                    <h3>快速链接</h3>
+                    <ul class="footer-links">
+                        <li><a data-page="service-center">虚拟香港航空服务中心</a></li>
+                        <li><a data-page="aviation-knowledge">航空知识</a></li>
+                        <li><a data-page="events">联飞活动</a></li>
+                        <li><a data-page="structure">架构</a></li>
+                    </ul>
+                </div>
+
+                <!-- 中间：参与我们 -->
+                <div class="footer-section">
+                    <h3>参与我们</h3>
+                    <ul class="footer-links">
+                        <li><a data-page="join-us">加入我们</a></li>
+                        <li><a data-page="contact">联系我们</a></li>
+                        <li><a data-page="about">关于我们</a></li>
+                    </ul>
+                </div>
+
+                <!-- 右边：QQ群和电邮 -->
+                <div class="footer-section">
+                    <h3>联系我们</h3>
+                    <div class="footer-contact">
+                        <p><strong>QQ交流群:</strong> <a href="https://qm.qq.com/q/8POrKppSRa">937248928</a></p>
+                        <p><strong>电邮:</strong> <a
+                                href="mailto:virtual-airportauthorityhk@gmail.com">virtual-airportauthorityhk@gmail.com</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2025 虚拟香港机场管理局VAAHK保留所有权利</p>
+                <p class="disclaimer">声明：我们是航空爱好者成立的虚拟香港机场管理局，不是现实的香港机场管理局。如果您想访问现实中的香港机场管理局，请访问
+                    https://www.hongkongairport.com</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // 页面切换功能
+        document.addEventListener('DOMContentLoaded', function () {
+            // 页面导航
+            const navLinks = document.querySelectorAll('.nav-links a, .footer-links a, a[data-page]');
+            navLinks.forEach(link => {
+                link.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const targetPage = this.getAttribute('data-page');
+                    if (targetPage) {
+                        switchPage(targetPage);
+                    }
+                });
+            });
+
+            // 初始化显示主页
+            switchPage('index');
+
+            // 页面动画效果
+            const animateElements = document.querySelectorAll('.card, .content-container, .contact-item, .tool-container');
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            });
+
+            animateElements.forEach(element => {
+                element.style.opacity = '0';
+                element.style.transform = 'translateY(20px)';
+                element.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                observer.observe(element);
+            });
+        });
+
+        // 切换页面函数
+        function switchPage(pageId) {
+            // 隐藏所有页面
+            document.querySelectorAll('.section').forEach(section => {
+                section.classList.remove('active');
+            });
+
+            // 显示目标页面
+            const targetSection = document.getElementById(pageId);
+            if (targetSection) {
+                targetSection.classList.add('active');
+
+                // 滚动到顶部
+                window.scrollTo(0, 0);
+
+                // 更新导航激活状态
+                document.querySelectorAll('.nav-links a').forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('data-page') === pageId) {
+                        link.classList.add('active');
+                    }
+                });
+            }
+        }
+
+        // 组织架构折叠功能
+        function toggleDetails(orgId) {
+            const details = document.getElementById(orgId);
+            const icon = event.currentTarget.querySelector('i');
+
+            // 切换显示/隐藏
+            details.classList.toggle('active');
+
+            // 更新图标
+            if (details.classList.contains('active')) {
+                icon.classList.remove('fa-chevron-down');
+                icon.classList.add('fa-chevron-up');
+            } else {
+                icon.classList.remove('fa-chevron-up');
+                icon.classList.add('fa-chevron-down');
+            }
+        }
+
+        // 频率显示/隐藏功能
+        function toggleFrequency(id) {
+            const element = document.getElementById(id);
+            if (element.style.display === 'none') {
+                element.style.display = 'block';
+            } else {
+                element.style.display = 'none';
+            }
+        }
+
+        // METAR解码功能
+        function decodeMETAR() {
+            const metarText = document.getElementById('metar-input').value.trim();
+            if (!metarText) {
+                alert('请输入METAR代码');
+                return;
+            }
+
+            let resultHTML = "<h4>METAR解码结果:</h4>";
+
+            // 简单解析逻辑
+            const parts = metarText.split(' ');
+
+            parts.forEach(part => {
+                if (part === 'METAR') {
+                    resultHTML += `<div class="result-item"><strong>METAR</strong>: 航空例行天气报告</div>`;
+                }
+                else if (part === 'VHHH') {
+                    resultHTML += `<div class="result-item"><strong>VHHH</strong>: 香港国际机场</div>`;
+                }
+                else if (part.match(/^\d{6}Z$/)) {
+                    const day = part.substr(0, 2);
+                    const time = part.substr(2, 2) + ':' + part.substr(4, 2);
+                    resultHTML += `<div class="result-item"><strong>时间</strong>: 当月${day}日 ${time} UTC</div>`;
+                }
+                else if (part.match(/^\d{5}KT$/)) {
+                    const windDir = part.substr(0, 3);
+                    const windSpeed = part.substr(3, 2);
+                    resultHTML += `<div class="result-item"><strong>风况</strong>: 风向 ${windDir}°, 风速 ${windSpeed}节</div>`;
+                }
+                else if (part.match(/^\d{5}G\d{2,3}KT$/)) {
+                    const windDir = part.substr(0, 3);
+                    const windSpeed = part.substr(3, 2);
+                    const gustSpeed = part.split('G')[1].replace('KT', '');
+                    resultHTML += `<div class="result-item"><strong>风况</strong>: 风向 ${windDir}°, 风速 ${windSpeed}节, 阵风 ${gustSpeed}节</div>`;
+                }
+                else if (part === 'RA') {
+                    resultHTML += `<div class="result-item"><strong>天气</strong>: 降雨</div>`;
+                }
+                else if (part === 'FG') {
+                    resultHTML += `<div class="result-item"><strong>天气</strong>: 雾</div>`;
+                }
+                else if (part === 'SN') {
+                    resultHTML += `<div class="result-item"><strong>天气</strong>: 降雪</div>`;
+                }
+                else if (part.match(/^[A-Z]{3}\d{3}$/)) {
+                    const cloudType = part.substr(0, 3);
+                    const cloudHeight = parseInt(part.substr(3)) * 100;
+                    const cloudTypes = {
+                        'FEW': '少云',
+                        'SCT': '散云',
+                        'BKN': '裂云',
+                        'OVC': '阴天'
+                    };
+                    resultHTML += `<div class="result-item"><strong>云况</strong>: ${cloudTypes[cloudType] || cloudType} 高度 ${cloudHeight}英尺</div>`;
+                }
+                else if (part.match(/^\d{2}\/\d{2}$/)) {
+                    const temp = part.split('/')[0];
+                    const dewpoint = part.split('/')[1];
+                    resultHTML += `<div class="result-item"><strong>温度/露点</strong>: ${temp}°C / ${dewpoint}°C</div>`;
+                }
+                else if (part.match(/^Q\d{4}$/)) {
+                    const pressure = part.substr(1);
+                    resultHTML += `<div class="result-item"><strong>气压</strong>: ${pressure} hPa</div>`;
+                }
+            });
+
+            document.getElementById('metar-result').innerHTML = resultHTML;
+        }
+
+        // TAF解码功能
+        function decodeTAF() {
+            const tafText = document.getElementById('taf-input').value.trim();
+            if (!tafText) {
+                alert('请输入TAF代码');
+                return;
+            }
+
+            let resultHTML = "<h4>TAF解码结果:</h4>";
+
+            // 简单解析逻辑
+            const parts = tafText.split(' ');
+
+            parts.forEach(part => {
+                if (part === 'TAF') {
+                    resultHTML += `<div class="result-item"><strong>TAF</strong>: 机场天气预报</div>`;
+                }
+                else if (part === 'VHHH') {
+                    resultHTML += `<div class="result-item"><strong>VHHH</strong>: 香港国际机场</div>`;
+                }
+                else if (part.match(/^\d{6}Z$/)) {
+                    const day = part.substr(0, 2);
+                    const time = part.substr(2, 2) + ':' + part.substr(4, 2);
+                    resultHTML += `<div class="result-item"><strong>发布时间</strong>: 当月${day}日 ${time} UTC</div>`;
+                }
+                else if (part.match(/^\d{4}\/\d{4}$/)) {
+                    const from = part.split('/')[0];
+                    const to = part.split('/')[1];
+                    resultHTML += `<div class="result-item"><strong>有效期</strong>: ${from.substr(0, 2)}:${from.substr(2)} - ${to.substr(0, 2)}:${to.substr(2)} UTC</div>`;
+                }
+                else if (part.match(/^\d{5}KT$/)) {
+                    const windDir = part.substr(0, 3);
+                    const windSpeed = part.substr(3, 2);
+                    resultHTML += `<div class="result-item"><strong>风况</strong>: 风向 ${windDir}°, 风速 ${windSpeed}节</div>`;
+                }
+                else if (part.match(/^\d{4}$/)) {
+                    const visibility = parseInt(part);
+                    if (visibility === 9999) {
+                        resultHTML += `<div class="result-item"><strong>能见度</strong>: 10公里或以上</div>`;
+                    } else {
+                        resultHTML += `<div class="result-item"><strong>能见度</strong>: ${visibility}米</div>`;
+                    }
+                }
+            });
+
+            document.getElementById('taf-result').innerHTML = resultHTML;
+        }
+    </script>
+</body>
+
+</html>
