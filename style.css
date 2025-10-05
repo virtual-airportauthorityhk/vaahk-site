@@ -953,21 +953,12 @@ footer::before {
     color: #28a745; /* 保持与其他链接一致的绿色 */
 }
 
-/* 招募岗位标题对齐样式 */
+/* 招募岗位标题统一左对齐 */
 .card p strong {
-    margin-left: 20px; /* 与列表项保持同样的左边距 */
-    display: inline-block;
-    text-align: left; /* 桌面端左对齐 */
-}
-
-/* 手机端置中对齐 */
-@media (max-width: 768px) {
-    .card p strong {
-        text-align: center;
-        margin-left: 0;
-        display: block;
-        width: 100%;
-    }
+    display: block;
+    text-align: left;
+    font-weight: bold;
+    margin-bottom: 5px;
 }
 
 /* 汉堡菜单按钮样式 */
