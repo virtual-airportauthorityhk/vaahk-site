@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>组织架构 - 虚拟香港机场管理局</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <header>
+        <div class="container">
+            <!-- 第一行：时间日期 -->
+            <div class="top-row">
+                <div class="time-date-display">
+                    <span id="current-time"></span>
+                    <span id="current-date"></span>
+                </div>
+            </div>
+
+            <!-- 第二行：Logo和导航 -->
+            <nav class="bottom-row">
+                <div class="logo">
+                    <h1>虚拟香港机场管理局</h1>
+                </div>
+                <div class="nav-right">
+                    <ul class="nav-links">
+                        <li><a href="index.html">主页</a></li>
+                        <li><a href="service-center.html">虚拟香港航空服务中心</a></li>
+                        <li><a href="aviation-info.html">航空知识</a></li>
+                        <li><a href="online-flight-event.html">连飞活动</a></li>
+                        <li><a class="active" href="structure.html">架构</a></li>
+                        <li><a href="join-us.html">加入我们</a></li>
+                        <li><a href="contact-us.html">联系我们</a></li>
+                        <li><a href="about-us.html">关于我们</a></li>
+                    </ul>
+                    <button class="hamburger-menu" id="hamburger-menu">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </button>
+                </div>
+            </nav>
+        </div>
+
+        <!-- 移动端导航菜单 -->
+        <div class="mobile-nav" id="mobile-nav">
+            <ul class="mobile-nav-links">
+                <li><a href="index.html">主页</a></li>
+                <li><a href="service-center.html">虚拟香港航空服务中心</a></li>
+                <li><a href="aviation-info.html">航空知识</a></li>
+                <li><a href="online-flight-event.html">连飞活动</a></li>
+                <li><a class="active" href="structure.html">架构</a></li>
+                <li><a href="join-us.html">加入我们</a></li>
+                <li><a href="contact-us.html">联系我们</a></li>
+                <li><a href="about-us.html">关于我们</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <div class="section-title">
+                <h1>组织架构</h1>
+                <p>了解我们的组织结构和各部门职能</p>
+            </div>
+
+            <!-- 核心管理机构 -->
+            <div class="content-container">
+                <h3><i class="fas fa-building"></i> 核心管理机构</h3>
+                <div class="org-category">
+                    <div class="org-list">
+                        <div class="org-item" onclick="toggleDetails('A01')">
+                            <span>A01 虚拟香港机场管理局（VAAHK）</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="org-details" id="A01">
+                            <p>虚拟香港机场管理局(VAAHK)是负责管理和运营虚拟香港国际机场的核心机构，统筹机场整体运营、安全管理、发展规划和战略决策，确保机场高效安全运行。</p>
+                        </div>
+
+                        <div class="org-item" onclick="toggleDetails('A02')">
+                            <span>A02 虚拟香港民航处（VHKCAD）</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="org-details" id="A02">
+                            <p>虚拟香港民航处(VHKCAD)负责监管香港飞行情报区的空中交通管理、航空安全标准、航空法规执行以及飞行员和航空器认证等工作，确保航空安全合规。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 虚拟航空公司及相关旗下公司或组织 -->
+            <div class="content-container">
+                <h3><i class="fas fa-plane"></i> 虚拟航空公司及相关旗下公司或组织</h3>
+                <div class="org-category">
+                    <div class="org-list">
+                        <!-- 新增天际航空 -->
+                        <div class="org-item" onclick="toggleDetails('airline01')">
+                            <span>天际航空 SkyLine Airline</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="org-details" id="airline01">
+                            <p>天际航空(SkyLine
+                                Airline)是虚拟香港机场管理局旗下于2024年新成立的虚拟航空公司，总部位于香港国际机场。我们致力于为虚拟航空爱好者提供高质量的飞行体验和服务。</p>
+                            <div style="margin-top: 15px; text-align: center;">
+                                <a href="https://virtual-airportauthorityhk.github.io/SkyLine-Airline-site/"
+                                    class="btn" target="_blank">访问天际航空网站</a>
+                            </div>
+                        </div>
+
+                        <div class="text-center" style="padding: 30px 0;">
+                            <p style="color: var(--dark-grey); margin-bottom: 20px;">其他虚拟航空公司入驻位置虚位以待</p>
+                            <a href="join-us.html" class="btn">成为我们旗下</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 机场服务、管理及运营相关公司 -->
+            <div class="content-container">
+                <h3><i class="fas fa-cogs"></i> 机场服务、管理及运营相关公司</h3>
+                <div class="org-category">
+                    <div class="org-list">
+                        <div class="org-item" onclick="toggleDetails('C01')">
+                            <span>C01 虚拟香港国际机场服务控股有限公司（VHIAS Holdings）</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="org-details" id="C01">
+                            <p>负责管理和控股所有机场服务相关子公司，统筹机场服务业务发展战略规划、资源整合和投资管理。</p>
+                        </div>
+
+                        <div class="org-item" onclick="toggleDetails('C02')">
+                            <span>C02 虚拟香港航煤供应运营有限公司（VAFSCO）</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="org-details" id="C02">
+                            <p>负责航空燃油的采购、储存、质量控制和供应链管理，确保机场燃油供应安全稳定可靠。</p>
+                        </div>
+
+                        <div class="org-item" onclick="toggleDetails('C03')">
+                            <span>C03 虚拟香港航煤供应加油有限公司（VAFSCR）</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="org-details" id="C03">
+                            <p>提供专业的航空器地面加油服务，执行标准化加油作业流程，确保加油作业安全高效。</p>
+                        </div>
+
+                        <div class="org-item" onclick="toggleDetails('C04')">
+                            <span>C04 虚拟香港飞机工程有限公司（VHAECO）</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="org-details" id="C04">
+                            <p>提供专业的航空器维护、检修和改装服务，保障航空器的安全性和可靠性。</p>
+                        </div>
+
+                        <div class="org-item" onclick="toggleDetails('C05')">
+                            <span>C05 虚拟香港机场地勤服务有限公司（VHAGS）</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="org-details" id="C05">
+                            <p>提供全面的机场地勤服务，包括行李处理、客货运输、航空器推拉和机坪支援等服务。</p>
+                        </div>
+
+                        <div class="org-item" onclick="toggleDetails('C06')">
+                            <span>C06 虚拟香港机场航空配餐有限公司（VHACC）</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="org-details" id="C06">
+                            <p>为各航空公司提供高质量的航空配餐服务，确保乘客在飞行中享受美味的餐食体验。</p>
+                        </div>
+
+                        <div class="org-item" onclick="toggleDetails('C07')">
+                            <span>C07 虚拟香港机场货运服务有限公司（VHACSC）</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="org-details" id="C07">
+                            <p>提供专业的航空货运服务，包括货物装卸、仓储管理和运输协调，支持机场货运业务发展。</p>
+                        </div>
+
+                        <div class="org-item" onclick="toggleDetails('C08')">
+                            <span>C08 虚拟香港机场安保服务有限公司（VHASS）</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="org-details" id="C08">
+                            <p>负责机场安全保卫工作，包括旅客安检、行李检查、机场巡逻和应急响应等安全管理服务。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 组织架构说明 -->
+            <div class="content-container">
+                <h3><i class="fas fa-info-circle"></i> 组织架构说明</h3>
+                <div style="margin-top: 20px;">
+                    <p class="text-indent">
+                        虚拟香港机场管理局采用现代化的企业管理架构，通过核心管理机构统筹全局，各专业子公司分工协作，形成了完整的虚拟航空生态系统。这种架构设计确保了各项业务的专业化运营，同时保持了整体协调统一。
+                    </p>
+                    
+                    <div class="card-grid" style="margin-top: 30px;">
+                        <div class="card">
+                            <div class="card-icon"><i class="fas fa-sitemap"></i></div>
+                            <h4>分工明确</h4>
+                            <p>各部门职责清晰，专业化分工确保高效运营</p>
+                        </div>
+                        <div class="card">
+                            <div class="card-icon"><i class="fas fa-handshake"></i></div>
+                            <h4>协作紧密</h4>
+                            <p>部门间密切配合，形成完整的服务链条</p>
+                        </div>
+                        <div class="card">
+                            <div class="card-icon"><i class="fas fa-chart-line"></i></div>
+                            <h4>持续发展</h4>
+                            <p>开放的架构支持业务扩展和组织发展</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 加入我们 -->
+            <div class="text-center" style="margin: 50px 0;">
+                <h3>想要加入我们的团队？</h3>
+                <p style="margin: 20px 0; color: var(--dark-grey);">我们欢迎有志于虚拟航空事业的朋友加入</p>
+                <a href="join-us.html" class="btn">加入我们</a>
+                <a href="contact-us.html" class="btn btn-secondary">了解更多</a>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <!-- 左边：快速链接 -->
+                <div class="footer-section">
+                    <h3>快速链接</h3>
+                    <ul class="footer-links">
+                        <li><a href="service-center.html">虚拟香港航空服务中心</a></li>
+                        <li><a href="aviation-info.html">航空知识</a></li>
+                        <li><a href="online-flight-event.html">联飞活动</a></li>
+                        <li><a href="structure.html">架构</a></li>
+                    </ul>
+                </div>
+
+                <!-- 中间：参与我们 -->
+                <div class="footer-section">
+                    <h3>参与我们</h3>
+                    <ul class="footer-links">
+                        <li><a href="join-us.html">加入我们</a></li>
+                        <li><a href="contact-us.html">联系我们</a></li>
+                        <li><a href="about-us.html">关于我们</a></li>
+                    </ul>
+                </div>
+
+                <!-- 右边：QQ群和电邮 -->
+                <div class="footer-section">
+                    <h3>联系我们</h3>
+                    <div class="footer-contact">
+                        <p><strong>QQ交流群:</strong> <a href="https://qm.qq.com/q/8POrKppSRa">937248928</a></p>
+                        <p><strong>电邮:</strong> <a href="/cdn-cgi/l/email-protection#fd8b9c9c9596bd92888991929296d39e9290"><span class="__cf_email__" data-cfemail="3f495e5e57547f504a4b53505054115c5052">[email&#160;protected]</span></a></p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2025 虚拟香港机场管理局VAAHK保留所有权利</p>
+                <p class="disclaimer">声明：我们是航空爱好者成立的虚拟香港机场管理局，不是现实的香港机场管理局。如果您想访问现实中的香港机场管理局，请访问
+                    https://www.hongkongairport.com</p>
+            </div>
+        </div>
+    </footer>
+
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="timer.js"></script>
+    <script>
+        // 汉堡菜单功能
+        document.addEventListener('DOMContentLoaded', function () {
+            const hamburgerMenu = document.getElementById('hamburger-menu');
+            const mobileNav = document.getElementById('mobile-nav');
+
+            hamburgerMenu.addEventListener('click', function () {
+                mobileNav.classList.toggle('active');
+                this.classList.toggle('active');
+            });
+
+            // 点击页面其他区域关闭菜单
+            document.addEventListener('click', function (e) {
+                if (!hamburgerMenu.contains(e.target) && !mobileNav.contains(e.target)) {
+                    mobileNav.classList.remove('active');
+                    hamburgerMenu.classList.remove('active');
+                }
+            });
+
+            // 页面动画效果
+            const animateElements = document.querySelectorAll('.card, .content-container, .contact-item, .tool-container');
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            });
+
+            animateElements.forEach(element => {
+                element.style.opacity = '0';
+                element.style.transform = 'translateY(20px)';
+                element.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                observer.observe(element);
+            });
+        });
+
+        // 组织架构折叠功能
+        function toggleDetails(orgId) {
+            const details = document.getElementById(orgId);
+            const icon = event.currentTarget.querySelector('i');
+
+            // 切换显示/隐藏
+            details.classList.toggle('active');
+
+            // 更新图标
+            if (details.classList.contains('active')) {
+                icon.classList.remove('fa-chevron-down');
+                icon.classList.add('fa-chevron-up');
+            } else {
+                icon.classList.remove('fa-chevron-up');
+                icon.classList.add('fa-chevron-down');
+            }
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>连飞活动 - 虚拟香港机场管理局</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <header>
+        <div class="container">
+            <!-- 第一行：时间日期 -->
+            <div class="top-row">
+                <div class="time-date-display">
+                    <span id="current-time"></span>
+                    <span id="current-date"></span>
+                </div>
+            </div>
+
+            <!-- 第二行：Logo和导航 -->
+            <nav class="bottom-row">
+                <div class="logo">
+                    <h1>虚拟香港机场管理局</h1>
+                </div>
+                <div class="nav-right">
+                    <ul class="nav-links">
+                        <li><a href="index.html">主页</a></li>
+                        <li><a href="service-center.html">虚拟香港航空服务中心</a></li>
+                        <li><a href="aviation-info.html">航空知识</a></li>
+                        <li><a class="active" href="online-flight-event.html">连飞活动</a></li>
+                        <li><a href="structure.html">架构</a></li>
+                        <li><a href="join-us.html">加入我们</a></li>
+                        <li><a href="contact-us.html">联系我们</a></li>
+                        <li><a href="about-us.html">关于我们</a></li>
+                    </ul>
+                    <button class="hamburger-menu" id="hamburger-menu">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </button>
+                </div>
+            </nav>
+        </div>
+
+        <!-- 移动端导航菜单 -->
+        <div class="mobile-nav" id="mobile-nav">
+            <ul class="mobile-nav-links">
+                <li><a href="index.html">主页</a></li>
+                <li><a href="service-center.html">虚拟香港航空服务中心</a></li>
+                <li><a href="aviation-info.html">航空知识</a></li>
+                <li><a class="active" href="online-flight-event.html">连飞活动</a></li>
+                <li><a href="structure.html">架构</a></li>
+                <li><a href="join-us.html">加入我们</a></li>
+                <li><a href="contact-us.html">联系我们</a></li>
+                <li><a href="about-us.html">关于我们</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <main>
+        <!-- 连飞活动内容 -->
+        <section id="events" class="section">
+            <div class="container">
+                <div class="section-title">
+                    <h1>连飞活动</h1>
+                    <p>加入我们的虚拟飞行活动，与全球航空爱好者一同体验飞行乐趣</p>
+                </div>
+
+                <!-- 即将到来的活动 -->
+                <div class="content-container">
+                    <h3><i class="fas fa-calendar-alt"></i> 即将到来的活动</h3>
+                    <div class="text-center" style="padding: 40px 0;">
+                        <p style="font-size: 1.2rem; color: var(--dark-grey);">目前暂无即将开始的活动</p>
+                        <p style="color: var(--text-green); margin-top: 15px;">更多活动信息将会陆续更新</p>
+                    </div>
+                </div>
+
+                <!-- 历史活动详情 -->
+                <div class="content-container">
+                    <h3><i class="fas fa-history"></i> 历史活动详情</h3>
+
+                    <div class="card">
+                        <div class="card-icon"><i class="fas fa-plane"></i></div>
+                        <h3>香港回归28周年纪念 · 京港连飞活动</h3>
+                        <div style="margin: 20px 0;">
+                            <p><strong>航线：</strong> 北京首都国际机场 (ZBAA) - 香港国际机场 (VHHH)</p>
+                            <p><strong>日期：</strong> 2025年7月1日</p>
+                            <p><strong>时间：</strong> 13：00 (UTC+8)</p>
+                            <p><strong>简介：</strong> 为庆祝香港回归祖国28周年，虚拟香港机场管理局(VAAHK)联合多家虚拟航空公司举办京港连飞活动，欢迎各位飞行爱好者参与！</p>
+                        </div>
+                        <div class="text-center">
+                            <a href="https://virtual-airportauthorityhk.github.io/7.1-Beijing-HongKong-OnlineFlightEvent/"
+                                class="btn" target="_blank">查看活动详情</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 活动统计 -->
+                <div class="content-container">
+                    <h3><i class="fas fa-chart-bar"></i> 活动统计</h3>
+
+                    <div class="card-grid" style="margin-top: 30px;">
+                        <div class="card">
+                            <div class="card-icon"><i class="fas fa-calendar-check"></i></div>
+                            <h4>已举办活动</h4>
+                            <p style="font-size: 2rem; font-weight: bold; color: var(--text-green); margin: 10px 0;">1
+                            </p>
+                            <p>已成功举办连飞活动</p>
+                        </div>
+                        <div class="card">
+                            <div class="card-icon"><i class="fas fa-users"></i></div>
+                            <h4>参与人数</h4>
+                            <p style="font-size: 2rem; font-weight: bold; color: var(--text-green); margin: 10px 0;">15+
+                            </p>
+                            <p>累计参与活动的人数</p>
+                        </div>
+                        <div class="card">
+                            <div class="card-icon"><i class="fas fa-route"></i></div>
+                            <h4>飞行里程</h4>
+                            <p style="font-size: 2rem; font-weight: bold; color: var(--text-green); margin: 10px 0;">
+                                4000+</p>
+                            <p>累计飞行里程 (海里)</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 活动照片集锦 -->
+                <div class="content-container">
+                    <h3><i class="fas fa-images"></i> 活动照片集锦</h3>
+                    <div class="text-center" style="padding: 40px 0;">
+                        <p style="font-size: 1.1rem; color: var(--dark-grey); margin-bottom: 20px;">
+                            精彩的活动照片即将上线，敬请期待！
+                        </p>
+                        <div
+                            style="background: var(--light-grey); padding: 60px; border-radius: 8px; border: 2px dashed var(--medium-grey);">
+                            <i class="fas fa-camera"
+                                style="font-size: 3rem; color: var(--medium-grey); margin-bottom: 20px;"></i>
+                            <p style="color: var(--dark-grey);">活动照片正在整理中...</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 活动参与方式 -->
+                <div class="content-container">
+                    <h3><i class="fas fa-info-circle"></i> 如何参与活动</h3>
+                    
+                    <div class="card-grid" style="margin-top: 30px;">
+                        <div class="card">
+                            <div class="card-icon"><i class="fas fa-user-plus"></i></div>
+                            <h4>1. 加入我们</h4>
+                            <p>首先加入我们的QQ群或联系我们，了解最新活动信息</p>
+                            <div class="text-center" style="margin-top: 15px;">
+                                <a href="join-us.html" class="btn btn-secondary">加入我们</a>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-icon"><i class="fas fa-clipboard-list"></i></div>
+                            <h4>2. 活动报名</h4>
+                            <p>关注活动公告，按要求填写报名信息</p>
+                            <div class="text-center" style="margin-top: 15px;">
+                                <a href="contact-us.html" class="btn btn-secondary">联系我们</a>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-icon"><i class="fas fa-plane-departure"></i></div>
+                            <h4>3. 准时参与</h4>
+                            <p>按照活动安排，准时参与连飞活动</p>
+                            <div class="text-center" style="margin-top: 15px;">
+                                <a href="aviation-info.html" class="btn btn-secondary">了解知识</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 活动规则 -->
+                <div class="content-container">
+                    <h3><i class="fas fa-gavel"></i> 活动规则</h3>
+                    <div style="margin-top: 20px;">
+                        <div style="margin-bottom: 20px;">
+                            <h4>基本要求：</h4>
+                            <ul style="margin-left: 20px; margin-top: 10px;">
+                                <li>具备基本的虚拟飞行软件操作能力</li>
+                                <li>能够使用语音或文字进行沟通</li>
+                                <li>遵守活动时间安排，准时参与</li>
+                                <li>服从活动组织者的统一安排</li>
+                            </ul>
+                        </div>
+
+                        <div style="margin-bottom: 20px;">
+                            <h4>飞行规范：</h4>
+                            <ul style="margin-left: 20px; margin-top: 10px;">
+                                <li>遵循真实世界的飞行程序和管制指令</li>
+                                <li>保持适当的飞机间隔，确保飞行安全</li>
+                                <li>禁止恶意破坏活动或干扰其他参与者</li>
+                                <li>如遇网络问题，请及时联系组织者</li>
+                            </ul>
+                        </div>
+
+                        <div>
+                            <h4>奖励机制：</h4>
+                            <ul style="margin-left: 20px; margin-top: 10px;">
+                                <li>完成活动的参与者将获得参与证明</li>
+                                <li>表现优秀的飞行员可能获得特别表彰</li>
+                                <li>积极参与者有机会参与活动组织工作</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 联系与支持 -->
+                <div class="text-center" style="margin: 50px 0;">
+                    <h3>想要了解更多或参与活动？</h3>
+                    <p style="margin: 20px 0; color: var(--dark-grey);">欢迎联系我们获取最新活动信息</p>
+                    <a href="join-us.html" class="btn">加入我们</a>
+                    <a href="contact-us.html" class="btn btn-secondary">联系我们</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <!-- 左边：快速链接 -->
+                <div class="footer-section">
+                    <h3>快速链接</h3>
+                    <ul class="footer-links">
+                        <li><a href="service-center.html">虚拟香港航空服务中心</a></li>
+                        <li><a href="aviation-info.html">航空知识</a></li>
+                        <li><a href="online-flight-event.html">联飞活动</a></li>
+                        <li><a href="structure.html">架构</a></li>
+                    </ul>
+                </div>
+
+                <!-- 中间：参与我们 -->
+                <div class="footer-section">
+                    <h3>参与我们</h3>
+                    <ul class="footer-links">
+                        <li><a href="join-us.html">加入我们</a></li>
+                        <li><a href="contact-us.html">联系我们</a></li>
+                        <li><a href="about-us.html">关于我们</a></li>
+                    </ul>
+                </div>
+
+                <!-- 右边：QQ群和电邮 -->
+                <div class="footer-section">
+                    <h3>联系我们</h3>
+                    <div class="footer-contact">
+                        <p><strong>QQ交流群:</strong> <a href="https://qm.qq.com/q/8POrKppSRa">937248928</a></p>
+                        <p><strong>电邮:</strong> <a href="/cdn-cgi/l/email-protection#bdcbdcdcd5d6fdd2c8c9d1d2d2d693ded2d0"><span class="__cf_email__" data-cfemail="7f091e1e17143f100a0b13101014511c1012">[email&#160;protected]</span></a></p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2025 虚拟香港机场管理局VAAHK保留所有权利</p>
+                <p class="disclaimer">声明：我们是航空爱好者成立的虚拟香港机场管理局，不是现实的香港机场管理局。如果您想访问现实中的香港机场管理局，请访问
+                    https://www.hongkongairport.com</p>
+            </div>
+        </div>
+    </footer>
+
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="timer.js"></script>
+    <script>
+        // 汉堡菜单功能
+        document.addEventListener('DOMContentLoaded', function () {
+            const hamburgerMenu = document.getElementById('hamburger-menu');
+            const mobileNav = document.getElementById('mobile-nav');
+
+            hamburgerMenu.addEventListener('click', function () {
+                mobileNav.classList.toggle('active');
+                this.classList.toggle('active');
+            });
+
+            // 点击页面其他区域关闭菜单
+            document.addEventListener('click', function (e) {
+                if (!hamburgerMenu.contains(e.target) && !mobileNav.contains(e.target)) {
+                    mobileNav.classList.remove('active');
+                    hamburgerMenu.classList.remove('active');
+                }
+            });
+
+            // 页面动画效果
+            const animateElements = document.querySelectorAll('.card, .content-container, .contact-item, .tool-container');
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            });
+
+            animateElements.forEach(element => {
+                element.style.opacity = '0';
+                element.style.transform = 'translateY(20px)';
+                element.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                observer.observe(element);
+            });
+        });
+    </script>
+</body>
+
+</html>
