@@ -70,6 +70,127 @@
                     <h1>虚拟香港航空服务中心</h1>
                     <p>为您提供专业的航空信息解读服务</p>
                 </div>
+
+                <!-- 天气组件 -->
+<div class="tool-container">
+    <div class="weather-widget">
+        <div class="weather-header">
+            <h3>香港国际机场实时天气</h3>
+            <button class="refresh-btn" onclick="loadWeatherData()">🔄 刷新</button>
+        </div>
+        <div class="weather-tabs">
+            <button class="tab-btn active" onclick="switchTab('metar')">METAR</button>
+            <button class="tab-btn" onclick="switchTab('taf')">TAF</button>
+        </div>
+        <div class="weather-content">
+            <div id="weather-loading">正在加载天气数据...</div>
+            <div id="weather-error" style="display: none;"></div>
+            
+            <!-- METAR内容 -->
+            <div id="metar-content" style="display: none;">
+                <div class="weather-info">
+                    <div class="info-grid">
+                        <div class="info-row">
+                            <span class="label">观测时间:</span>
+                            <span class="value" id="metar-observation-time">--</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="label">台站信息:</span>
+                            <span class="value" id="metar-station-info">--</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="label">报告类型:</span>
+                            <span class="value" id="metar-report-type">--</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="label">风向风速:</span>
+                            <span class="value" id="metar-wind">--</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="label">能见度:</span>
+                            <span class="value" id="metar-visibility">--</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="label">云况:</span>
+                            <span class="value" id="metar-clouds">--</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="label">当前温度:</span>
+                            <span class="value" id="metar-temperature">--</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="label">露点温度:</span>
+                            <span class="value" id="metar-dewpoint">--</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="label">气压:</span>
+                            <span class="value" id="metar-pressure">--</span>
+                        </div>
+                        <div class="info-row" id="metar-weather-row" style="display: none;">
+                            <span class="label">天气现象:</span>
+                            <span class="value" id="metar-weather">--</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="label">飞行等级:</span>
+                            <span class="value" id="metar-flight-category">--</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="label">海拔高度:</span>
+                            <span class="value" id="metar-elevation">--</span>
+                        </div>
+                    </div>
+                    <div class="raw-text">
+                        <strong>原始METAR报文:</strong><br>
+                        <code id="metar-raw-text">--</code>
+                    </div>
+                    <div class="update-time">
+                        <small>数据更新时间: <span id="metar-update-time">--</span></small>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- TAF内容 -->
+            <div id="taf-content" style="display: none;">
+                <div class="weather-info">
+                    <div class="info-grid">
+                        <div class="info-row">
+                            <span class="label">发布时间:</span>
+                            <span class="value" id="taf-issue-time">--</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="label">有效时间:</span>
+                            <span class="value" id="taf-valid-range">--</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="label">台站信息:</span>
+                            <span class="value" id="taf-station-info">--</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="label">预报摘要:</span>
+                            <span class="value" id="taf-summary">--</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="label">预报段数:</span>
+                            <span class="value" id="taf-periods-count">--</span>
+                        </div>
+                    </div>
+                    
+                    <div class="forecast-periods">
+                        <h4>详细预报时段</h4>
+                        <div id="taf-forecast-periods">
+                            <!-- 预报段将通过JavaScript动态填充 -->
+                        </div>
+                    </div>
+                    
+                    <div class="raw-text">
+                        <strong>原始TAF报文:</strong><br>
+                        <code id="taf-raw-text">--</code>
+                    </div>
+                    <div class="update-time">
+                        <small>数据更新时间: <span id="taf-update-time">--</span></small>
+                    </div>
+                </div>
+            </div>
                 
             <!-- METAR解码器 -->
             <div class="tool-container" id="metar">
