@@ -71,12 +71,12 @@
                     <p>为您提供专业的航空信息解读服务</p>
                 </div>
 
-                <!-- 天气组件 -->
+               <!-- 天气组件 -->
 <div class="tool-container">
     <div class="weather-widget">
         <div class="weather-header">
             <h3>香港国际机场实时天气</h3>
-            <button class="refresh-btn" onclick="loadWeatherData()">🔄 刷新</button>
+            <button class="refresh-btn" onclick="loadWeatherData()"> 刷新 </button>
         </div>
         <div class="weather-tabs">
             <button class="tab-btn active" onclick="switchTab('metar')">METAR</button>
@@ -91,12 +91,12 @@
                 <div class="weather-info">
                     <div class="info-grid">
                         <div class="info-row">
-                            <span class="label">观测时间:</span>
+                            <span class="label">发布时间:</span>
                             <span class="value" id="metar-observation-time">--</span>
                         </div>
                         <div class="info-row">
-                            <span class="label">台站信息:</span>
-                            <span class="value" id="metar-station-info">--</span>
+                            <span class="label">机场:</span>
+                            <span class="value" id="metar-airport-info">--</span>
                         </div>
                         <div class="info-row">
                             <span class="label">报告类型:</span>
@@ -131,7 +131,7 @@
                             <span class="value" id="metar-weather">--</span>
                         </div>
                         <div class="info-row">
-                            <span class="label">飞行等级:</span>
+                            <span class="label">飞行条件:</span>
                             <span class="value" id="metar-flight-category">--</span>
                         </div>
                         <div class="info-row">
@@ -162,8 +162,8 @@
                             <span class="value" id="taf-valid-range">--</span>
                         </div>
                         <div class="info-row">
-                            <span class="label">台站信息:</span>
-                            <span class="value" id="taf-station-info">--</span>
+                            <span class="label">机场:</span>
+                            <span class="value" id="taf-airport-info">--</span>
                         </div>
                         <div class="info-row">
                             <span class="label">预报摘要:</span>
@@ -191,6 +191,9 @@
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
+</div>
                 
             <!-- METAR解码器 -->
             <div class="tool-container" id="metar">
