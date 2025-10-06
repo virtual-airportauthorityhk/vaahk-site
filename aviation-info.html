@@ -240,8 +240,7 @@
                     <h3>联系我们</h3>
                     <div class="footer-contact">
                         <p><strong>QQ交流群:</strong> <a href="https://qm.qq.com/q/8POrKppSRa">937248928</a></p>
-                        <p><strong>电邮:</strong> <a
-                                href="mailto:virtual-airportauthorityhk@gmail.com">virtual-airportauthorityhk@gmail.com</a>
+                        <p><strong>电邮:</strong> <a href="/cdn-cgi/l/email-protection#f2939b80829d80869387869a9d809b868b9a99dc849b808687939eb2959f939b9edc919d9f"><span class="__cf_email__" data-cfemail="26474f54564954524753524e49544f525f4e4d08504f545253474a66414b474f4a0845494b">[email&#160;protected]</span></a>
                         </p>
                     </div>
                 </div>
@@ -262,18 +261,31 @@
             const hamburgerMenu = document.getElementById('hamburger-menu');
             const mobileNav = document.getElementById('mobile-nav');
 
-            hamburgerMenu.addEventListener('click', function () {
-                mobileNav.classList.toggle('active');
-                this.classList.toggle('active');
-            });
+            if (hamburgerMenu && mobileNav) {
+                hamburgerMenu.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    mobileNav.classList.toggle('active');
+                    this.classList.toggle('active');
+                });
 
-            // 点击页面其他区域关闭菜单
-            document.addEventListener('click', function (e) {
-                if (!hamburgerMenu.contains(e.target) && !mobileNav.contains(e.target)) {
-                    mobileNav.classList.remove('active');
-                    hamburgerMenu.classList.remove('active');
-                }
-            });
+                // 点击页面其他区域关闭菜单
+                document.addEventListener('click', function (e) {
+                    if (!hamburgerMenu.contains(e.target) && !mobileNav.contains(e.target)) {
+                        mobileNav.classList.remove('active');
+                        hamburgerMenu.classList.remove('active');
+                    }
+                });
+
+                // 移动端菜单链接点击时关闭菜单
+                const mobileNavLinks = mobileNav.querySelectorAll('a');
+                mobileNavLinks.forEach(link => {
+                    link.addEventListener('click', function () {
+                        mobileNav.classList.remove('active');
+                        hamburgerMenu.classList.remove('active');
+                    });
+                });
+            }
 
             // 页面动画效果
             const animateElements = document.querySelectorAll('.card, .content-container, .contact-item, .tool-container');

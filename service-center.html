@@ -562,8 +562,7 @@
                     <h3>联系我们</h3>
                     <div class="footer-contact">
                         <p><strong>QQ交流群:</strong> <a href="https://qm.qq.com/q/8POrKppSRa">937248928</a></p>
-                        <p><strong>电邮:</strong> <a
-                                href="mailto:virtual-airportauthorityhk@gmail.com">virtual-airportauthorityhk@gmail.com</a>
+                        <p><strong>电邮:</strong> <a href="/cdn-cgi/l/email-protection#e3828a91938c91978296978b8c918a979a8b88cd958a919796828fa3848e828a8fcd808c8e"><span class="__cf_email__" data-cfemail="bddcd4cfcdd2cfc9dcc8c9d5d2cfd4c9c4d5d693cbd4cfc9c8dcd1fddad0dcd4d193ded2d0">[email&#160;protected]</span></a>
                         </p>
                     </div>
                 </div>
@@ -585,18 +584,31 @@
             const hamburgerMenu = document.getElementById('hamburger-menu');
             const mobileNav = document.getElementById('mobile-nav');
 
-            hamburgerMenu.addEventListener('click', function () {
-                mobileNav.classList.toggle('active');
-                this.classList.toggle('active');
-            });
+            if (hamburgerMenu && mobileNav) {
+                hamburgerMenu.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    mobileNav.classList.toggle('active');
+                    this.classList.toggle('active');
+                });
 
-            // 点击页面其他区域关闭菜单
-            document.addEventListener('click', function (e) {
-                if (!hamburgerMenu.contains(e.target) && !mobileNav.contains(e.target)) {
-                    mobileNav.classList.remove('active');
-                    hamburgerMenu.classList.remove('active');
-                }
-            });
+                // 点击页面其他区域关闭菜单
+                document.addEventListener('click', function (e) {
+                    if (!hamburgerMenu.contains(e.target) && !mobileNav.contains(e.target)) {
+                        mobileNav.classList.remove('active');
+                        hamburgerMenu.classList.remove('active');
+                    }
+                });
+
+                // 移动端菜单链接点击时关闭菜单
+                const mobileNavLinks = mobileNav.querySelectorAll('a');
+                mobileNavLinks.forEach(link => {
+                    link.addEventListener('click', function () {
+                        mobileNav.classList.remove('active');
+                        hamburgerMenu.classList.remove('active');
+                    });
+                });
+            }
         });
 
         // 频率显示/隐藏功能
