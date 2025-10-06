@@ -18,6 +18,7 @@ export default async function handler(req, res) {
         }
         
         const latest = data[0];
+
         
         // ===== 完整翻译函数 =====
         
