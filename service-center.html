@@ -71,11 +71,11 @@
                     <p>为您提供专业的航空信息解读服务</p>
                 </div>
 
-               <!-- 天气组件 -->
+<!-- 天气组件 -->
 <div class="tool-container">
     <div class="weather-widget">
         <div class="weather-header">
-            <h3>香港国际机场实时天气</h3>
+            <h3>香港国际机场实时METAR以及TAF</h3>
             <button class="refresh-btn" onclick="loadWeatherData()"> 刷新 </button>
         </div>
         <div class="weather-tabs">
@@ -97,10 +97,6 @@
                         <div class="info-row">
                             <span class="label">机场:</span>
                             <span class="value" id="metar-airport-info">--</span>
-                        </div>
-                        <div class="info-row">
-                            <span class="label">报告类型:</span>
-                            <span class="value" id="metar-report-type">--</span>
                         </div>
                         <div class="info-row">
                             <span class="label">风向风速:</span>
@@ -134,10 +130,6 @@
                             <span class="label">飞行条件:</span>
                             <span class="value" id="metar-flight-category">--</span>
                         </div>
-                        <div class="info-row">
-                            <span class="label">海拔高度:</span>
-                            <span class="value" id="metar-elevation">--</span>
-                        </div>
                     </div>
                     <div class="raw-text">
                         <strong>原始METAR报文:</strong><br>
@@ -168,10 +160,6 @@
                         <div class="info-row">
                             <span class="label">预报摘要:</span>
                             <span class="value" id="taf-summary">--</span>
-                        </div>
-                        <div class="info-row">
-                            <span class="label">预报段数:</span>
-                            <span class="value" id="taf-periods-count">--</span>
                         </div>
                     </div>
                     
