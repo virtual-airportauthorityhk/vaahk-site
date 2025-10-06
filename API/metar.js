@@ -12,7 +12,7 @@ export default async function handler(req, res) {
 
     try {
         // 调用 AWC METAR API
-        const awcUrl = 'https://aviationweather.gov/api/data/metar?ids=VHHH&format=json';
+        const awcUrl = 'https://aviationweather.gov/api/data/metar?ids=VHHH&format=json&taf=true';
         const response = await fetch(awcUrl);
         
         if (!response.ok) {
