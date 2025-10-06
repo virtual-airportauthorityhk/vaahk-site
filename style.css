@@ -233,7 +233,7 @@ main {
     display: none;
     /* 默认隐藏 */
     position: fixed;
-    top: 45px;
+    top: 85px;
     left: 0;
     width: 100%;
     background: var(--white);
@@ -265,6 +265,11 @@ main {
 
     .hamburger-menu {
         display: flex;
+    }
+
+    .mobile-nav {
+        top: 70px;
+        /* 移动端导航栏高度调整 */
     }
 
     .real-time-clock {
@@ -953,8 +958,8 @@ footer::before {
     color: #28a745; /* 保持与其他链接一致的绿色 */
 }
 
-/* 招募岗位标题统一左对齐 */
-.card p strong {
+/* 招募岗位标题统一左对齐 - 只针对加入我们页面 */
+body.join-us .card p strong {
     display: block;
     text-align: left;
     font-weight: bold;
