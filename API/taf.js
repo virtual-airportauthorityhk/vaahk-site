@@ -12,7 +12,7 @@ export default async function handler(req, res) {
 
     try {
         // 调用 AWC TAF API
-        const awcUrl = 'https://aviationweather.gov/api/data/taf?ids=VHHH&format=json&hours=12';
+        const awcUrl = 'https://aviationweather.gov/api/data/taf?ids=VHHH&format=json';
         const response = await fetch(awcUrl);
         
         if (!response.ok) {
