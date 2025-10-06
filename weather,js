@@ -1,0 +1,289 @@
+class WeatherWidget {
+    constructor(containerId) {
+        this.container = document.getElementById(containerId);
+        this.metarApiUrl = '/api/metar';
+        this.tafApiUrl = '/api/taf';
+        this.currentTab = 'metar';
+        this.init();
+    }
+
+    async init() {
+        this.createWidget();
+        await this.loadWeatherData();
+        this.startAutoRefresh();
+    }
+
+    createWidget() {
+        this.container.innerHTML = `
+            <div class="weather-widget">
+                <div class="weather-header">
+                    <h3>香港国际机场实时天气</h3>
+                    <button class="refresh-btn" onclick="weatherWidget.loadWeatherData()"> 刷新 </button>
+                </div>
+                <div class="weather-tabs">
+                    <button class="tab-btn active" onclick="weatherWidget.switchTab('metar')">METAR</button>
+                    <button class="tab-btn" onclick="weatherWidget.switchTab('taf')">TAF</button>
+                </div>
+                <div class="weather-content">
+                    <div id="loading">正在加载天气数据...</div>
+                    <div id="error" style="display: none;"></div>
+                    <div id="metar-content" style="display: none;"></div>
+                    <div id="taf-content" style="display: none;"></div>
+                </div>
+            </div>
+        `;
+    }
+
+    async loadWeatherData() {
+        const loading = document.getElementById('loading');
+        const error = document.getElementById('error');
+        
+        loading.style.display = 'block';
+        error.style.display = 'none';
+
+        try {
+            console.log('开始获取天气数据...');
+
+            const [metarResponse, tafResponse] = await Promise.all([
+                fetch(this.metarApiUrl),
+                fetch(this.tafApiUrl)
+            ]);
+
+            console.log('METAR响应状态:', metarResponse.status);
+            console.log('TAF响应状态:', tafResponse.status);
+
+            if (!metarResponse.ok) {
+                throw new Error(`METAR API错误: ${metarResponse.status} ${metarResponse.statusText}`);
+            }
+            if (!tafResponse.ok) {
+                throw new Error(`TAF API错误: ${tafResponse.status} ${tafResponse.statusText}`);
+            }
+
+            const metarData = await metarResponse.json();
+            const tafData = await tafResponse.json();
+
+            console.log('METAR数据:', metarData);
+            console.log('TAF数据:', tafData);
+
+            this.displayMetarData(metarData.data);
+            this.displayTafData(tafData.data);
+            
+            loading.style.display = 'none';
+            this.showTab(this.currentTab);
+
+        } catch (err) {
+            console.error('天气数据加载失败:', err);
+            loading.style.display = 'none';
+            error.style.display = 'block';
+            error.innerHTML = `
+                <div class="error-message">
+                    <h4>数据加载失败</h4>
+                    <p><strong>错误详情:</strong> ${err.message}</p>
+                    <button onclick="weatherWidget.loadWeatherData()" class="retry-btn"> 重试 </button>
+                </div>
+            `;
+        }
+    }
+
+    displayMetarData(data) {
+        const metarContent = document.getElementById('metar-content');
+        if (!data) {
+            metarContent.innerHTML = '<p>无METAR数据</p>';
+            return;
+        }
+
+        metarContent.innerHTML = `
+            <div class="weather-info">
+                <div class="info-grid">
+                    <div class="info-row">
+                        <span class="label">观测时间:</span>
+                        <span class="value">${data.basicInfo?.observationTime || '未知'}</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="label">台站信息:</span>
+                        <span class="value">${data.basicInfo?.stationName || '未知'} (${data.basicInfo?.icaoId || ''})</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="label">报告类型:</span>
+                        <span class="value">${data.basicInfo?.metarType || '未知'}</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="label">风向风速:</span>
+                        <span class="value">${data.wind?.info || '无风向数据'}</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="label">能见度:</span>
+                        <span class="value">${data.visibility?.info || '未知'}</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="label">云况:</span>
+                        <span class="value">${data.clouds?.info || '无云况数据'}</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="label">当前温度:</span>
+                        <span class="value">${data.temperature?.current || '未知'}</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="label">露点温度:</span>
+                        <span class="value">${data.temperature?.dewPoint || '未知'}</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="label">气压:</span>
+                        <span class="value">${data.pressure?.info || '未知'}</span>
+                    </div>
+                    ${data.weather?.phenomena ? `
+                    <div class="info-row">
+                        <span class="label">天气现象:</span>
+                        <span class="value">${data.weather.phenomena}</span>
+                    </div>
+                    ` : ''}
+                    <div class="info-row">
+                        <span class="label">飞行等级:</span>
+                        <span class="value flight-cat-${data.flightCategory?.rawCategory?.toLowerCase() || 'unknown'}">${data.flightCategory?.category || '未知'}</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="label">海拔高度:</span>
+                        <span class="value">${data.basicInfo?.coordinates?.elevation || '未知'}</span>
+                    </div>
+                </div>
+                <div class="raw-text">
+                    <strong>原始METAR报文:</strong><br>
+                    <code>${data.rawText || '无原始数据'}</code>
+                </div>
+                <div class="update-time">
+                    <small>数据更新时间: ${data.lastUpdate ? new Date(data.lastUpdate).toLocaleString('zh-CN') : '未知'}</small>
+                </div>
+            </div>
+        `;
+    }
+
+    displayTafData(data) {
+        const tafContent = document.getElementById('taf-content');
+        if (!data) {
+            tafContent.innerHTML = '<p>无TAF数据</p>';
+            return;
+        }
+
+        // 构建预报段HTML
+        let forecastHtml = '';
+        if (data.forecastPeriods && data.forecastPeriods.length > 0) {
+            forecastHtml = data.forecastPeriods.map(period => `
+                <div class="forecast-period">
+                    <h5>预报段 ${period.periodIndex} ${period.changeType ? `(${period.changeType})` : ''}</h5>
+                    <div class="period-info">
+                        <div class="info-row">
+                            <span class="label">时间范围:</span>
+                            <span class="value">${period.timeRange}</span>
+                        </div>
+                        ${period.becomeTime ? `
+                        <div class="info-row">
+                            <span class="label">变化时间:</span>
+                            <span class="value">${period.becomeTime}</span>
+                        </div>
+                        ` : ''}
+                        ${period.probability ? `
+                        <div class="info-row">
+                            <span class="label">概率:</span>
+                            <span class="value">${period.probability}</span>
+                        </div>
+                        ` : ''}
+                        <div class="info-row">
+                            <span class="label">风向风速:</span>
+                            <span class="value">${period.wind.info}</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="label">能见度:</span>
+                            <span class="value">${period.visibility.info}</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="label">云况:</span>
+                            <span class="value">${period.clouds.info}</span>
+                        </div>
+                        ${period.temperature.info.length > 0 ? `
+                        <div class="info-row">
+                            <span class="label">温度预报:</span>
+                            <span class="value">${period.temperature.info.join('; ')}</span>
+                        </div>
+                        ` : ''}
+                        ${period.wind.shear ? `
+                        <div class="info-row">
+                            <span class="label">风切变:</span>
+                            <span class="value">${period.wind.shear}</span>
+                        </div>
+                        ` : ''}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        tafContent.innerHTML = `
+            <div class="weather-info">
+                <div class="info-grid">
+                    <div class="info-row">
+                        <span class="label">发布时间:</span>
+                        <span class="value">${data.basicInfo?.issueTime || '未知'}</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="label">有效时间:</span>
+                        <span class="value">${data.basicInfo?.validRange || '未知'}</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="label">台站信息:</span>
+                        <span class="value">${data.basicInfo?.stationName || '未知'} (${data.basicInfo?.icaoId || ''})</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="label">预报摘要:</span>
+                        <span class="value">${data.summary?.text || '无预报摘要'}</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="label">预报段数:</span>
+                        <span class="value">${data.summary?.periodsCount || 0} 个时段</span>
+                    </div>
+                </div>
+                
+                ${forecastHtml ? `
+                <div class="forecast-periods">
+                    <h4>详细预报时段</h4>
+                    ${forecastHtml}
+                </div>
+                ` : ''}
+                
+                <div class="raw-text">
+                    <strong>原始TAF报文:</strong><br>
+                    <code>${data.rawText || '无原始数据'}</code>
+                </div>
+                <div class="update-time">
+                    <small>数据更新时间: ${data.lastUpdate ? new Date(data.lastUpdate).toLocaleString('zh-CN') : '未知'}</small>
+                </div>
+            </div>
+        `;
+    }
+
+    switchTab(tab) {
+        this.currentTab = tab;
+        this.showTab(tab);
+    }
+
+    showTab(tab) {
+        // 更新标签样式
+        document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+        document.querySelector(`[onclick="weatherWidget.switchTab('${tab}')"]`).classList.add('active');
+        
+        // 显示对应内容
+        document.getElementById('metar-content').style.display = tab === 'metar' ? 'block' : 'none';
+        document.getElementById('taf-content').style.display = tab === 'taf' ? 'block' : 'none';
+    }
+
+    startAutoRefresh() {
+        setInterval(() => {
+            this.loadWeatherData();
+        }, 5 * 60 * 1000); // 5分钟刷新一次
+    }
+}
+
+// 页面加载完成后初始化
+document.addEventListener('DOMContentLoaded', function() {
+    if (document.getElementById('weather-widget-container')) {
+        window.weatherWidget = new WeatherWidget('weather-widget-container');
+    }
+});
