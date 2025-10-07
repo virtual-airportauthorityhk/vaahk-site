@@ -11,7 +11,7 @@ export default async function handler(req, res) {
     }
     
     try {
-        console.log('开始获取TAF数据...');
+        console.log('正在获取TAF数据...');
         
         const response = await fetch('https://aviationweather.gov/api/data/taf?ids=VHHH&format=json');
         
