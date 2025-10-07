@@ -206,16 +206,16 @@ function updateMetarDisplay(data) {
         const category = latest.fltcat || latest.flight_category;
         switch(category) {
             case 'VFR': 
-                flightCategory = 'VFR (目视飞行规则) - 天气条件良好'; 
+                flightCategory = 'VFR (目视飞行规则) '; 
                 break;
             case 'MVFR': 
-                flightCategory = 'MVFR (边际目视飞行规则) - 天气条件一般'; 
+                flightCategory = 'MVFR (边际目视飞行规则) '; 
                 break;
             case 'IFR': 
-                flightCategory = 'IFR (仪表飞行规则) - 天气条件较差'; 
+                flightCategory = 'IFR (仪表飞行规则) '; 
                 break;
             case 'LIFR': 
-                flightCategory = 'LIFR (低仪表飞行规则) - 天气条件恶劣'; 
+                flightCategory = 'LIFR (低仪表飞行规则) '; 
                 break;
         }
     }
