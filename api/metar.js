@@ -11,7 +11,7 @@ export default async function handler(req, res) {
     }
     
     try {
-        console.log('开始获取METAR数据...');
+        console.log('正在获取METAR数据...');
         
         const response = await fetch('https://aviationweather.gov/api/data/metar?ids=VHHH&format=json');
         
