@@ -1,3 +1,4 @@
+// 香港国际机场实时天气组件
 // 全局变量
 let currentTab = 'metar';
 let isLoading = false;
