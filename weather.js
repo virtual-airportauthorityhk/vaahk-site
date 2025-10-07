@@ -24,10 +24,10 @@ function initWeatherWidget() {
     // 立即允许标签切换
     showTab('metar');
     
-    // 3秒后开始加载数据，避免阻塞界面
+    // 1秒后开始加载数据
     setTimeout(() => {
         loadWeatherData();
-    }, 100);
+    }, 1000);
     
     // 启动自动刷新
     setInterval(() => {
@@ -46,14 +46,19 @@ function switchTab(tab) {
 
 // 显示指定标签
 function showTab(tab) {
+    console.log('显示标签:', tab);
+    
     // 更新标签样式
     const tabButtons = document.querySelectorAll('.tab-btn');
     tabButtons.forEach(btn => {
         btn.classList.remove('active');
-        if (btn.onclick && btn.onclick.toString().includes(tab)) {
-            btn.classList.add('active');
-        }
     });
+    
+    // 激活当前标签
+    const activeButton = document.querySelector(`[onclick*="${tab}"]`);
+    if (activeButton) {
+        activeButton.classList.add('active');
+    }
     
     // 显示对应内容
     const metarContent = document.getElementById('metar-content');
@@ -71,6 +76,181 @@ async function loadWeatherData() {
         console.log('正在加载中，跳过重复请求');
         return;
     }
+    
+    isLoading = true;
+    console.log('开始加载天气数据');
+    
+    const loading = document.getElementById('weather-loading');
+    const error = document.getElementById('weather-error');
+    
+    // 显示加载状态
+    if (loading) loading.style.display = 'block';
+    if (error) error.style.display = 'none';
+    
+    try {
+        console.log('正在请求METAR数据...');
+        const metarResponse = await fetch('/api/metar');
+        console.log('METAR响应状态:', metarResponse.status);
+        
+        console.log('正在请求TAF数据...');
+        const tafResponse = await fetch('/api/taf');
+        console.log('TAF响应状态:', tafResponse.status);
+        
+        if (!metarResponse.ok) {
+            throw new Error(`METAR API错误: ${metarResponse.status}`);
+        }
+        if (!tafResponse.ok) {
+            throw new Error(`TAF API错误: ${tafResponse.status}`);
+        }
+        
+        const metarData = await metarResponse.json();
+        const tafData = await tafResponse.json();
+        
+        console.log('METAR数据:', metarData);
+        console.log('TAF数据:', tafData);
+        
+        // 更新显示
+        updateMetarDisplay(metarData.data);
+        updateTafDisplay(tafData.data);
+        
+        // 隐藏加载状态
+        if (loading) loading.style.display = 'none';
+        
+        // 显示当前标签
+        showTab(currentTab);
+        
+    } catch (err) {
+        console.error('加载天气数据失败:', err);
+        
+        if (loading) loading.style.display = 'none';
+        if (error) {
+            error.style.display = 'block';
+            error.innerHTML = `
+                <div class="error-message">
+                    <h4>❌ 数据加载失败</h4>
+                    <p><strong>错误详情:</strong> ${err.message}</p>
+                    <button onclick="loadWeatherData()" class="retry-btn">重试</button>
+                </div>
+            `;
+        }
+    }
+    
+    isLoading = false;
+}
+
+// 更新METAR显示
+function updateMetarDisplay(data) {
+    console.log('更新METAR显示:', data);
+    
+    if (!data) {
+        console.warn('METAR数据为空');
+        return;
+    }
+    
+    // 更新基本信息
+    safeUpdateElement('metar-observation-time', data.basicInfo?.observationTime || '未知');
+    safeUpdateElement('metar-airport-info', '香港国际机场 (VHHH)');
+    safeUpdateElement('metar-wind', data.wind?.info || '无风向数据');
+    safeUpdateElement('metar-visibility', data.visibility?.info || '未知');
+    safeUpdateElement('metar-clouds', data.clouds?.info || '无云况数据');
+    safeUpdateElement('metar-temperature', data.temperature?.current || '未知');
+    safeUpdateElement('metar-dewpoint', data.temperature?.dewPoint || '未知');
+    safeUpdateElement('metar-pressure', data.pressure?.info || '未知');
+    safeUpdateElement('metar-raw-text', data.rawText || '无原始数据');
+    safeUpdateElement('metar-update-time', new Date().toLocaleString('zh-CN'));
+    
+    // 处理天气现象
+    const weatherRow = document.getElementById('metar-weather-row');
+    const weatherElement = document.getElementById('metar-weather');
+    if (data.weather?.phenomena && weatherElement && weatherRow) {
+        weatherElement.textContent = data.weather.phenomena;
+        weatherRow.style.display = 'grid';
+    } else if (weatherRow) {
+        weatherRow.style.display = 'none';
+    }
+    
+    // 处理飞行条件
+    const flightElement = document.getElementById('metar-flight-category');
+    if (flightElement && data.flightCategory) {
+        let categoryText = data.flightCategory.category || '未知';
+        const rawCategory = data.flightCategory.rawCategory?.toLowerCase() || 'unknown';
+        
+        // 添加详细说明
+        switch(rawCategory) {
+            case 'vfr':
+                categoryText = '目视飞行规则 (VFR) - 天气良好';
+                break;
+            case 'mvfr':
+                categoryText = '边际目视飞行 (MVFR) - 天气一般';
+                break;
+            case 'ifr':
+                categoryText = '仪表飞行规则 (IFR) - 天气较差';
+                break;
+            case 'lifr':
+                categoryText = '低仪表飞行 (LIFR) - 天气很差';
+                break;
+        }
+        
+        flightElement.textContent = categoryText;
+        flightElement.className = `value flight-cat-${rawCategory}`;
+    }
+}
+
+// 更新TAF显示
+function updateTafDisplay(data) {
+    console.log('更新TAF显示:', data);
+    
+    if (!data) {
+        console.warn('TAF数据为空');
+        return;
+    }
+    
+    // 更新基本信息
+    safeUpdateElement('taf-issue-time', data.basicInfo?.issueTime || '未知');
+    safeUpdateElement('taf-valid-range', data.basicInfo?.validRange || '未知');
+    safeUpdateElement('taf-airport-info', '香港国际机场 (VHHH)');
+    safeUpdateElement('taf-summary', data.summary?.text || '无预报摘要');
+    safeUpdateElement('taf-raw-text', data.rawText || '无原始数据');
+    safeUpdateElement('taf-update-time', new Date().toLocaleString('zh-CN'));
+    
+    // 更新预报段
+    const forecastContainer = document.getElementById('taf-forecast-periods');
+    if (forecastContainer) {
+        if (data.forecastPeriods && data.forecastPeriods.length > 0) {
+            forecastContainer.innerHTML = data.forecastPeriods.map(period => `
+                <div class="forecast-period">
+                    <h5>预报段 ${period.periodIndex} ${period.changeType ? `(${period.changeType})` : ''}</h5>
+                    <div class="period-info">
+                        <div class="info-row">
+                            <span class="label">风向风速:</span>
+                            <span class="value">${period.wind?.info || '无数据'}</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="label">能见度:</span>
+                            <span class="value">${period.visibility?.info || '无数据'}</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="label">云况:</span>
+                            <span class="value">${period.clouds?.info || '无数据'}</span>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        } else {
+            forecastContainer.innerHTML = '<p>无预报时段数据</p>';
+        }
+    }
+}
+
+// 安全更新DOM元素
+function safeUpdateElement(id, content) {
+    const element = document.getElementById(id);
+    if (element) {
+        element.textContent = content;
+    } else {
+        console.warn(`元素 ${id} 不存在`);
+    }
+}    }
     
     isLoading = true;
     console.log('开始加载天气数据');
