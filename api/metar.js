@@ -1,265 +1,35 @@
 export default async function handler(req, res) {
+    // 设置CORS和缓存头
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+    res.setHeader('Cache-Control', 's-maxage=300, stale-while-revalidate');
+    
+    if (req.method === 'OPTIONS') {
+        res.status(200).end();
+        return;
+    }
+    
     try {
-        // 添加CORS头
-        res.setHeader('Access-Control-Allow-Origin', '*');
-        res.setHeader('Access-Control-Allow-Methods', 'GET');
+        console.log('开始获取METAR数据...');
         
-        // 获取METAR数据
         const response = await fetch('https://aviationweather.gov/api/data/metar?ids=VHHH&format=json');
         
         if (!response.ok) {
-            throw new Error(`AWC API错误: ${response.status}`);
+            throw new Error(`AWC API响应错误: ${response.status}`);
         }
         
         const data = await response.json();
+        console.log('AWC API返回原始数据:', data);
         
         if (!data || data.length === 0) {
-            throw new Error('未获取到METAR数据');
+            throw new Error('METAR数据为空');
         }
         
-        const latest = data[0];
+        // 翻译和处理数据
+        const translatedData = data.map(item => translateMetar(item));
         
-        // ===== 完整翻译函数 =====
-        
-        function translateCloudCover(cover) {
-            const translations = {
-                'CLR': '晴空',
-                'SKC': '晴空', 
-                'FEW': '少云',
-                'SCT': '散云',
-                'BKN': '多云',
-                'OVC': '阴天',
-                'VV': '垂直能见度'
-            };
-            return translations[cover] || cover;
-        }
-        
-        function translateFlightCategory(category) {
-            const translations = {
-                'VFR': '目视飞行规则 (VFR)',
-                'MVFR': '边际目视飞行规则 (MVFR)', 
-                'IFR': '仪表飞行规则 (IFR)',
-                'LIFR': '低仪表飞行规则 (LIFR)'
-            };
-            return translations[category] || category;
-        }
-        
-        function translateMetarType(type) {
-            const translations = {
-                'METAR': '定时气象报告',
-                'SPECI': '特殊气象报告'
-            };
-            return translations[type] || type;
-        }
-        
-        function translateWeatherPhenomena(wxString) {
-            if (!wxString) return null;
-            
-            const translations = {
-                // 强度
-                '-': '轻',
-                '+': '重',
-                'VC': '附近',
-                
-                // 降水
-                'RA': '雨',
-                'SN': '雪', 
-                'DZ': '毛毛雨',
-                'SG': '雪粒',
-                'IC': '冰晶',
-                'PL': '冰丸',
-                'GR': '冰雹',
-                'GS': '小冰雹',
-                'UP': '未知降水',
-                
-                // 遮蔽现象
-                'FG': '雾',
-                'BR': '薄雾',
-                'HZ': '霾',
-                'DU': '浮尘',
-                'SA': '沙',
-                'VA': '火山灰',
-                'PY': '喷雾',
-                'FU': '烟',
-                
-                // 其他现象
-                'SQ': '飑线',
-                'FC': '漏斗云',
-                'SS': '沙暴',
-                'DS': '尘暴',
-                'TS': '雷暴',
-                'FZFG': '冻雾',
-                'FZDZ': '冻毛毛雨',
-                'FZRA': '冻雨',
-                'SHGR': '阵雹',
-                'SHGS': '阵性小冰雹',
-                'SHRA': '阵雨',
-                'SHSN': '阵雪',
-                'TSGR': '雷暴伴冰雹',
-                'TSRA': '雷暴伴雨',
-                'TSSN': '雷暴伴雪'
-            };
-            
-            let translated = wxString;
-            Object.keys(translations).forEach(key => {
-                translated = translated.replace(new RegExp(key, 'g'), translations[key]);
-            });
-            
-            return translated;
-        }
-        
-        // ===== 数据处理 =====
-        
-        // 基本信息
-        const basicInfo = {
-            icaoId: latest.icaoId || '未知',
-            stationName: latest.name || '未知',
-            metarType: translateMetarType(latest.metarType),
-            receiptTime: latest.receiptTime || '未知',
-            observationTime: latest.reportTime || '未知',
-            obsTimeUnix: latest.obsTime || null,
-            coordinates: {
-                latitude: latest.lat || null,
-                longitude: latest.lon || null,
-                elevation: latest.elev ? `${latest.elev}米` : '未知'
-            }
-        };
-        
-        // 风向风速
-        let windInfo = '无风向数据';
-        if (latest.wdir && latest.wspd !== null) {
-            if (latest.wdir === 'VRB') {
-                windInfo = `变风 ${latest.wspd}节`;
-            } else {
-                windInfo = `${latest.wdir}° ${latest.wspd}节`;
-            }
-            
-            if (latest.wgst) {
-                windInfo += ` (阵风${latest.wgst}节)`;
-            }
-        } else if (latest.wspd === 0) {
-            windInfo = '无风';
-        }
-        
-        // 能见度
-        let visibility = '未知';
-        if (latest.visib) {
-            if (latest.visib === '6+') {
-                visibility = '大于6英里 (>10公里)';
-            } else if (latest.visib === '10+') {
-                visibility = '大于10英里 (>16公里)';
-            } else {
-                visibility = `${latest.visib}英里`;
-            }
-        }
-        
-        // 云况详细信息
-        let cloudInfo = '无云况数据';
-        let skyCondition = latest.cover ? translateCloudCover(latest.cover) : '未知';
-        
-        if (latest.clouds && latest.clouds.length > 0) {
-            const cloudDetails = latest.clouds.map(cloud => {
-                let result = translateCloudCover(cloud.cover);
-                if (cloud.base) {
-                    result += ` ${cloud.base}英尺`;
-                }
-                if (cloud.type) {
-                    result += ` (${cloud.type})`;
-                }
-                return result;
-            });
-            cloudInfo = cloudDetails.join(', ');
-        }
-        
-        // 温度和露点
-        let temperature = '未知';
-        let dewPoint = '未知';
-        if (latest.temp !== null && latest.dewp !== null) {
-            temperature = `${latest.temp}°C`;
-            dewPoint = `${latest.dewp}°C`;
-        }
-        
-        // 气压
-        let pressure = '未知';
-        if (latest.altim) {
-            // 转换为百帕
-            const hPa = Math.round(latest.altim * 33.8639);
-            pressure = `${latest.altim} inHg (${hPa} hPa)`;
-        }
-        
-        // 天气现象
-        let weatherPhenomena = null;
-        if (latest.wxString) {
-            weatherPhenomena = translateWeatherPhenomena(latest.wxString);
-        }
-        
-        // 飞行类别
-        const flightCategory = {
-            category: translateFlightCategory(latest.fltCat),
-            rawCategory: latest.fltCat || '未知'
-        };
-        
-        // QC字段（质量控制）
-        let qualityControl = null;
-        if (latest.qcField) {
-            qualityControl = `QC标志: ${latest.qcField}`;
-        }
-        
-        // 组合完整数据
-        const translatedData = {
-            // 基本信息
-            basicInfo,
-            
-            // 观测数据
-            wind: {
-                info: windInfo,
-                direction: latest.wdir,
-                speed: latest.wspd,
-                gust: latest.wgst || null
-            },
-            
-            visibility: {
-                info: visibility,
-                raw: latest.visib
-            },
-            
-            clouds: {
-                info: cloudInfo,
-                skyCondition: skyCondition,
-                details: latest.clouds || []
-            },
-            
-            temperature: {
-                current: temperature,
-                dewPoint: dewPoint,
-                raw: {
-                    temp: latest.temp,
-                    dewp: latest.dewp
-                }
-            },
-            
-            pressure: {
-                info: pressure,
-                altimeter: latest.altim
-            },
-            
-            weather: {
-                phenomena: weatherPhenomena,
-                rawString: latest.wxString || null
-            },
-            
-            flightCategory,
-            
-            // 技术信息
-            qualityControl,
-            rawText: latest.rawOb || '无原始数据',
-            
-            // 时间戳
-            lastUpdate: new Date().toISOString()
-        };
-        
-        // 设置缓存
-        res.setHeader('Cache-Control', 's-maxage=300, stale-while-revalidate');
+        // 返回数据
         res.status(200).json({ 
             success: true, 
             data: translatedData,
@@ -273,5 +43,219 @@ export default async function handler(req, res) {
             error: error.message,
             timestamp: new Date().toISOString()
         });
+    }
+}
+
+// METAR翻译函数
+function translateMetar(data) {
+    if (!data || typeof data !== 'object') {
+        return data;
+    }
+    
+    const translated = { ...data };
+    
+    // 翻译云况
+    if (data.clds && Array.isArray(data.clds)) {
+        translated.clouds_translated = data.clds.map(cloud => {
+            let coverage = '';
+            switch(cloud.cover) {
+                case 'CLR': coverage = '晴朗'; break;
+                case 'FEW': coverage = '少云'; break;
+                case 'SCT': coverage = '疏云'; break;
+                case 'BKN': coverage = '多云'; break;
+                case 'OVC': coverage = '阴天'; break;
+                case 'SKC': coverage = '晴空'; break;
+                case 'NSC': coverage = '无明显云'; break;
+                default: coverage = cloud.cover || '未知';
+            }
+            const altitude = cloud.base ? ` ${cloud.base}英尺` : '';
+            return {
+                original: cloud,
+                translated: coverage + altitude,
+                coverage: coverage,
+                altitude: cloud.base
+            };
+        });
+    }
+    
+    // 翻译天气现象
+    if (data.wxString) {
+        translated.weather_translated = translateWeatherPhenomena(data.wxString);
+    }
+    
+    // 翻译飞行等级
+    if (data.fltcat) {
+        translated.flight_category_translated = translateFlightCategory(data.fltcat);
+    }
+    
+    // 翻译风向
+    if (data.wdir) {
+        translated.wind_direction_translated = translateWindDirection(data.wdir);
+    }
+    
+    // 转换能见度到公里
+    if (data.visib) {
+        translated.visibility_km = (data.visib * 1.60934).toFixed(1);
+    }
+    
+    // 格式化时间
+    if (data.obsTime) {
+        translated.observation_time_formatted = formatTimeForDisplay(data.obsTime);
+    }
+    
+    return translated;
+}
+
+// 翻译天气现象
+function translateWeatherPhenomena(wxString) {
+    if (!wxString) return '无特殊天气';
+    
+    const translations = {
+        // 降水
+        'RA': '雨',
+        'DZ': '毛毛雨',
+        'SN': '雪',
+        'SG': '雪粒',
+        'IC': '冰晶',
+        'PL': '冰丸',
+        'GR': '冰雹',
+        'GS': '小冰雹',
+        'UP': '未知降水',
+        
+        // 遮蔽现象
+        'FG': '雾',
+        'VA': '火山灰',
+        'BR': '薄雾',
+        'HZ': '霾',
+        'DU': '尘',
+        'FU': '烟',
+        'SA': '沙',
+        'PY': '浪花',
+        
+        // 其他现象
+        'PO': '尘/沙旋风',
+        'SQ': '飑',
+        'FC': '漏斗云/龙卷风',
+        'SS': '沙暴',
+        'DS': '尘暴',
+        
+        // 强度
+        '-': '轻',
+        '+': '强',
+        'VC': '附近',
+        
+        // 描述词
+        'MI': '浅',
+        'PR': '部分',
+        'BC': '片状',
+        'DR': '低吹',
+        'BL': '高吹',
+        'SH': '阵性',
+        'TS': '雷暴',
+        'FZ': '冻'
+    };
+    
+    let translated = wxString;
+    
+    // 替换所有匹配的代码
+    Object.entries(translations).forEach(([code, translation]) => {
+        const regex = new RegExp(code, 'g');
+        translated = translated.replace(regex, translation);
+    });
+    
+    return translated;
+}
+
+// 翻译飞行等级
+function translateFlightCategory(category) {
+    switch(category) {
+        case 'VFR': 
+            return {
+                code: 'VFR',
+                name: '目视飞行规则',
+                description: '天气条件良好，适合目视飞行',
+                color: 'green'
+            };
+        case 'MVFR': 
+            return {
+                code: 'MVFR',
+                name: '边际目视飞行规则',
+                description: '天气条件一般，需要谨慎飞行',
+                color: 'blue'
+            };
+        case 'IFR': 
+            return {
+                code: 'IFR',
+                name: '仪表飞行规则',
+                description: '天气条件较差，需要仪表飞行',
+                color: 'red'
+            };
+        case 'LIFR': 
+            return {
+                code: 'LIFR',
+                name: '低仪表飞行规则',
+                description: '天气条件恶劣，飞行条件困难',
+                color: 'purple'
+            };
+        default:
+            return {
+                code: category,
+                name: '未知',
+                description: '飞行等级未知',
+                color: 'gray'
+            };
+    }
+}
+
+// 翻译风向
+function translateWindDirection(direction) {
+    if (!direction || direction === 'VRB') {
+        return '风向多变';
+    }
+    
+    const deg = parseInt(direction);
+    if (isNaN(deg)) return direction;
+    
+    const directions = [
+        { min: 0, max: 11, name: '北' },
+        { min: 12, max: 33, name: '北北东' },
+        { min: 34, max: 56, name: '东北' },
+        { min: 57, max: 78, name: '东北东' },
+        { min: 79, max: 101, name: '东' },
+        { min: 102, max: 123, name: '东南东' },
+        { min: 124, max: 146, name: '东南' },
+        { min: 147, max: 168, name: '南南东' },
+        { min: 169, max: 191, name: '南' },
+        { min: 192, max: 213, name: '南南西' },
+        { min: 214, max: 236, name: '西南' },
+        { min: 237, max: 258, name: '西南西' },
+        { min: 259, max: 281, name: '西' },
+        { min: 282, max: 303, name: '西北西' },
+        { min: 304, max: 326, name: '西北' },
+        { min: 327, max: 348, name: '北北西' },
+        { min: 349, max: 360, name: '北' }
+    ];
+    
+    const direction_name = directions.find(d => deg >= d.min && deg <= d.max);
+    return direction_name ? `${direction_name.name} (${deg}°)` : `${deg}°`;
+}
+
+// 格式化时间显示
+function formatTimeForDisplay(timeString) {
+    if (!timeString) return '未知';
+    
+    try {
+        const date = new Date(timeString);
+        if (isNaN(date.getTime())) return timeString;
+        
+        const year = date.getUTCFullYear();
+        const month = String(date.getUTCMonth() + 1).padStart(2, '0');
+        const day = String(date.getUTCDate()).padStart(2, '0');
+        const hours = String(date.getUTCHours()).padStart(2, '0');
+        const minutes = String(date.getUTCMinutes()).padStart(2, '0');
+        
+        return `${year}-${month}-${day} UTC${hours}${minutes}`;
+    } catch (error) {
+        return timeString;
     }
 }
