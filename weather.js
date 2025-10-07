@@ -86,7 +86,7 @@ async function loadWeatherData() {
         console.log('TAF数据:', tafData);
         
         if (!metarData.success || !tafData.success) {
-            throw new Error('API返回错误');
+            throw new Error(`API返回错误: METAR ${metarData.error}, TAF ${tafData.error}`);
         }
         
         // 隐藏加载状态
@@ -103,7 +103,6 @@ async function loadWeatherData() {
         
     } catch (error) {
         console.error('加载天气数据失败:', error);
-        isLoading = false;
         
         if (loadingElement) loadingElement.style.display = 'none';
         if (errorElement) {
@@ -117,64 +116,70 @@ async function loadWeatherData() {
 
 // 更新 METAR 显示
 function updateMetarDisplay(data) {
-    console.log('更新METAR显示:', data);
+    console.log('更新METAR显示，收到数据:', data);
     
-    if (!data || data.length === 0) {
-        console.error('METAR数据为空');
+    // 检查数据是否有效
+    if (!data || !Array.isArray(data) || data.length === 0) {
+        console.error('METAR数据无效或为空:', data);
+        safeUpdateElement('metar-observation-time', '数据无效');
+        safeUpdateElement('metar-airport', '香港国际机场 (VHHH)');
+        safeUpdateElement('metar-temp', '数据获取失败');
         return;
     }
     
     const latest = data[0];
+    console.log('处理METAR数据:', latest);
     
-    // 格式化发布时间 (YYYY-MM-DD UTCHHMM)
-    const observationTime = latest.obsTime || latest.observation_time;
-    let formattedTime = '未知';
-    if (observationTime) {
-        try {
-            const date = new Date(observationTime);
-            const year = date.getUTCFullYear();
-            const month = String(date.getUTCMonth() + 1).padStart(2, '0');
-            const day = String(date.getUTCDate()).padStart(2, '0');
-            const hours = String(date.getUTCHours()).padStart(2, '0');
-            const minutes = String(date.getUTCMinutes()).padStart(2, '0');
-            formattedTime = `${year}-${month}-${day} UTC${hours}${minutes}`;
-        } catch (e) {
-            console.error('时间格式化错误:', e);
-            formattedTime = observationTime;
-        }
+    // 检查latest对象是否存在
+    if (!latest || typeof latest !== 'object') {
+        console.error('METAR最新数据无效:', latest);
+        safeUpdateElement('metar-observation-time', '数据格式错误');
+        return;
     }
+    
+    // 使用翻译后的时间格式
+    const formattedTime = latest.observation_time_formatted || 
+                         latest.obsTime || 
+                         latest.observation_time || 
+                         '未知';
     
     // 更新各个元素
     safeUpdateElement('metar-observation-time', formattedTime);
     safeUpdateElement('metar-airport', '香港国际机场 (VHHH)');
     safeUpdateElement('metar-temp', latest.temp ? `${latest.temp}°C` : '未知');
-    safeUpdateElement('metar-dewpoint', latest.dewp ? `${latest.dewp}°C` : '未知');
-    safeUpdateElement('metar-pressure', latest.altim ? `${latest.altim} inHg` : '未知');
+    safeUpdateElement('metar-dewpoint', latest.dewp || latest.dewpoint ? `${latest.dewp || latest.dewpoint}°C` : '未知');
+    safeUpdateElement('metar-pressure', latest.altim || latest.slp ? `${latest.altim || latest.slp} inHg` : '未知');
     
-    // 风向风速
+    // 风向风速 - 使用翻译
     let windInfo = '未知';
     if (latest.wdir && latest.wspd) {
-        windInfo = `${latest.wdir}° / ${latest.wspd}节`;
+        const windDirection = latest.wind_direction_translated || `${latest.wdir}°`;
+        windInfo = `${windDirection} / ${latest.wspd}节`;
         if (latest.wgst) {
             windInfo += ` (阵风 ${latest.wgst}节)`;
         }
     }
     safeUpdateElement('metar-wind', windInfo);
     
-    // 能见度 (转换为公里)
+    // 能见度 - 使用翻译后的公里数
     let visibilityInfo = '未知';
-    if (latest.visib) {
+    if (latest.visibility_km) {
+        visibilityInfo = `${latest.visibility_km} 公里`;
+    } else if (latest.visib) {
         const visibilityKm = (latest.visib * 1.60934).toFixed(1);
         visibilityInfo = `${visibilityKm} 公里`;
     }
     safeUpdateElement('metar-visibility', visibilityInfo);
     
-    // 天气现象
-    safeUpdateElement('metar-weather', latest.wxString || '无');
+    // 天气现象 - 使用翻译
+    const weatherInfo = latest.weather_translated || latest.wxString || '无';
+    safeUpdateElement('metar-weather', weatherInfo);
     
-    // 云况
+    // 云况 - 使用翻译
     let cloudInfo = '未知';
-    if (latest.clds && latest.clds.length > 0) {
+    if (latest.clouds_translated && latest.clouds_translated.length > 0) {
+        cloudInfo = latest.clouds_translated.map(cloud => cloud.translated).join(', ');
+    } else if (latest.clds && latest.clds.length > 0) {
         cloudInfo = latest.clds.map(cloud => {
             let coverage = '';
             switch(cloud.cover) {
@@ -191,116 +196,119 @@ function updateMetarDisplay(data) {
     }
     safeUpdateElement('metar-clouds', cloudInfo);
     
-    // 飞行等级
+    // 飞行等级 - 使用翻译
     let flightCategory = '未知';
-    const category = latest.fltcat || latest.flight_category;
-    switch(category) {
-        case 'VFR': 
-            flightCategory = 'VFR (目视飞行规则) - 天气条件良好'; 
-            break;
-        case 'MVFR': 
-            flightCategory = 'MVFR (边际目视飞行规则) - 天气条件一般'; 
-            break;
-        case 'IFR': 
-            flightCategory = 'IFR (仪表飞行规则) - 天气条件较差'; 
-            break;
-        case 'LIFR': 
-            flightCategory = 'LIFR (低仪表飞行规则) - 天气条件恶劣'; 
-            break;
+    if (latest.flight_category_translated) {
+        const cat = latest.flight_category_translated;
+        flightCategory = `${cat.code} (${cat.name}) - ${cat.description}`;
+    } else {
+        const category = latest.fltcat || latest.flight_category;
+        switch(category) {
+            case 'VFR': 
+                flightCategory = 'VFR (目视飞行规则) - 天气条件良好'; 
+                break;
+            case 'MVFR': 
+                flightCategory = 'MVFR (边际目视飞行规则) - 天气条件一般'; 
+                break;
+            case 'IFR': 
+                flightCategory = 'IFR (仪表飞行规则) - 天气条件较差'; 
+                break;
+            case 'LIFR': 
+                flightCategory = 'LIFR (低仪表飞行规则) - 天气条件恶劣'; 
+                break;
+        }
     }
     safeUpdateElement('metar-flight-category', flightCategory);
     
     // 原始报文
-    safeUpdateElement('metar-raw', latest.rawOb || latest.raw_text || '无原始数据');
+    safeUpdateElement('metar-raw', latest.rawOb || latest.raw_text || latest.rawText || '无原始数据');
 }
 
 // 更新 TAF 显示
 function updateTafDisplay(data) {
-    console.log('更新TAF显示:', data);
+    console.log('更新TAF显示，收到数据:', data);
     
-    if (!data || data.length === 0) {
-        console.error('TAF数据为空');
+    // 检查数据是否有效
+    if (!data || !Array.isArray(data) || data.length === 0) {
+        console.error('TAF数据无效或为空:', data);
+        safeUpdateElement('taf-issue-time', '数据无效');
+        safeUpdateElement('taf-valid-time', '数据无效');
+        safeUpdateElement('taf-airport', '香港国际机场 (VHHH)');
         return;
     }
     
     const latest = data[0];
+    console.log('处理TAF数据:', latest);
     
-    // 格式化发布时间
-    const issueTime = latest.issueTime || latest.issue_time;
-    let formattedIssueTime = '未知';
-    if (issueTime) {
-        try {
-            const date = new Date(issueTime);
-            const year = date.getUTCFullYear();
-            const month = String(date.getUTCMonth() + 1).padStart(2, '0');
-            const day = String(date.getUTCDate()).padStart(2, '0');
-            const hours = String(date.getUTCHours()).padStart(2, '0');
-            const minutes = String(date.getUTCMinutes()).padStart(2, '0');
-            formattedIssueTime = `${year}-${month}-${day} UTC${hours}${minutes}`;
-        } catch (e) {
-            console.error('时间格式化错误:', e);
-            formattedIssueTime = issueTime;
-        }
+    // 检查latest对象是否存在
+    if (!latest || typeof latest !== 'object') {
+        console.error('TAF最新数据无效:', latest);
+        safeUpdateElement('taf-issue-time', '数据格式错误');
+        return;
     }
     
-    // 格式化有效时间
-    const validTime = latest.validTime || latest.valid_time;
-    let formattedValidTime = '未知';
-    if (validTime) {
-        try {
-            const date = new Date(validTime);
-            const year = date.getUTCFullYear();
-            const month = String(date.getUTCMonth() + 1).padStart(2, '0');
-            const day = String(date.getUTCDate()).padStart(2, '0');
-            const hours = String(date.getUTCHours()).padStart(2, '0');
-            const minutes = String(date.getUTCMinutes()).padStart(2, '0');
-            formattedValidTime = `${year}-${month}-${day} UTC${hours}${minutes}`;
-        } catch (e) {
-            console.error('时间格式化错误:', e);
-            formattedValidTime = validTime;
-        }
-    }
+    // 使用翻译后的时间格式
+    const issueTime = latest.issue_time_formatted || 
+                      latest.issueTime || 
+                      latest.issue_time || 
+                      '未知';
+    
+    const validTime = latest.valid_time_formatted || 
+                      latest.validTime || 
+                      latest.valid_time || 
+                      '未知';
     
     // 更新各个元素
-    safeUpdateElement('taf-issue-time', formattedIssueTime);
-    safeUpdateElement('taf-valid-time', formattedValidTime);
+    safeUpdateElement('taf-issue-time', issueTime);
+    safeUpdateElement('taf-valid-time', validTime);
     safeUpdateElement('taf-airport', '香港国际机场 (VHHH)');
     
     // 原始报文
-    safeUpdateElement('taf-raw', latest.rawTAF || latest.raw_text || '无原始数据');
+    safeUpdateElement('taf-raw', latest.rawTAF || latest.raw_text || latest.rawText || '无原始数据');
     
-    // 预报段落
-    if (latest.fcsts && latest.fcsts.length > 0) {
+    // 预报段落 - 使用翻译
+    const forecasts = latest.forecasts_translated || latest.fcsts;
+    if (forecasts && forecasts.length > 0) {
         let forecastHtml = '<div class="forecast-periods">';
-        latest.fcsts.forEach((forecast, index) => {
-            const timeFrom = forecast.timeFrom || forecast.fcst_time_from;
-            const timeTo = forecast.timeTo || forecast.fcst_time_to;
+        forecasts.forEach((forecast, index) => {
+            // 使用翻译后的时间范围
+            const timeRange = forecast.time_range_formatted || 
+                             (forecast.timeFrom && forecast.timeTo ? `${forecast.timeFrom} - ${forecast.timeTo}` : '时间未知');
             
-            let timeRange = '时间未知';
-            if (timeFrom && timeTo) {
-                try {
-                    const fromDate = new Date(timeFrom);
-                    const toDate = new Date(timeTo);
-                    const fromFormatted = `${String(fromDate.getUTCDate()).padStart(2, '0')}${String(fromDate.getUTCHours()).padStart(2, '0')}${String(fromDate.getUTCMinutes()).padStart(2, '0')}`;
-                    const toFormatted = `${String(toDate.getUTCDate()).padStart(2, '0')}${String(toDate.getUTCHours()).padStart(2, '0')}${String(toDate.getUTCMinutes()).padStart(2, '0')}`;
-                    timeRange = `${fromFormatted}-${toFormatted}Z`;
-                } catch (e) {
-                    timeRange = `${timeFrom} - ${timeTo}`;
-                }
-            }
-            
+            // 使用翻译后的风向
             let windInfo = '风况未知';
             if (forecast.wdir && forecast.wspd) {
-                windInfo = `${forecast.wdir}° / ${forecast.wspd}节`;
+                const windDirection = forecast.wind_direction_translated || `${forecast.wdir}°`;
+                windInfo = `${windDirection} / ${forecast.wspd}节`;
                 if (forecast.wgst) {
                     windInfo += ` (阵风 ${forecast.wgst}节)`;
                 }
             }
             
+            // 使用翻译后的能见度
             let visibilityInfo = '能见度未知';
-            if (forecast.visib) {
+            if (forecast.visibility_km) {
+                visibilityInfo = `${forecast.visibility_km} 公里`;
+            } else if (forecast.visib) {
                 const visibilityKm = (forecast.visib * 1.60934).toFixed(1);
                 visibilityInfo = `${visibilityKm} 公里`;
+            }
+            
+            // 使用翻译后的天气现象
+            const weatherInfo = forecast.weather_translated || forecast.wxString || '无特殊天气';
+            
+            // 使用翻译后的云况
+            let cloudInfo = '';
+            if (forecast.clouds_translated && forecast.clouds_translated.length > 0) {
+                cloudInfo = `<br>云况: ${forecast.clouds_translated.map(cloud => cloud.translated).join(', ')}`;
+            }
+            
+            // 变化类型
+            let changeInfo = '';
+            if (forecast.change_translated) {
+                changeInfo = `<br>变化类型: ${forecast.change_translated}`;
+            } else if (forecast.change) {
+                changeInfo = `<br>变化类型: ${forecast.change}`;
             }
             
             forecastHtml += `
@@ -308,7 +316,7 @@ function updateTafDisplay(data) {
                     <strong>时间段 ${index + 1}: ${timeRange}</strong><br>
                     风向风速: ${windInfo}<br>
                     能见度: ${visibilityInfo}<br>
-                    天气: ${forecast.wxString || '无特殊天气'}<br>
+                    天气: ${weatherInfo}${cloudInfo}${changeInfo}
                 </div>
             `;
         });
