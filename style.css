@@ -1038,4 +1038,291 @@ body.join-us .card p strong {
 .mobile-nav {
     border-top: 2px solid var(--text-green);
 }
+
+/* ================================
+   实时天气组件样式
+   ================================ */
+
+/* 天气控制按钮区域 */
+.weather-controls {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.weather-controls .btn {
+    min-width: 120px;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.weather-controls .btn.active {
+    background: linear-gradient(135deg, var(--text-green), #1e6b1e);
+    color: var(--white);
+    border-color: var(--text-green);
+    box-shadow: 0 4px 12px rgba(34, 139, 34, 0.4);
+}
+
+.weather-controls .btn.active:hover {
+    background: linear-gradient(135deg, #1e6b1e, var(--text-green));
+    transform: translateY(-1px);
+}
+
+/* 天气内容区域 */
+.weather-content {
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.weather-header {
+    border-bottom: 2px solid var(--light-green);
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+}
+
+.weather-header h4 {
+    color: var(--text-green);
+    margin-bottom: 8px;
+    font-size: 1.3rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.weather-time {
+    color: var(--dark-grey);
+    font-size: 0.95rem;
+    line-height: 1.4;
+}
+
+/* 天气部分样式 */
+.weather-section {
+    margin-bottom: 25px;
+}
+
+.weather-section h5 {
+    color: var(--black);
+    margin-bottom: 12px;
+    font-size: 1.1rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding-left: 5px;
+    border-left: 3px solid var(--light-green);
+}
+
+.weather-raw {
+    background: #f0f8f0;
+    border: 1px solid var(--border-green);
+    border-radius: 6px;
+    padding: 15px;
+    font-family: 'Courier New', monospace;
+    font-size: 0.9rem;
+    line-height: 1.4;
+    color: var(--black);
+    word-break: break-all;
+    overflow-x: auto;
+}
+
+.weather-details {
+    display: grid;
+    gap: 8px;
+}
+
+.detail-item {
+    padding: 10px;
+    background: #fafafa;
+    border-left: 3px solid var(--light-green);
+    border-radius: 4px;
+    font-size: 0.95rem;
+    line-height: 1.4;
+}
+
+.detail-item strong {
+    color: var(--text-green);
+    margin-right: 8px;
+}
+
+/* 天气底部信息 */
+.weather-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 1px solid var(--medium-grey);
+    font-size: 0.85rem;
+    color: var(--dark-grey);
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.weather-timestamp {
+    font-weight: 500;
+}
+
+.weather-source {
+    font-style: italic;
+}
+
+/* 加载状态样式 */
+.weather-loading {
+    text-align: center;
+    padding: 40px 20px;
+    color: var(--dark-grey);
+}
+
+.weather-loading i {
+    font-size: 2rem;
+    color: var(--light-green);
+    margin-bottom: 15px;
+    animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.weather-loading p {
+    font-size: 1rem;
+    margin: 0;
+}
+
+/* 错误状态样式 */
+.weather-error {
+    text-align: center;
+    padding: 30px 20px;
+    color: #d73027;
+}
+
+.weather-error i {
+    font-size: 2rem;
+    margin-bottom: 15px;
+    color: #d73027;
+}
+
+.weather-error p {
+    margin-bottom: 20px;
+    font-size: 1rem;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .weather-controls {
+        justify-content: center;
+    }
+    
+    .weather-controls .btn {
+        min-width: 100px;
+        font-size: 0.9rem;
+    }
+    
+    .weather-footer {
+        flex-direction: column;
+        text-align: center;
+        gap: 5px;
+    }
+    
+    .weather-raw {
+        font-size: 0.8rem;
+    }
+    
+    .detail-item {
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .weather-controls {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .weather-controls .btn {
+        width: 100%;
+        min-width: auto;
+    }
+    
+    .weather-header h4 {
+        font-size: 1.1rem;
+    }
+    
+    .weather-time {
+        font-size: 0.9rem;
+    }
+}
+
+/* TAF预报时段样式 */
+.forecast-periods {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.forecast-period {
+    background: #f8fbf8;
+    border: 1px solid var(--light-green);
+    border-radius: 8px;
+    padding: 15px;
+    transition: all 0.3s ease;
+}
+
+.forecast-period:hover {
+    box-shadow: 0 4px 12px rgba(144, 238, 144, 0.2);
+    transform: translateY(-1px);
+}
+
+.forecast-period h6 {
+    color: var(--text-green);
+    margin-bottom: 10px;
+    font-size: 1rem;
+    font-weight: 600;
+    border-bottom: 1px solid var(--light-green);
+    padding-bottom: 5px;
+}
+
+.forecast-period .weather-details {
+    margin-top: 10px;
+}
+
+.forecast-period .detail-item {
+    background: var(--white);
+    margin-bottom: 8px;
+    padding: 8px 12px;
+    border-left: 2px solid var(--light-green);
+    font-size: 0.9rem;
+}
+
+/* 强度等级颜色 */
+.intensity-light { color: #28a745; }
+.intensity-moderate { color: #ffc107; }
+.intensity-severe { color: #dc3545; }
+
+/* 飞行类别颜色 */
+.flt-cat-vfr { color: #28a745; font-weight: bold; }
+.flt-cat-mvfr { color: #17a2b8; font-weight: bold; }
+.flt-cat-ifr { color: #ffc107; font-weight: bold; }
+.flt-cat-lifr { color: #dc3545; font-weight: bold; }
+
+/* 移动端预报时段优化 */
+@media (max-width: 768px) {
+    .forecast-period {
+        padding: 12px;
+    }
+    
+    .forecast-period h6 {
+        font-size: 0.95rem;
+    }
+    
+    .forecast-period .detail-item {
+        font-size: 0.85rem;
+        padding: 6px 10px;
+    }
 }
