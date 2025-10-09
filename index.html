@@ -1,447 +1,321 @@
 <!DOCTYPE html>
-<html lang="zh-cn">
+<html lang="zh-CN">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>虚拟香港机场管理局 - 网站更新中</title>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400&display=swap" rel="stylesheet">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: 'Noto Sans SC', sans-serif;
-            background-color: #ffffff;
-            color: #000000;
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            overflow: hidden;
-            position: relative;
-        }
-        
-        /* 背景容器 */
-        .background {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            pointer-events: none;
-        }
-        
-        /* 浮动圆点 */
-        .floating-dot {
-            position: absolute;
-            border-radius: 50%;
-            background: rgba(0, 0, 0, 0.08);
-            animation: float 20s infinite ease-in-out;
-        }
-        
-        .dot-1 {
-            width: 120px;
-            height: 120px;
-            top: 10%;
-            left: 5%;
-            animation-delay: 0s;
-        }
-        
-        .dot-2 {
-            width: 80px;
-            height: 80px;
-            top: 70%;
-            left: 10%;
-            animation-delay: -5s;
-        }
-        
-        .dot-3 {
-            width: 150px;
-            height: 150px;
-            top: 20%;
-            right: 5%;
-            animation-delay: -10s;
-        }
-        
-        .dot-4 {
-            width: 60px;
-            height: 60px;
-            top: 60%;
-            right: 15%;
-            animation-delay: -15s;
-        }
-        
-        .dot-5 {
-            width: 100px;
-            height: 100px;
-            top: 80%;
-            right: 5%;
-            animation-delay: -8s;
-        }
-        
-        .dot-6 {
-            width: 70px;
-            height: 70px;
-            top: 40%;
-            left: 15%;
-            animation-delay: -12s;
-        }
-        
-        @keyframes float {
-            0%, 100% {
-                transform: translateY(0) scale(1);
-                opacity: 0.08;
-            }
-            25% {
-                transform: translateY(-20px) scale(1.1);
-                opacity: 0.12;
-            }
-            50% {
-                transform: translateY(10px) scale(0.9);
-                opacity: 0.06;
-            }
-            75% {
-                transform: translateY(-15px) scale(1.05);
-                opacity: 0.1;
-            }
-        }
-        
-        /* 连接线 */
-        .connecting-line {
-            position: absolute;
-            height: 1px;
-            background: rgba(0, 0, 0, 0.05);
-            transform-origin: 0 0;
-            z-index: -1;
-        }
-        
-        /* 随机形状 */
-        .random-shape {
-            position: absolute;
-            background: rgba(0, 0, 0, 0.03);
-            animation: randomMove 25s infinite ease-in-out;
-        }
-        
-        .shape-circle {
-            border-radius: 50%;
-        }
-        
-        .shape-square {
-            border-radius: 0;
-        }
-        
-        .shape-rectangle {
-            border-radius: 2px;
-        }
-        
-        .shape-triangle {
-            width: 0;
-            height: 0;
-            background: transparent !important;
-            border-left: 8px solid transparent;
-            border-right: 8px solid transparent;
-            border-bottom: 14px solid rgba(0, 0, 0, 0.04);
-        }
-        
-        .shape-cross {
-            position: relative;
-            background: transparent;
-        }
-        
-        .shape-cross::before,
-        .shape-cross::after {
-            content: '';
-            position: absolute;
-            background: rgba(0, 0, 0, 0.04);
-        }
-        
-        .shape-cross::before {
-            width: 100%;
-            height: 2px;
-            top: 50%;
-            transform: translateY(-50%);
-        }
-        
-        .shape-cross::after {
-            width: 2px;
-            height: 100%;
-            left: 50%;
-            transform: translateX(-50%);
-        }
-        
-        @keyframes randomMove {
-            0%, 100% {
-                transform: translate(0, 0) rotate(0deg);
-                opacity: 0.03;
-            }
-            20% {
-                transform: translate(15px, -10px) rotate(45deg);
-                opacity: 0.05;
-            }
-            40% {
-                transform: translate(-10px, 15px) rotate(90deg);
-                opacity: 0.02;
-            }
-            60% {
-                transform: translate(12px, 8px) rotate(135deg);
-                opacity: 0.04;
-            }
-            80% {
-                transform: translate(-8px, -12px) rotate(180deg);
-                opacity: 0.06;
-            }
-        }
-        
-        /* 主要内容区域 */
-        .container {
-            text-align: center;
-            max-width: 700px;
-            padding: 50px 40px;
-            position: relative;
-            background-color: rgba(255, 255, 255, 0.95);
-            border-radius: 12px;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
-            z-index: 1;
-        }
-        
-        .title {
-            font-size: 2.8rem;
-            font-weight: 300;
-            letter-spacing: 2px;
-            margin-bottom: 40px;
-            position: relative;
-            display: inline-block;
-        }
-        
-        .title::after {
-            content: '';
-            position: absolute;
-            bottom: -10px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 80px;
-            height: 1px;
-            background-color: #000;
-        }
-        
-        .message {
-            font-size: 1.4rem;
-            font-weight: 300;
-            line-height: 1.6;
-            margin-bottom: 50px;
-            letter-spacing: 1px;
-        }
-        
-        .contact-section {
-            margin-top: 50px;
-            padding-top: 30px;
-            border-top: 1px solid rgba(0, 0, 0, 0.1);
-        }
-        
-        .contact-title {
-            font-size: 1.2rem;
-            font-weight: 400;
-            margin-bottom: 20px;
-            letter-spacing: 1px;
-        }
-        
-        .contact-info {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            align-items: center;
-        }
-        
-        .contact-item {
-            font-size: 0.9rem;
-            font-weight: 300;
-            letter-spacing: 0.5px;
-        }
-        
-        a {
-            color: #000;
-            text-decoration: none;
-            transition: all 0.3s ease;
-            position: relative;
-        }
-        
-        a::after {
-            content: '';
-            position: absolute;
-            bottom: -2px;
-            left: 0;
-            width: 0;
-            height: 1px;
-            background-color: #000;
-            transition: width 0.3s ease;
-        }
-        
-        a:hover::after {
-            width: 100%;
-        }
-        
-        @media (max-width: 768px) {
-            .container {
-                padding: 30px 20px;
-                margin: 20px;
-            }
-            
-            .title {
-                font-size: 2rem;
-            }
-            
-            .message {
-                font-size: 1.1rem;
-            }
-            
-            .floating-dot, .random-shape {
-                display: none;
-            }
-        }
-    </style>
+    <title>虚拟香港机场管理局</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
-    <div class="background" id="background">
-        <!-- 元素将通过JavaScript添加 -->
-    </div>
-    
-    <div class="container">
-        <h1 class="title">虚拟香港机场管理局 VAAHK</h1>
-        <p class="message">我们的网站正在进行更新中，敬请期待！</p>
-        
-        <div class="contact-section">
-            <h2 class="contact-title">联系方式</h2>
-            <div class="contact-info">
-                <div class="contact-item">
-                    电邮: <a href="mailto:airportauthorityhk.virtual@gmail.com">airportauthorityhk.virtual@gmail.com</a>
+    <header>
+        <div class="container">
+            <!-- 第一行：时间日期 -->
+            <div class="top-row">
+                <div class="time-date-display">
+                    <span id="current-time"></span>
+                    <span id="current-date"></span>
                 </div>
-                <div class="contact-item">
-                    QQ群: <a href="https://qun.qq.com/universal-share/share?ac=1&authKey=Mp3pcd%2B6TZ%2ByaEbcAQtTF1cCQk%2FOTaxow33fU%2FBseIYisbq17qoxUVD3DaelrJJ4&busi_data=eyJncm91cENvZGUiOiI5MzcyNDg5MjgiLCJ0b2tlbiI6Img5K25BcnJkeUZpbk1YVDgycDRGSktDSGRpRHUxU1EvQjNvb2RzNDYrR2hnVjlSRzhUSStnZUFPRzlJM3dXRTkiLCJ1aW4iOiIyNjAzNDE3NjQ1In0%3D&data=sen_QKda17DLk6dWdRLX4DWIlM9uiCRoiddjm0fjivA4I9R1NaUPB7PbYoncVA_4XZ4C_cbc-gBhNq20CxfHMg&svctype=4&tempid=h5_group_info">937248928</a>
+            </div>
+
+            <!-- 第二行：Logo和导航 -->
+            <nav class="bottom-row">
+                <div class="logo">
+                    <h1>虚拟香港机场管理局</h1>
+                </div>
+                <div class="nav-right">
+                    <ul class="nav-links">
+                        <li><a class="active" href="index.html">主页</a></li>
+                        <li><a href="service-center.html">虚拟香港航空服务中心</a></li>
+                        <li><a href="aviation-info.html">航空知识</a></li>
+                        <li><a href="online-flight-event.html">连飞活动</a></li>
+                        <li><a href="structure.html">架构</a></li>
+                        <li><a href="join-us.html">加入我们</a></li>
+                        <li><a href="contact-us.html">联系我们</a></li>
+                        <li><a href="about-us.html">关于我们</a></li>
+                    </ul>
+                    <button class="hamburger-menu" id="hamburger-menu">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </button>
+                </div>
+            </nav>
+        </div>
+
+        <!-- 移动端导航菜单 -->
+        <div class="mobile-nav" id="mobile-nav">
+            <ul class="mobile-nav-links">
+                <li><a class="active" href="index.html">主页</a></li>
+                <li><a href="service-center.html">虚拟香港航空服务中心</a></li>
+                <li><a href="aviation-info.html">航空知识</a></li>
+                <li><a href="online-flight-event.html">连飞活动</a></li>
+                <li><a href="structure.html">架构</a></li>
+                <li><a href="join-us.html">加入我们</a></li>
+                <li><a href="contact-us.html">联系我们</a></li>
+                <li><a href="about-us.html">关于我们</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <main>
+        <!-- 英雄区域 -->
+        <div class="hero">
+            <div class="hero-content">
+                <h1>欢迎访问虚拟香港机场管理局网站</h1>
+                <p class="text-indent">
+                    在这里，您将踏入一场关于航空的奇妙之旅。我们深知每一次飞行都承载着乘客的梦想与期待。因此，我们致力于打造一个集高效、便捷、安全于一体的虚拟航空枢纽。我们坚信，每一次飞行都是一次全新的开始。在虚拟航空枢纽，我们将携手合作伙伴，共同为您创造难忘的航空旅行体验。期待您的光临，愿您的旅程充满惊喜与快乐!
+                </p>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="section-content">
+                <!-- 公告区域 -->
+                <div class="content-container">
+                    <h3><i class="fas fa-bullhorn"></i> 最新公告</h3>
+                    <div class="announcement-item">
+                        <div class="announcement-date"><strong>发布日期: 2025年8月22日</strong></div>
+                        <div>
+                            <strong>METAR及TAF解码器更新</strong><br>
+                            METAR及TAF解码器更新，可以提供更加详细的解码服务。
+                        </div>
+                    </div>
+                    <div class="announcement-item">
+                        <div class="announcement-date"><strong>发布日期: 2025年8月21日</strong></div>
+                        <div>
+                            <strong>网站开始测试</strong><br>
+                            虚拟香港机场管理局网站现已开始测试阶段，欢迎各位提出宝贵意见。
+                        </div>
+                    </div>
+
+                    <!-- 历史公告区域 (默认隐藏) -->
+                    <div class="hidden-announcements" id="hidden-announcements">
+                        <div class="announcement-item">
+                            <div class="announcement-item">
+                                <div class="announcement-date"><strong>发布日期: 2025年7月1日</strong></div>
+                                <div>
+                                    <strong></strong><br>
+                                    尊敬的活动协办方及参加者：
+                                    在7月1日的"香港特别行政区回归28周年纪念 · 京港连飞活动"中，我们（虚拟香港机场管理局
+                                    VAAHK）未能达到预期的活动效果，我们对此深表歉意。我们认识到活动中的沟通不足给参与者带来了不便，我们对此负有不可推卸的责任。
+                                    我们对协办方的辛勤工作和支持表示衷心的感谢。没有您的参与和贡献，活动不可能顺利进行。
+                                    我们特别感谢您在活动中的耐心和理解。针对此次活动中出现的问题，我们将重新审视并调整相关规则，以确保未来能提供更优质的体验。我们承诺将加强活动前的准备和协调工作，尽量减少此类情况再次发生。
+                                    我们期待在未来的活动中继续得到您的支持，并再次为您提供更加完美的体验。
+                                    感谢您的理解与合作。
+                                    虚拟香港机场管理局 客户服务与体验部
+                                    2025年7月1日
+                                </div>
+                            </div>
+                            <div class="announcement-date"><strong>发布日期: 2025年6月26日</strong></div>
+                            <div>
+                                <strong>香港回归28周年纪念 · 京港连飞活动举办</strong><br>
+                                为庆祝香港回归祖国28周年，虚拟香港机场管理局(VAAHK)联合多家虚拟航空公司举办京港连飞活动，欢迎各位飞行爱好者参与！
+                            </div>
+                            <div class="announcement-item">
+                                <div class="announcement-date"><strong>发布日期: 2025年5月13日</strong></div>
+                                <div>
+                                    <strong>天际航空正式成立</strong><br>
+                                    虚拟香港机场管理局旗下天际航空(SkyLine Airline)正式成立，致力于为虚拟航空爱好者提供高质量服务。
+                                </div>
+                            </div>
+                            <div class="announcement-item">
+                                <div class="announcement-date"><strong>发布日期: 2024年10月20日</strong></div>
+                                <div>
+                                    <strong>虚拟香港机场管理局式成立</strong><br>
+                                    虚拟香港机场管理局VAAHK 正式成立！
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="show-more-btn">
+                            <button class="btn" id="show-more-btn">显示历史公告</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 最近连飞活动 -->
+            <div class="content-container">
+                <h3><i class="fas fa-calendar-alt"></i> 最近连飞活动</h3>
+                <div class="card">
+                    <div class="card-icon"><i class="fas fa-plane"></i></div>
+                    <h3>香港回归28周年纪念 · 京港连飞活动</h3>
+                    <div style="margin: 20px 0;">
+                        <p><strong>航线：</strong> 北京首都国际机场 (ZBAA) - 香港国际机场 (VHHH)</p>
+                        <p><strong>日期：</strong> 2025年7月1日</p>
+                        <p><strong>时间：</strong> 13：00(UTC+8)</p>
+                        <p><strong>简介：</strong> 为庆祝香港回归祖国28周年，虚拟香港机场管理局(VAAHK)联合多家虚拟航空公司举办京港连飞活动，欢迎各位飞行爱好者参与！
+                        </p>
+                    </div>
+                    <div class="text-center">
+                        <a href="https://virtual-airportauthorityhk.github.io/7.1-Beijing-HongKong-OnlineFlightEvent/" class="btn" target="_blank">查看活动详情</a>
+                        <a href="online-flight-event.html" class="btn btn-secondary">查看所有活动</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 快速服务入口 -->
+            <div class="section-title">
+                <h2>快速服务入口</h2>
+                <p>专业的航空信息解读服务</p>
+            </div>
+            <div class="card-grid">
+                <div class="card">
+                    <div class="card-icon"><i class="fas fa-cloud-sun"></i></div>
+                    <h3>METAR解码</h3>
+                    <p>实时天气报告解码服务，为您提供准确的机场天气信息</p>
+                    <div class="text-center" style="margin-top: 20px;">
+                        <a href="service-center.html" class="btn">立即使用</a>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-icon"><i class="fas fa-chart-line"></i></div>
+                    <h3>TAF解码</h3>
+                    <p>机场天气预报解码服务，助您了解未来天气趋势</p>
+                    <div class="text-center" style="margin-top: 20px;">
+                        <a href="service-center.html" class="btn">立即使用</a>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-icon"><i class="fas fa-radio"></i></div>
+                    <h3>ATIS信息</h3>
+                    <p>自动终端情报服务，获取最新的机场运行信息</p>
+                    <div class="text-center" style="margin-top: 20px;">
+                        <a href="service-center.html" class="btn">查看详情</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 关于我们简介 -->
+            <div class="section-title">
+                <h2>关于我们</h2>
+            </div>
+            <div class="content-container">
+                <p class="text-indent">
+                    2024年10月20日，虚拟香港机场管理局及虚拟香港民航处正式成立，前身为四川虚拟航空负责香港国际机场事务的部门。随着四川虚拟航空停运，香港机管局与香港民航处应运而生，填补了管理空白。香港民航处并入香港机管局后，双方资源整合，提升管理效能，构建了包括气象预报、情报服务、空中交通管制及航线规划在内的全面航空服务体系，推动虚拟航空事业稳健发展。
+                </p>
+                <div class="text-center" style="margin-top: 30px;">
+                    <a href="about-us.html" class="btn btn-secondary">了解更多</a>
                 </div>
             </div>
         </div>
-    </div>
+    </main>
 
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <!-- 左边：快速链接 -->
+                <div class="footer-section">
+                    <h3>快速链接</h3>
+                    <ul class="footer-links">
+                        <li><a href="service-center.html">虚拟香港航空服务中心</a></li>
+                        <li><a href="aviation-info.html">航空知识</a></li>
+                        <li><a href="online-flight-event.html">联飞活动</a></li>
+                        <li><a href="structure.html">架构</a></li>
+                    </ul>
+                </div>
+
+                <!-- 中间：参与我们 -->
+                <div class="footer-section">
+                    <h3>参与我们</h3>
+                    <ul class="footer-links">
+                        <li><a href="join-us.html">加入我们</a></li>
+                        <li><a href="contact-us.html">联系我们</a></li>
+                        <li><a href="about-us.html">关于我们</a></li>
+                    </ul>
+                </div>
+
+                <!-- 右边：QQ群和电邮 -->
+                <div class="footer-section">
+                    <h3>联系我们</h3>
+                    <div class="footer-contact">
+                        <p><strong>QQ交流群:</strong> <a href="https://qm.qq.com/q/8POrKppSRa">937248928</a></p>
+                        <p><strong>电邮:</strong> <a
+                                href="mailto:virtual-airportauthorityhk@gmail.com">virtual-airportauthorityhk@gmail.com</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2025 虚拟香港机场管理局VAAHK保留所有权利</p>
+                <p class="disclaimer">声明：我们是航空爱好者成立的虚拟香港机场管理局，不是现实的香港机场管理局。如果您想访问现实中的香港机场管理局，请访问<a
+                                href="https://www.hongkongairport.com" target="_blank">https://www.hongkongairport.com</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="timer.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const background = document.getElementById('background');
-            
-            // 创建浮动圆点
-            const dotPositions = [
-                { class: 'dot-1', top: '10%', left: '5%', size: 120 },
-                { class: 'dot-2', top: '70%', left: '10%', size: 80 },
-                { class: 'dot-3', top: '20%', left: '95%', size: 150 },
-                { class: 'dot-4', top: '60%', left: '85%', size: 60 },
-                { class: 'dot-5', top: '80%', left: '95%', size: 100 },
-                { class: 'dot-6', top: '40%', left: '15%', size: 70 }
-            ];
-            
-            dotPositions.forEach(dot => {
-                const element = document.createElement('div');
-                element.className = `floating-dot ${dot.class}`;
-                element.style.width = `${dot.size}px`;
-                element.style.height = `${dot.size}px`;
-                element.style.top = dot.top;
-                element.style.left = dot.left;
-                background.appendChild(element);
+        // 汉堡菜单功能
+        document.addEventListener('DOMContentLoaded', function () {
+            const hamburgerMenu = document.getElementById('hamburger-menu');
+            const mobileNav = document.getElementById('mobile-nav');
+
+            if (hamburgerMenu && mobileNav) {
+                hamburgerMenu.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    mobileNav.classList.toggle('active');
+                    this.classList.toggle('active');
+                });
+
+                // 点击页面其他区域关闭菜单
+                document.addEventListener('click', function (e) {
+                    if (!hamburgerMenu.contains(e.target) && !mobileNav.contains(e.target)) {
+                        mobileNav.classList.remove('active');
+                        hamburgerMenu.classList.remove('active');
+                    }
+                });
+
+                // 移动端菜单链接点击时关闭菜单
+                const mobileNavLinks = mobileNav.querySelectorAll('a');
+                mobileNavLinks.forEach(link => {
+                    link.addEventListener('click', function () {
+                        mobileNav.classList.remove('active');
+                        hamburgerMenu.classList.remove('active');
+                    });
+                });
+            }
+
+            // 历史公告功能
+            const showMoreBtn = document.getElementById('show-more-btn');
+            const hiddenAnnouncements = document.getElementById('hidden-announcements');
+
+            if (showMoreBtn && hiddenAnnouncements) {
+                showMoreBtn.addEventListener('click', function () {
+                    hiddenAnnouncements.classList.toggle('show');
+                    this.textContent = hiddenAnnouncements.classList.contains('show') ?
+                        '隐藏历史公告' : '显示历史公告';
+                });
+            }
+
+            // 页面动画效果
+            const animateElements = document.querySelectorAll('.card, .content-container, .contact-item, .tool-container');
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
             });
-            
-            // 创建连接线
-            const dots = document.querySelectorAll('.floating-dot');
-            
-            for (let i = 0; i < dots.length; i++) {
-                for (let j = i + 1; j < dots.length; j++) {
-                    if (Math.random() > 0.6) {
-                        createConnectingLine(dots[i], dots[j]);
-                    }
-                }
-            }
-            
-            function createConnectingLine(dot1, dot2) {
-                const line = document.createElement('div');
-                line.classList.add('connecting-line');
-                background.appendChild(line);
-                
-                function updateLine() {
-                    const rect1 = dot1.getBoundingClientRect();
-                    const rect2 = dot2.getBoundingClientRect();
-                    
-                    const x1 = rect1.left + rect1.width / 2;
-                    const y1 = rect1.top + rect1.height / 2;
-                    const x2 = rect2.left + rect2.width / 2;
-                    const y2 = rect2.top + rect2.height / 2;
-                    
-                    const distance = Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
-                    const angle = Math.atan2(y2 - y1, x2 - x1) * 180 / Math.PI;
-                    
-                    line.style.width = distance + 'px';
-                    line.style.left = x1 + 'px';
-                    line.style.top = y1 + 'px';
-                    line.style.transform = `rotate(${angle}deg)`;
-                }
-                
-                updateLine();
-                window.addEventListener('resize', updateLine);
-                setInterval(updateLine, 100);
-            }
-            
-            // 创建随机形状
-            function createRandomShapes() {
-                const shapeCount = 30;
-                const shapeTypes = ['circle', 'square', 'rectangle', 'triangle', 'cross'];
-                
-                for (let i = 0; i < shapeCount; i++) {
-                    const shape = document.createElement('div');
-                    shape.classList.add('random-shape');
-                    
-                    const shapeType = shapeTypes[Math.floor(Math.random() * shapeTypes.length)];
-                    shape.classList.add(`shape-${shapeType}`);
-                    
-                    // 随机大小和位置
-                    const size = Math.random() * 20 + 8;
-                    const left = Math.random() * 100;
-                    const top = Math.random() * 100;
-                    
-                    if (shapeType === 'circle' || shapeType === 'square') {
-                        shape.style.width = `${size}px`;
-                        shape.style.height = `${size}px`;
-                    } else if (shapeType === 'rectangle') {
-                        shape.style.width = `${size * 1.5}px`;
-                        shape.style.height = `${size}px`;
-                    } else if (shapeType === 'triangle') {
-                        shape.style.borderBottomWidth = `${size}px`;
-                        shape.style.borderLeftWidth = `${size/2}px`;
-                        shape.style.borderRightWidth = `${size/2}px`;
-                    } else if (shapeType === 'cross') {
-                        shape.style.width = `${size}px`;
-                        shape.style.height = `${size}px`;
-                    }
-                    
-                    shape.style.left = `${left}%`;
-                    shape.style.top = `${top}%`;
-                    
-                    // 更长的动画延迟和持续时间
-                    const delay = Math.random() * 25;
-                    const duration = 20 + Math.random() * 15;
-                    shape.style.animationDelay = `${delay}s`;
-                    shape.style.animationDuration = `${duration}s`;
-                    
-                    // 随机不透明度
-                    const opacity = 0.02 + Math.random() * 0.04;
-                    if (shapeType !== 'triangle' && shapeType !== 'cross') {
-                        shape.style.background = `rgba(0, 0, 0, ${opacity})`;
-                    }
-                    
-                    background.appendChild(shape);
-                }
-            }
-            
-            createRandomShapes();
+
+            animateElements.forEach(element => {
+                element.style.opacity = '0';
+                element.style.transform = 'translateY(20px)';
+                element.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                observer.observe(element);
+            });
         });
     </script>
 </body>
+
 </html>
