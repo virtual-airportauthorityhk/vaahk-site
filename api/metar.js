@@ -1,11 +1,6 @@
-// METAR API 调用模块
-// VAAHK - 虚拟香港机场管理局
+// METAR API
 
-/**
- * 获取METAR数据
- * @param {string} icaoCode - 机场ICAO代码，默认为VHHH
- * @returns {Promise<Object>} - METAR数据
- */
+// 获取METAR数据
 async function fetchMETAR(icaoCode = 'VHHH') {
     const url = `https://aviationweather.gov/api/data/metar?ids=${icaoCode}&format=json`;
     
@@ -44,11 +39,9 @@ async function fetchMETAR(icaoCode = 'VHHH') {
     }
 }
 
-/**
- * 格式化METAR时间
- * @param {number} timestamp - Unix时间戳
- * @returns {string} - 格式化后的时间字符串 YYYY-MM-DD UH:MM UTC
- */
+// 格式化METAR时间
+// timestamp - Unix时间戳
+// 返回格式化后的时间字符串 YYYY-MM-DD UH:MM UTC
 function formatMETARTime(timestamp) {
     const date = new Date(timestamp * 1000);
     const year = date.getUTCFullYear();
@@ -60,11 +53,9 @@ function formatMETARTime(timestamp) {
     return `${year}-${month}-${day} U${hours}:${minutes} UTC`;
 }
 
-/**
- * 解析METAR数据为可读格式
- * @param {Object} metarData - METAR原始数据
- * @returns {Object} - 解析后的METAR数据
- */
+// 解析METAR数据为可读格式
+// metarData - METAR原始数据
+// 返回解析后的METAR数据
 function parseMETARData(metarData) {
     if (!metarData) return null;
     
