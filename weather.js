@@ -1,556 +1,528 @@
-// 香港国际机场实时天气信息系统
+// 香港国际机场实时天气信息模块
 // VAAHK - 虚拟香港机场管理局
 
-// 全局变量
-let currentWeatherType = 'metar'; // 'metar' 或 'taf'
-let weatherData = {
-    metar: null,
-    taf: null
-};
-
-// 确保全局翻译函数可用
-window.translateWeatherPhenomena = translateWeatherPhenomena;
-window.translateCloudInfo = translateCloudInfo;
-
-/**
- * 初始化天气组件
- */
-function initWeatherSystem() {
-    console.log('正在初始化中...');
+// 天气翻译映射表
+const weatherTranslations = {
+    // 天气现象
+    'RA': '雨',
+    'DZ': '毛毛雨',
+    'SN': '雪',
+    'SG': '雪粒',
+    'IC': '冰晶',
+    'PL': '冰粒',
+    'GR': '冰雹',
+    'GS': '小冰雹',
+    'UP': '未知降水',
+    'FG': '雾',
+    'BR': '轻雾',
+    'HZ': '霾',
+    'DU': '浮尘',
+    'SA': '扬沙',
+    'VA': '火山灰',
+    'PY': '喷雾',
+    'SQ': '飑',
+    'FC': '漏斗云',
+    'DS': '尘暴',
+    'SS': '沙暴',
+    'PO': '尘卷/沙卷',
+    'TS': '雷暴',
+    'SH': '阵性',
+    'FZ': '冻结',
+    'BL': '低吹',
+    'DR': '高吹',
+    'MI': '浅薄',
+    'BC': '片状',
+    'PR': '部分',
+    'RE': '最近',
     
-    // 绑定切换按钮事件
-    bindWeatherTypeButtons();
+    // 强度
+    '-': '轻微',
+    '+': '强烈',
+    'VC': '附近',
     
-    // 首次加载METAR数据
-    loadWeatherData();
+    // 云量
+    'SKC': '碧空',
+    'CLR': '无云',
+    'NSC': '无显著云',
+    'FEW': '少云',
+    'SCT': '散云',
+    'BKN': '裂云',
+    'OVC': '阴天',
+    'VV': '垂直能见度',
     
-    // 设置自动刷新 (每5分钟)
-    setInterval(loadWeatherData, 5 * 60 * 1000);
-    
-    console.log('初始化完成');
-}
-
-/**
- * 绑定天气类型切换按钮事件
- */
-function bindWeatherTypeButtons() {
-    const metarBtn = document.getElementById('weather-metar-btn');
-    const tafBtn = document.getElementById('weather-taf-btn');
-    
-    if (metarBtn) {
-        metarBtn.addEventListener('click', () => switchWeatherType('metar'));
-    }
-    
-    if (tafBtn) {
-        tafBtn.addEventListener('click', () => switchWeatherType('taf'));
-    }
-}
-
-/**
- * 切换天气类型显示
- * @param {string} type - 'metar' 或 'taf'
- */
-function switchWeatherType(type) {
-    currentWeatherType = type;
-    
-    // 更新按钮状态
-    updateButtonStates();
-    
-    // 更新显示内容
-    updateWeatherDisplay();
-    
-    // 如果该类型数据尚未加载，则立即加载
-    if (!weatherData[type]) {
-        loadWeatherData();
-    }
-}
-
-/**
- * 更新按钮状态
- */
-function updateButtonStates() {
-    const metarBtn = document.getElementById('weather-metar-btn');
-    const tafBtn = document.getElementById('weather-taf-btn');
-    
-    if (metarBtn && tafBtn) {
-        metarBtn.classList.toggle('active', currentWeatherType === 'metar');
-        tafBtn.classList.toggle('active', currentWeatherType === 'taf');
-    }
-}
-
-/**
- * 加载天气数据
- */
-async function loadWeatherData() {
-    console.log('正在加载天气数据中...');
-    
-    // 显示加载状态
-    showWeatherLoading();
-    
-    try {
-        // 并行加载METAR和TAF数据
-        const [metarResult, tafResult] = await Promise.all([
-            fetchMetarData(),
-            fetchTafData()
-        ]);
-        
-        // 更新数据缓存
-        if (metarResult.success) {
-            weatherData.metar = metarResult.data;
-            console.log('METAR数据加载成功');
-        } else {
-            console.error('METAR数据加载失败:', metarResult.error);
-        }
-        
-        if (tafResult.success) {
-            weatherData.taf = tafResult.data;
-            console.log('TAF数据加载成功');
-        } else {
-            console.error('TAF数据加载失败:', tafResult.error);
-        }
-        
-        // 更新显示
-        updateWeatherDisplay();
-        
-        // 更新最后更新时间
-        updateLastUpdateTime();
-        
-    } catch (error) {
-        console.error('天气数据加载异常:', error);
-        showWeatherError('数据加载失败，请稍后重试');
-    }
-}
-
-/**
- * 显示加载状态
- */
-function showWeatherLoading() {
-    const displayArea = document.getElementById('weather-display');
-    if (displayArea) {
-        displayArea.innerHTML = `
-            <div class="weather-loading">
-                <i class="fas fa-spinner fa-spin"></i>
-                <p>正在加载${currentWeatherType.toUpperCase()}数据...</p>
-            </div>
-        `;
-    }
-}
-
-/**
- * 显示错误信息
- * @param {string} message - 错误信息
- */
-function showWeatherError(message) {
-    const displayArea = document.getElementById('weather-display');
-    if (displayArea) {
-        displayArea.innerHTML = `
-            <div class="weather-error">
-                <i class="fas fa-exclamation-triangle"></i>
-                <p>${message}</p>
-                <button class="btn" onclick="loadWeatherData()">重新加载</button>
-            </div>
-        `;
-    }
-}
-
-/**
- * 更新天气显示
- */
-function updateWeatherDisplay() {
-    const data = weatherData[currentWeatherType];
-    
-    if (!data) {
-        showWeatherError(`暂无${currentWeatherType.toUpperCase()}数据`);
-        return;
-    }
-    
-    if (currentWeatherType === 'metar') {
-        displayMetarData(data);
-    } else {
-        displayTafData(data);
-    }
-}
-
-/**
- * 显示METAR数据
- * @param {Object} data - METAR数据对象
- */
-function displayMetarData(data) {
-    const displayArea = document.getElementById('weather-display');
-    if (!displayArea) return;
-    
-    // 解析观测时间
-    const obsTime = parseMetarTime(data.obsTime || data.reportTime);
-    const receiptTime = data.receiptTime ? parseMetarTime(data.receiptTime) : null;
-    
-    // 构建显示HTML
-    let html = `
-        <div class="weather-content">
-            <div class="weather-header">
-                <h4><i class="fas fa-cloud-sun"></i> 香港国际机场 (VHHH) - METAR</h4>
-                <div class="weather-time">
-                    <strong>观测时间：</strong>${obsTime}
-                    ${receiptTime ? `<br><strong>接收时间：</strong>${receiptTime}` : ''}
-                </div>
-            </div>
-            
-            <div class="weather-section">
-                <h5><i class="fas fa-file-alt"></i> 原始报文</h5>
-                <div class="weather-raw">${data.rawOb || '数据不可用'}</div>
-            </div>
-            
-            <div class="weather-section">
-                <h5><i class="fas fa-info-circle"></i> 详细信息</h5>
-                <div class="weather-details">
-    `;
-    
-    // 添加基本信息
-    html += `<div class="detail-item"><strong>机场：</strong>${data.name || '香港国际机场'} (${data.icaoId || 'VHHH'})</div>`;
-    
-    // 报告类型
-    if (data.metarType) {
-        const typeDesc = data.metarType === 'METAR' ? '定时天气报告' : '特殊天气报告';
-        html += `<div class="detail-item"><strong>报告类型：</strong>${typeDesc}</div>`;
-    }
+    // 云类型
+    'CB': '积雨云',
+    'TCU': '塔状积云',
+    'CU': '积云',
+    'ST': '层云',
+    'SC': '层积云',
+    'NS': '雨层云',
+    'AS': '高层云',
+    'AC': '高积云',
+    'CI': '卷云',
+    'CC': '卷积云',
+    'CS': '卷层云',
     
     // 飞行类别
-    if (data.fltCat) {
-        const fltCatDesc = {
-            'VFR': '目视飞行规则(VFR)',
-            'MVFR': '边缘目视飞行规则(MVFR)', 
-            'IFR': '仪表飞行规则(IFR)',
-            'LIFR': '低仪表飞行规则(LIFR)'
+    'VFR': '目视飞行规则',
+    'MVFR': '边缘目视飞行规则',
+    'IFR': '仪表飞行规则',
+    'LIFR': '低仪表飞行规则',
+    
+    // TAF变化指示符
+    'FM': '从...开始',
+    'TEMPO': '临时',
+    'PROB': '概率',
+    'BECMG': '逐渐转为',
+    'INTER': '间歇性',
+    
+    // 特殊现象
+    'CAVOK': '云高和能见度正常',
+    'NSW': '无显著天气',
+    'NIL': '无',
+    'AMD': '修正',
+    'COR': '更正'
+};
+
+// 风向翻译
+const windDirections = {
+    'N': '北',
+    'NNE': '北东北',
+    'NE': '东北',
+    'ENE': '东东北',
+    'E': '东',
+    'ESE': '东东南',
+    'SE': '东南',
+    'SSE': '南东南',
+    'S': '南',
+    'SSW': '南西南',
+    'SW': '西南',
+    'WSW': '西西南',
+    'W': '西',
+    'WNW': '西西北',
+    'NW': '西北',
+    'NNW': '北西北',
+    'VRB': '变化'
+};
+
+// 获取METAR数据
+async function fetchMETAR(icaoCode = 'VHHH') {
+    const url = `https://aviationweather.gov/api/data/metar?ids=${icaoCode}&format=json`;
+    
+    try {
+        const response = await fetch(url, {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }
+        });
+        
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        const data = await response.json();
+        
+        if (data && data.length > 0) {
+            return {
+                success: true,
+                data: data[0],
+                timestamp: new Date().toISOString()
+            };
+        } else {
+            throw new Error('No METAR data available');
+        }
+        
+    } catch (error) {
+        console.error('Error fetching METAR data:', error);
+        return {
+            success: false,
+            error: error.message,
+            timestamp: new Date().toISOString()
         };
-        html += `<div class="detail-item"><strong>飞行类别：</strong>${fltCatDesc[data.fltCat] || data.fltCat}</div>`;
+    }
+}
+
+// 获取TAF数据
+async function fetchTAF(icaoCode = 'VHHH') {
+    const url = `https://aviationweather.gov/api/data/taf?ids=${icaoCode}&format=json`;
+    
+    try {
+        const response = await fetch(url, {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }
+        });
+        
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        const data = await response.json();
+        
+        if (data && data.length > 0) {
+            return {
+                success: true,
+                data: data[0],
+                timestamp: new Date().toISOString()
+            };
+        } else {
+            throw new Error('No TAF data available');
+        }
+        
+    } catch (error) {
+        console.error('Error fetching TAF data:', error);
+        return {
+            success: false,
+            error: error.message,
+            timestamp: new Date().toISOString()
+        };
+    }
+}
+
+// 格式化时间
+function formatTime(timestamp) {
+    const date = new Date(timestamp * 1000);
+    const year = date.getUTCFullYear();
+    const month = String(date.getUTCMonth() + 1).padStart(2, '0');
+    const day = String(date.getUTCDate()).padStart(2, '0');
+    const hours = String(date.getUTCHours()).padStart(2, '0');
+    const minutes = String(date.getUTCMinutes()).padStart(2, '0');
+    
+    return `${year}-${month}-${day} U${hours}:${minutes} UTC`;
+}
+
+// 翻译天气现象代码
+function translateWeatherPhenomena(wxString) {
+    if (!wxString) return '';
+    
+    let translation = '';
+    let i = 0;
+    
+    while (i < wxString.length) {
+        // 强度指示符
+        if (wxString[i] === '-' || wxString[i] === '+') {
+            translation += weatherTranslations[wxString[i]] || wxString[i];
+            i++;
+            continue;
+        }
+        
+        // 两字符代码
+        const twoChar = wxString.substr(i, 2);
+        if (weatherTranslations[twoChar]) {
+            translation += weatherTranslations[twoChar];
+            i += 2;
+            continue;
+        }
+        
+        // 三字符代码
+        const threeChar = wxString.substr(i, 3);
+        if (weatherTranslations[threeChar]) {
+            translation += weatherTranslations[threeChar];
+            i += 3;
+            continue;
+        }
+        
+        // 未识别的字符
+        translation += wxString[i];
+        i++;
     }
     
-    // 风向风速
-    if (data.wdir !== null && data.wspd !== null) {
-        let windInfo = '';
-        if (data.wdir === 'VRB' || data.wdir === 0) {
-            windInfo = '风向多变';
-        } else {
-            windInfo = `风向 ${data.wdir}°`;
+    return translation;
+}
+
+// 翻译风向
+function translateWindDirection(degrees) {
+    if (degrees === null || degrees === undefined) return '';
+    if (typeof degrees === 'string' && degrees === 'VRB') return windDirections['VRB'];
+    
+    const directions = ['N', 'NNE', 'NE', 'ENE', 'E', 'ESE', 'SE', 'SSE', 'S', 'SSW', 'SW', 'WSW', 'W', 'WNW', 'NW', 'NNW'];
+    const index = Math.round(degrees / 22.5) % 16;
+    return windDirections[directions[index]] || degrees + '°';
+}
+
+// 格式化METAR详细信息
+function formatMETARDetails(metarData) {
+    if (!metarData) return '';
+    
+    let details = [];
+    
+    // 机场信息
+    if (metarData.name) {
+        details.push(`<strong>机场：</strong>${metarData.name} (${metarData.icaoId})`);
+    }
+    
+    // 观测时间
+    if (metarData.obsTime) {
+        const obsTime = formatTime(metarData.obsTime);
+        details.push(`<strong>观测时间：</strong>${obsTime}`);
+    }
+    
+    // 温度
+    if (metarData.temp !== null) {
+        details.push(`<strong>温度：</strong>${metarData.temp}°C`);
+    }
+    
+    // 露点
+    if (metarData.dewp !== null) {
+        details.push(`<strong>露点：</strong>${metarData.dewp}°C`);
+    }
+    
+    // 风信息
+    if (metarData.wdir !== null && metarData.wspd !== null) {
+        const windDir = translateWindDirection(metarData.wdir);
+        let windInfo = `<strong>风：</strong>${windDir} ${metarData.wspd}节`;
+        if (metarData.wgst) {
+            windInfo += ` 阵风${metarData.wgst}节`;
         }
-        windInfo += `，风速 ${data.wspd}节`;
-        if (data.wgst) {
-            windInfo += `，阵风 ${data.wgst}节`;
-        }
-        html += `<div class="detail-item"><strong>地面风：</strong>${windInfo}</div>`;
+        details.push(windInfo);
     }
     
     // 能见度
-    if (data.visib !== null && data.visib !== undefined) {
-        let visibility = data.visib >= 9999 ? '10公里以上' : 
-                        data.visib >= 1000 ? `${(data.visib/1000).toFixed(1)}公里` : `${data.visib}米`;
-        html += `<div class="detail-item"><strong>能见度：</strong>${visibility}</div>`;
-    }
-    
-    // 垂直能见度
-    if (data.vertVis) {
-        html += `<div class="detail-item"><strong>垂直能见度：</strong>${data.vertVis}英尺</div>`;
-    }
-    
-    // 天气现象
-    if (data.wxString) {
-        const weatherDesc = typeof translateWeatherPhenomena === 'function' 
-            ? translateWeatherPhenomena(data.wxString) 
-            : data.wxString;
-        html += `<div class="detail-item"><strong>天气现象：</strong>${weatherDesc}</div>`;
-    }
-    
-    // 云层信息
-    if (data.clouds && data.clouds.length > 0) {
-        const cloudDesc = data.clouds.map(cloud => {
-            return typeof translateCloudInfo === 'function' 
-                ? translateCloudInfo(cloud) 
-                : (cloud.cover + (cloud.base ? ` ${cloud.base}英尺` : ''));
-        }).join(', ');
-        html += `<div class="detail-item"><strong>云层：</strong>${cloudDesc}</div>`;
-    }
-    
-    // 温度露点
-    if (data.temp !== null && data.temp !== undefined) {
-        let tempInfo = `温度 ${data.temp}°C`;
-        if (data.dewp !== null && data.dewp !== undefined) {
-            tempInfo += `，露点 ${data.dewp}°C`;
-        }
-        html += `<div class="detail-item"><strong>温度：</strong>${tempInfo}</div>`;
-    }
-    
-    // 24小时最高最低温度
-    if (data.maxT24 !== null || data.minT24 !== null) {
-        let temp24Info = '';
-        if (data.maxT24 !== null) temp24Info += `24小时最高 ${data.maxT24}°C`;
-        if (data.minT24 !== null) {
-            if (temp24Info) temp24Info += '，';
-            temp24Info += `24小时最低 ${data.minT24}°C`;
-        }
-        html += `<div class="detail-item"><strong>24小时温度：</strong>${temp24Info}</div>`;
+    if (metarData.visib !== null) {
+        details.push(`<strong>能见度：</strong>${metarData.visib}英里`);
     }
     
     // 气压
-    if (data.altim) {
-        html += `<div class="detail-item"><strong>修正海平面气压：</strong>${data.altim} inHg`;
-        if (data.slp) {
-            html += ` (${data.slp} hPa)`;
-        }
-        html += `</div>`;
+    if (metarData.altim !== null) {
+        details.push(`<strong>气压：</strong>${metarData.altim} inHg (${Math.round(metarData.altim * 33.864)} hPa)`);
     }
     
-    // 降水信息
-    if (data.precip || data.pcp3hr || data.pcp6hr || data.pcp24hr) {
-        let precipInfo = '';
-        if (data.precip) precipInfo += `当前降水 ${data.precip}英寸`;
-        if (data.pcp3hr) {
-            if (precipInfo) precipInfo += '，';
-            precipInfo += `3小时降水 ${data.pcp3hr}英寸`;
-        }
-        if (data.pcp6hr) {
-            if (precipInfo) precipInfo += '，';
-            precipInfo += `6小时降水 ${data.pcp6hr}英寸`;
-        }
-        if (data.pcp24hr) {
-            if (precipInfo) precipInfo += '，';
-            precipInfo += `24小时降水 ${data.pcp24hr}英寸`;
-        }
-        html += `<div class="detail-item"><strong>降水量：</strong>${precipInfo}</div>`;
+    // 天气现象
+    if (metarData.wxString) {
+        const translated = translateWeatherPhenomena(metarData.wxString);
+        details.push(`<strong>天气现象：</strong>${metarData.wxString} (${translated})`);
     }
     
-    // 积雪
-    if (data.snow) {
-        html += `<div class="detail-item"><strong>积雪深度：</strong>${data.snow}英寸</div>`;
+    // 飞行类别
+    if (metarData.fltCat) {
+        const fltCatTranslated = weatherTranslations[metarData.fltCat] || metarData.fltCat;
+        details.push(`<strong>飞行类别：</strong>${metarData.fltCat} (${fltCatTranslated})`);
     }
     
-    // 气压趋势
-    if (data.presTend) {
-        html += `<div class="detail-item"><strong>气压趋势：</strong>${data.presTend} hPa</div>`;
-    }
-    
-    html += `
-                </div>
-            </div>
-        </div>
-    `;
-    
-    displayArea.innerHTML = html;
+    return details.join('<br>');
 }
 
-/**
- * 显示TAF数据
- * @param {Object} data - TAF数据对象
- */
-function displayTafData(data) {
-    const displayArea = document.getElementById('weather-display');
-    if (!displayArea) return;
+// 格式化TAF详细信息
+function formatTAFDetails(tafData) {
+    if (!tafData) return '';
     
-    // 解析发布时间和有效时间
-    const timeInfo = parseTafTime(data.issueTime, data.validTimeFrom, data.validTimeTo);
+    let details = [];
     
-    // 构建显示HTML
-    let html = `
-        <div class="weather-content">
-            <div class="weather-header">
-                <h4><i class="fas fa-chart-line"></i> 香港国际机场 (VHHH) - TAF</h4>
-                <div class="weather-time">
-                    <strong>发布时间：</strong>${timeInfo.issue}<br>
-                    <strong>有效时间：</strong>${timeInfo.valid}
-                </div>
-            </div>
-            
-            <div class="weather-section">
-                <h5><i class="fas fa-file-alt"></i> 原始报文</h5>
-                <div class="weather-raw">${data.rawTAF || '数据不可用'}</div>
-            </div>
-            
-            <div class="weather-section">
-                <h5><i class="fas fa-info-circle"></i> 基础预报信息</h5>
-                <div class="weather-details">
-    `;
-    
-    // 基础预报信息
-    html += `<div class="detail-item"><strong>机场：</strong>${data.name || '香港国际机场'} (${data.icaoId || 'VHHH'})</div>`;
-    
-    // 是否为最新预报
-    if (data.mostRecent === 1) {
-        html += `<div class="detail-item"><strong>状态：</strong>最新预报</div>`;
+    // 机场信息
+    if (tafData.name) {
+        details.push(`<strong>机场：</strong>${tafData.name} (${tafData.icaoId})`);
     }
     
-    // 备注信息
-    if (data.remarks) {
-        html += `<div class="detail-item"><strong>备注：</strong>${data.remarks}</div>`;
+    // 发布时间
+    if (tafData.issueTime) {
+        const issueTime = formatTime(new Date(tafData.issueTime).getTime() / 1000);
+        details.push(`<strong>发布时间：</strong>${issueTime}`);
     }
     
-    html += `
-                </div>
-            </div>
-    `;
+    // 有效期
+    if (tafData.validTimeFrom && tafData.validTimeTo) {
+        const validFrom = formatTime(tafData.validTimeFrom);
+        const validTo = formatTime(tafData.validTimeTo);
+        details.push(`<strong>有效期：</strong>${validFrom} 至 ${validTo}`);
+    }
     
-    // 处理预报组
-    if (data.fcsts && data.fcsts.length > 0) {
-        html += `
-            <div class="weather-section">
-                <h5><i class="fas fa-clock"></i> 分时段预报</h5>
-                <div class="forecast-periods">
-        `;
-        
-        data.fcsts.forEach((fcst, index) => {
-            html += `
-                <div class="forecast-period">
-                    <h6>预报时段 ${index + 1}</h6>
-                    <div class="weather-details">
-            `;
+    // 备注
+    if (tafData.remarks) {
+        details.push(`<strong>备注：</strong>${tafData.remarks}`);
+    }
+    
+    // 预报详情
+    if (tafData.fcsts && tafData.fcsts.length > 0) {
+        details.push('<strong>预报详情：</strong>');
+        tafData.fcsts.forEach((fcst, index) => {
+            let fcstDetails = [];
             
-            // 时间范围
             if (fcst.timeFrom && fcst.timeTo) {
-                const fromTime = new Date(fcst.timeFrom * 1000);
-                const toTime = new Date(fcst.timeTo * 1000);
-                html += `<div class="detail-item"><strong>时间范围：</strong>${formatDateTime(fromTime)} 至 ${formatDateTime(toTime)}</div>`;
+                const timeFrom = formatTime(fcst.timeFrom);
+                const timeTo = formatTime(fcst.timeTo);
+                fcstDetails.push(`时间段: ${timeFrom} 至 ${timeTo}`);
             }
             
-            // 变化类型和概率
-            if (fcst.fcstChange) {
-                html += `<div class="detail-item"><strong>变化类型：</strong>${translateChangeType(fcst.fcstChange)}</div>`;
+            if (fcst.wdir && fcst.wspd) {
+                const windDir = translateWindDirection(fcst.wdir);
+                let windInfo = `风: ${windDir} ${fcst.wspd}节`;
+                if (fcst.wgst) {
+                    windInfo += ` 阵风${fcst.wgst}节`;
+                }
+                fcstDetails.push(windInfo);
+            }
+            
+            if (fcst.visib) {
+                fcstDetails.push(`能见度: ${fcst.visib}英里`);
+            }
+            
+            if (fcst.wxString) {
+                const translated = translateWeatherPhenomena(fcst.wxString);
+                fcstDetails.push(`天气现象: ${fcst.wxString} (${translated})`);
             }
             
             if (fcst.probability) {
-                html += `<div class="detail-item"><strong>概率：</strong>${fcst.probability}%</div>`;
+                fcstDetails.push(`概率: ${fcst.probability}%`);
             }
             
-            // 风向风速
-            if (fcst.wdir !== null || fcst.wspd !== null) {
-                let windInfo = '';
-                if (fcst.wdir === 'VRB') {
-                    windInfo = '风向多变';
-                } else if (fcst.wdir) {
-                    windInfo = `风向 ${fcst.wdir}°`;
-                }
-                
-                if (fcst.wspd) {
-                    if (windInfo) windInfo += '，';
-                    windInfo += `风速 ${fcst.wspd}节`;
-                }
-                
-                if (fcst.wgst) {
-                    windInfo += `，阵风 ${fcst.wgst}节`;
-                }
-                
-                if (windInfo) {
-                    html += `<div class="detail-item"><strong>预报风力：</strong>${windInfo}</div>`;
-                }
+            if (fcstDetails.length > 0) {
+                details.push(`&nbsp;&nbsp;预报 ${index + 1}: ${fcstDetails.join(', ')}`);
             }
-            
-            // 风切变
-            if (fcst.wshearHgt && fcst.wshearDir && fcst.wshearSpd) {
-                html += `<div class="detail-item"><strong>风切变：</strong>${fcst.wshearHgt}英尺高度，风向${fcst.wshearDir}°，风速${fcst.wshearSpd}节</div>`;
-            }
-            
-            // 能见度
-            if (fcst.visib) {
-                const visibility = translateVisibility(fcst.visib);
-                html += `<div class="detail-item"><strong>预报能见度：</strong>${visibility}</div>`;
-            }
-            
-            // 垂直能见度
-            if (fcst.vertVis) {
-                html += `<div class="detail-item"><strong>垂直能见度：</strong>${fcst.vertVis}英尺</div>`;
-            }
-            
-            // 天气现象
-            if (fcst.wxString) {
-                const weatherDesc = typeof translateWeatherPhenomena === 'function' 
-                    ? translateWeatherPhenomena(fcst.wxString) 
-                    : fcst.wxString;
-                html += `<div class="detail-item"><strong>预报天气：</strong>${weatherDesc}</div>`;
-            }
-            
-            // 云层信息
-            if (fcst.clouds && fcst.clouds.length > 0) {
-                const cloudDesc = fcst.clouds.map(cloud => {
-                    return typeof translateCloudInfo === 'function' 
-                        ? translateCloudInfo(cloud) 
-                        : (cloud.cover + (cloud.base ? ` ${cloud.base}英尺` : ''));
-                }).join(', ');
-                html += `<div class="detail-item"><strong>预报云层：</strong>${cloudDesc}</div>`;
-            }
-            
-            // 温度信息
-            if (fcst.temp && fcst.temp.length > 0) {
-                fcst.temp.forEach(t => {
-                    const time = new Date(t.validTime * 1000);
-                    const timeStr = formatDateTime(time);
-                    const type = t.maxOrMin === 'MAX' ? '最高' : '最低';
-                    html += `<div class="detail-item"><strong>${type}温度：</strong>${t.sfcTemp}°C (${timeStr})</div>`;
-                });
-            }
-            
-            // 积冰和颠簸
-            if (fcst.icgTurb && fcst.icgTurb.length > 0) {
-                fcst.icgTurb.forEach(it => {
-                    const type = it.var === 'ICG' ? '积冰' : 
-                               it.var === 'TURB' ? '颠簸' : it.var;
-                    const intensity = translateIntensity(it.intensity);
-                    html += `<div class="detail-item"><strong>${type}：</strong>${it.minAlt}-${it.maxAlt}英尺 ${intensity}</div>`;
-                });
-            }
-            
-            // 未解码信息
-            if (fcst.notDecoded) {
-                html += `<div class="detail-item"><strong>其他信息：</strong>${fcst.notDecoded}</div>`;
-            }
-            
-            html += `
-                    </div>
-                </div>
-            `;
         });
-        
-        html += `
-                </div>
-            </div>
-        `;
     }
     
-    html += `
+    return details.join('<br>');
+}
+
+// 加载实时METAR数据
+async function loadLiveMETAR() {
+    const container = document.getElementById('live-weather-content');
+    if (!container) return;
+    
+    // 显示加载状态
+    container.innerHTML = `
+        <div class="loading-message">
+            <i class="fas fa-spinner fa-spin"></i> 正在获取METAR数据...
         </div>
     `;
     
-    displayArea.innerHTML = html;
-}
-
-/**
- * 更新最后更新时间
- */
-function updateLastUpdateTime() {
-    const timeElement = document.getElementById('weather-last-update');
-    if (timeElement) {
-        const now = new Date();
-        const year = now.getUTCFullYear();
-        const month = String(now.getUTCMonth() + 1).padStart(2, '0');
-        const day = String(now.getUTCDate()).padStart(2, '0');
-        const hours = String(now.getUTCHours()).padStart(2, '0');
-        const minutes = String(now.getUTCMinutes()).padStart(2, '0');
+    try {
+        const result = await fetchMETAR('VHHH');
         
-        const timeStr = `${year}-${month}-${day} ${hours}:${minutes} UTC`;
-        timeElement.textContent = `最后更新：${timeStr}`;
+        if (result.success) {
+            const metarData = result.data;
+            const details = formatMETARDetails(metarData);
+            const reportTime = metarData.reportTime ? formatTime(new Date(metarData.reportTime).getTime() / 1000) : '未知时间';
+            
+            container.innerHTML = `
+                <div class="weather-info">
+                    <div class="weather-header">
+                        <h4><i class="fas fa-cloud-sun"></i> 香港国际机场实时METAR</h4>
+                        <div class="update-time">发布时间: ${reportTime}</div>
+                    </div>
+                    <div class="weather-raw">
+                        <strong>原始报文：</strong><br>
+                        <code>${metarData.rawOb || '无数据'}</code>
+                    </div>
+                    <div class="weather-details">
+                        <strong>详细资料：</strong><br>
+                        ${details}
+                    </div>
+                </div>
+            `;
+        } else {
+            container.innerHTML = `
+                <div class="error-message">
+                    <i class="fas fa-exclamation-triangle"></i> 
+                    获取METAR数据失败: ${result.error}
+                </div>
+            `;
+        }
+    } catch (error) {
+        container.innerHTML = `
+            <div class="error-message">
+                <i class="fas fa-exclamation-triangle"></i> 
+                网络错误，无法获取METAR数据
+            </div>
+        `;
     }
 }
 
-/**
- * 手动刷新数据
- */
-function refreshWeatherData() {
-    console.log('手动刷新天气数据');
-    loadWeatherData();
+// 加载实时TAF数据
+async function loadLiveTAF() {
+    const container = document.getElementById('live-weather-content');
+    if (!container) return;
+    
+    // 显示加载状态
+    container.innerHTML = `
+        <div class="loading-message">
+            <i class="fas fa-spinner fa-spin"></i> 正在获取TAF数据...
+        </div>
+    `;
+    
+    try {
+        const result = await fetchTAF('VHHH');
+        
+        if (result.success) {
+            const tafData = result.data;
+            const details = formatTAFDetails(tafData);
+            const issueTime = tafData.issueTime ? formatTime(new Date(tafData.issueTime).getTime() / 1000) : '未知时间';
+            
+            container.innerHTML = `
+                <div class="weather-info">
+                    <div class="weather-header">
+                        <h4><i class="fas fa-chart-line"></i> 香港国际机场实时TAF</h4>
+                        <div class="update-time">发布时间: ${issueTime}</div>
+                    </div>
+                    <div class="weather-raw">
+                        <strong>原始报文：</strong><br>
+                        <code>${tafData.rawTAF || '无数据'}</code>
+                    </div>
+                    <div class="weather-details">
+                        <strong>详细资料：</strong><br>
+                        ${details}
+                    </div>
+                </div>
+            `;
+        } else {
+            container.innerHTML = `
+                <div class="error-message">
+                    <i class="fas fa-exclamation-triangle"></i> 
+                    获取TAF数据失败: ${result.error}
+                </div>
+            `;
+        }
+    } catch (error) {
+        container.innerHTML = `
+            <div class="error-message">
+                <i class="fas fa-exclamation-triangle"></i> 
+                网络错误，无法获取TAF数据
+            </div>
+        `;
+    }
 }
 
-// 页面加载完成后初始化
-document.addEventListener('DOMContentLoaded', function() {
-    // 延迟初始化，确保相关元素已加载
-    setTimeout(initWeatherSystem, 500);
-});
+// 切换天气数据类型
+function switchWeatherType(type) {
+    const metarBtn = document.getElementById('metar-btn');
+    const tafBtn = document.getElementById('taf-btn');
+    
+    // 更新按钮状态
+    if (type === 'metar') {
+        metarBtn.classList.add('active');
+        tafBtn.classList.remove('active');
+        loadLiveMETAR();
+    } else if (type === 'taf') {
+        tafBtn.classList.add('active');
+        metarBtn.classList.remove('active');
+        loadLiveTAF();
+    }
+}
 
-// 导出函数供全局使用
-window.initWeatherSystem = initWeatherSystem;
-window.switchWeatherType = switchWeatherType;
-window.refreshWeatherData = refreshWeatherData;
+// 初始化实时天气模块
+function initLiveWeather() {
+    // 默认加载METAR数据
+    switchWeatherType('metar');
+    
+    // 设置自动刷新（每5分钟）
+    setInterval(() => {
+        const metarBtn = document.getElementById('metar-btn');
+        if (metarBtn && metarBtn.classList.contains('active')) {
+            loadLiveMETAR();
+        } else {
+            loadLiveTAF();
+        }
+    }, 5 * 60 * 1000); // 5分钟
+}
+
+// 当文档加载完成后初始化
+document.addEventListener('DOMContentLoaded', function() {
+    // 检查是否在service-center页面
+    if (document.getElementById('live-weather-container')) {
+        initLiveWeather();
+    }
+});
