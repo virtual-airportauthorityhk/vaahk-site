@@ -1038,4 +1038,150 @@ body.join-us .card p strong {
 .mobile-nav {
     border-top: 2px solid var(--text-green);
 }
+
+/* 实时天气样式 */
+.live-weather-container {
+    background: var(--white);
+    border-radius: 12px;
+    padding: 30px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+    margin-bottom: 35px;
+    border: 1px solid var(--medium-grey);
+    border-left: 4px solid var(--light-green);
+}
+
+.weather-tabs {
+    display: flex;
+    margin-bottom: 20px;
+    border-bottom: 2px solid var(--light-grey);
+}
+
+.weather-tab {
+    padding: 12px 24px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--dark-grey);
+    border-bottom: 3px solid transparent;
+    transition: all 0.3s ease;
+}
+
+.weather-tab:hover {
+    color: var(--text-green);
+}
+
+.weather-tab.active {
+    color: var(--text-green);
+    border-bottom-color: var(--light-green);
+}
+
+.weather-content {
+    min-height: 200px;
+}
+
+.weather-loading {
+    text-align: center;
+    padding: 40px 20px;
+    color: var(--dark-grey);
+}
+
+.weather-loading i {
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+    color: var(--text-green);
+}
+
+.weather-error {
+    text-align: center;
+    padding: 30px 20px;
+    color: #dc3545;
+    background: rgba(220, 53, 69, 0.05);
+    border-radius: 8px;
+    border: 1px solid rgba(220, 53, 69, 0.2);
+}
+
+.weather-error i {
+    font-size: 2rem;
+    margin-bottom: 15px;
+}
+
+.weather-info {
+    animation: fadeIn 0.5s ease;
+}
+
+.weather-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid var(--medium-grey);
+}
+
+.weather-header h4 {
+    margin: 0;
+    color: var(--black);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.update-time {
+    color: var(--dark-grey);
+    font-size: 0.9rem;
+}
+
+.weather-raw {
+    background: var(--light-grey);
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    border-left: 3px solid var(--text-green);
+}
+
+.weather-raw code {
+    font-family: 'Courier New', monospace;
+    color: var(--black);
+    word-break: break-all;
+}
+
+.weather-details {
+    line-height: 1.6;
+}
+
+.weather-details strong {
+    color: var(--black);
+    display: block;
+    margin-bottom: 5px;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .live-weather-container {
+        padding: 20px;
+    }
+    
+    .weather-tabs {
+        flex-direction: column;
+    }
+    
+    .weather-tab {
+        text-align: center;
+        border-bottom: 1px solid var(--light-grey);
+        border-left: 3px solid transparent;
+    }
+    
+    .weather-tab.active {
+        border-bottom-color: var(--light-green);
+        border-left-color: var(--light-green);
+    }
+    
+    .weather-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+}
 }
