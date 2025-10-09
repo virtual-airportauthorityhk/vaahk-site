@@ -1,5 +1,8 @@
-// 香港国际机场实时天气信息模块 - 完整版
+// api/weather.js - 统一的天气API和前端功能
 // VAAHK - 虚拟香港机场管理局
+
+// 检查是否在Vercel Functions环境中
+const isServerless = typeof window === 'undefined';
 
 // 天气翻译映射表
 const weatherTranslations = {
@@ -24,6 +27,8 @@ const windDirections = {
     'W': '西', 'WNW': '西西北', 'NW': '西北', 'NNW': '北西北',
     'VRB': '变化'
 };
+
+// ========== 核心API函数 ==========
 
 // 获取METAR数据
 async function fetchMETAR(icaoCode = 'VHHH') {
@@ -90,6 +95,8 @@ async function fetchTAF(icaoCode = 'VHHH') {
         };
     }
 }
+
+// ========== 工具函数 ==========
 
 // 格式化时间
 function formatTime(timestamp) {
@@ -207,6 +214,17 @@ function formatMETARDetails(metarData) {
         details.push(`<strong>飞行类别：</strong>${metarData.fltCat} (${fltCatTranslated})`);
     }
     
+    if (metarData.clouds && metarData.clouds.length > 0) {
+        const cloudInfo = metarData.clouds.map(cloud => {
+            let cloudDesc = `${weatherTranslations[cloud.cover] || cloud.cover}`;
+            if (cloud.base) {
+                cloudDesc += ` 云底${cloud.base * 100}英尺`;
+            }
+            return cloudDesc;
+        }).join(', ');
+        details.push(`<strong>云量：</strong>${cloudInfo}`);
+    }
+    
     return details.join('<br>');
 }
 
@@ -260,13 +278,109 @@ function formatTAFDetails(tafData) {
                 fcstDetails.push(`天气现象: ${fcst.wxString} (${translated})`);
             }
             
+            if (fcst.probability) {
+                fcstDetails.push(`概率: ${fcst.probability}%`);
+            }
+            
             if (fcstDetails.length > 0) {
                 details.push(`&nbsp;&nbsp;预报 ${index + 1}: ${fcstDetails.join(', ')}`);
             }
         });
+    } else {
+        details.push('<em>暂无详细预报数据</em>');
     }
     
     return details.join('<br>');
+}
+
+// ========== Vercel Functions 处理逻辑 ==========
+
+// Vercel Serverless Function 处理器
+async function handleApiRequest(req, res) {
+    // 设置CORS头
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+    
+    // 处理预检请求
+    if (req.method === 'OPTIONS') {
+        return res.status(200).end();
+    }
+    
+    const { type = 'metar', icao = 'VHHH' } = req.query;
+    
+    try {
+        let result;
+        if (type === 'metar') {
+            result = await fetchMETAR(icao);
+        } else if (type === 'taf') {
+            result = await fetchTAF(icao);
+        } else {
+            return res.status(400).json({ 
+                success: false, 
+                error: 'Invalid type. Use "metar" or "taf".' 
+            });
+        }
+        
+        res.status(200).json(result);
+        
+    } catch (error) {
+        console.error('API Error:', error);
+        res.status(500).json({
+            success: false,
+            error: error.message,
+            timestamp: new Date().toISOString()
+        });
+    }
+}
+
+// ========== 前端显示逻辑 ==========
+
+// 通过代理获取数据（前端使用）
+async function fetchMETARProxy(icaoCode = 'VHHH') {
+    const url = `/api/weather?type=metar&icao=${icaoCode}`;
+    
+    try {
+        const response = await fetch(url);
+        
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        const result = await response.json();
+        return result;
+        
+    } catch (error) {
+        console.error('Error fetching METAR data:', error);
+        return {
+            success: false,
+            error: error.message,
+            timestamp: new Date().toISOString()
+        };
+    }
+}
+
+async function fetchTAFProxy(icaoCode = 'VHHH') {
+    const url = `/api/weather?type=taf&icao=${icaoCode}`;
+    
+    try {
+        const response = await fetch(url);
+        
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        const result = await response.json();
+        return result;
+        
+    } catch (error) {
+        console.error('Error fetching TAF data:', error);
+        return {
+            success: false,
+            error: error.message,
+            timestamp: new Date().toISOString()
+        };
+    }
 }
 
 // 加载实时METAR数据
@@ -281,29 +395,39 @@ async function loadLiveMETAR() {
     `;
     
     try {
-        const result = await fetchMETAR('VHHH');
+        const result = await fetchMETARProxy('VHHH');
         
         if (result.success) {
             const metarData = result.data;
-            const details = formatMETARDetails(metarData);
-            const reportTime = metarData.reportTime ? formatTime(new Date(metarData.reportTime)) : '未知时间';
-            
-            container.innerHTML = `
-                <div class="weather-info">
-                    <div class="weather-header">
-                        <h4><i class="fas fa-cloud-sun"></i> 香港国际机场实时METAR</h4>
-                        <div class="update-time">发布时间: ${reportTime}</div>
+            if (metarData) {
+                const details = formatMETARDetails(metarData);
+                const reportTime = metarData.reportTime ? formatTime(new Date(metarData.reportTime)) : '未知时间';
+                
+                container.innerHTML = `
+                    <div class="weather-info">
+                        <div class="weather-header">
+                            <h4><i class="fas fa-cloud-sun"></i> 香港国际机场实时METAR</h4>
+                            <div class="update-time">发布时间: ${reportTime}</div>
+                        </div>
+                        <div class="weather-raw">
+                            <strong>原始报文：</strong><br>
+                            <code>${metarData.rawOb || '无数据'}</code>
+                        </div>
+                        <div class="weather-details">
+                            <strong>详细资料：</strong><br>
+                            ${details}
+                        </div>
                     </div>
-                    <div class="weather-raw">
-                        <strong>原始报文：</strong><br>
-                        <code>${metarData.rawOb || '无数据'}</code>
+                `;
+            } else {
+                container.innerHTML = `
+                    <div class="weather-error">
+                        <i class="fas fa-exclamation-triangle"></i> 
+                        未找到METAR数据<br>
+                        <small>请稍后重试</small>
                     </div>
-                    <div class="weather-details">
-                        <strong>详细资料：</strong><br>
-                        ${details}
-                    </div>
-                </div>
-            `;
+                `;
+            }
         } else {
             container.innerHTML = `
                 <div class="weather-error">
@@ -336,29 +460,39 @@ async function loadLiveTAF() {
     `;
     
     try {
-        const result = await fetchTAF('VHHH');
+        const result = await fetchTAFProxy('VHHH');
         
         if (result.success) {
             const tafData = result.data;
-            const details = formatTAFDetails(tafData);
-            const issueTime = tafData.issueTime ? formatTime(new Date(tafData.issueTime)) : '未知时间';
-            
-            container.innerHTML = `
-                <div class="weather-info">
-                    <div class="weather-header">
-                        <h4><i class="fas fa-chart-line"></i> 香港国际机场实时TAF</h4>
-                        <div class="update-time">发布时间: ${issueTime}</div>
+            if (tafData) {
+                const details = formatTAFDetails(tafData);
+                const issueTime = tafData.issueTime ? formatTime(new Date(tafData.issueTime)) : '未知时间';
+                
+                container.innerHTML = `
+                    <div class="weather-info">
+                        <div class="weather-header">
+                            <h4><i class="fas fa-chart-line"></i> 香港国际机场实时TAF</h4>
+                            <div class="update-time">发布时间: ${issueTime}</div>
+                        </div>
+                        <div class="weather-raw">
+                            <strong>原始报文：</strong><br>
+                            <code>${tafData.rawTAF || '无数据'}</code>
+                        </div>
+                        <div class="weather-details">
+                            <strong>详细资料：</strong><br>
+                            ${details}
+                        </div>
                     </div>
-                    <div class="weather-raw">
-                        <strong>原始报文：</strong><br>
-                        <code>${tafData.rawTAF || '无数据'}</code>
+                `;
+            } else {
+                container.innerHTML = `
+                    <div class="weather-error">
+                        <i class="fas fa-exclamation-triangle"></i> 
+                        未找到TAF数据<br>
+                        <small>请稍后重试</small>
                     </div>
-                    <div class="weather-details">
-                        <strong>详细资料：</strong><br>
-                        ${details}
-                    </div>
-                </div>
-            `;
+                `;
+            }
         } else {
             container.innerHTML = `
                 <div class="weather-error">
@@ -411,9 +545,23 @@ function initLiveWeather() {
     }, 5 * 60 * 1000);
 }
 
-// 当文档加载完成后初始化
-document.addEventListener('DOMContentLoaded', function() {
-    if (document.getElementById('live-weather-container')) {
-        initLiveWeather();
-    }
-});
+// ========== 导出逻辑 ==========
+
+// 如果是Vercel Functions环境，导出API处理器
+if (isServerless) {
+    module.exports = handleApiRequest;
+} 
+// 如果是浏览器环境，将函数暴露到全局作用域
+else {
+    // 暴露函数到全局作用域供HTML调用
+    window.switchWeatherType = switchWeatherType;
+    window.loadLiveMETAR = loadLiveMETAR;
+    window.loadLiveTAF = loadLiveTAF;
+    
+    // 自动初始化
+    document.addEventListener('DOMContentLoaded', function() {
+        if (document.getElementById('live-weather-container')) {
+            initLiveWeather();
+        }
+    });
+}
