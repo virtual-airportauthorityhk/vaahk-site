@@ -1,17 +1,9 @@
-// METAR API
-
-// 获取METAR数据
+// METAR API 模块
 async function fetchMETAR(icaoCode = 'VHHH') {
     const url = `https://aviationweather.gov/api/data/metar?ids=${icaoCode}&format=json`;
     
     try {
-        const response = await fetch(url, {
-            method: 'GET',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            }
-        });
+        const response = await fetch(url);
         
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
@@ -22,7 +14,7 @@ async function fetchMETAR(icaoCode = 'VHHH') {
         if (data && data.length > 0) {
             return {
                 success: true,
-                data: data[0], // 返回第一条记录
+                data: data[0],
                 timestamp: new Date().toISOString()
             };
         } else {
@@ -40,10 +32,20 @@ async function fetchMETAR(icaoCode = 'VHHH') {
 }
 
 // 格式化METAR时间
-// timestamp - Unix时间戳
-// 返回格式化后的时间字符串 YYYY-MM-DD UH:MM UTC
 function formatMETARTime(timestamp) {
-    const date = new Date(timestamp * 1000);
+    if (!timestamp) return '未知时间';
+    
+    let date;
+    if (typeof timestamp === 'number') {
+        date = new Date(timestamp * 1000);
+    } else {
+        date = new Date(timestamp);
+    }
+    
+    if (isNaN(date.getTime())) {
+        return '无效时间';
+    }
+    
     const year = date.getUTCFullYear();
     const month = String(date.getUTCMonth() + 1).padStart(2, '0');
     const day = String(date.getUTCDate()).padStart(2, '0');
@@ -51,32 +53,4 @@ function formatMETARTime(timestamp) {
     const minutes = String(date.getUTCMinutes()).padStart(2, '0');
     
     return `${year}-${month}-${day} U${hours}:${minutes} UTC`;
-}
-
-// 解析METAR数据为可读格式
-// metarData - METAR原始数据
-// 返回解析后的METAR数据
-function parseMETARData(metarData) {
-    if (!metarData) return null;
-    
-    return {
-        icaoId: metarData.icaoId || '',
-        reportTime: metarData.reportTime ? formatMETARTime(new Date(metarData.reportTime).getTime() / 1000) : '',
-        obsTime: metarData.obsTime ? formatMETARTime(metarData.obsTime) : '',
-        rawOb: metarData.rawOb || '',
-        temp: metarData.temp || null,
-        dewp: metarData.dewp || null,
-        wdir: metarData.wdir || null,
-        wspd: metarData.wspd || null,
-        wgst: metarData.wgst || null,
-        visib: metarData.visib || null,
-        altim: metarData.altim || null,
-        wxString: metarData.wxString || '',
-        clouds: metarData.clouds || [],
-        fltCat: metarData.fltCat || '',
-        name: metarData.name || '',
-        lat: metarData.lat || null,
-        lon: metarData.lon || null,
-        elev: metarData.elev || null
-    };
 }
