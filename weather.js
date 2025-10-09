@@ -1,29 +1,19 @@
-// 香港国际机场实时天气信息模块
+// 香港国际机场实时天气信息模块 - 完整版
 // VAAHK - 虚拟香港机场管理局
 
-// 天气翻译映射表（补充完整）
+// 天气翻译映射表
 const weatherTranslations = {
-    // 天气现象
     'RA': '雨', 'DZ': '毛毛雨', 'SN': '雪', 'SG': '雪粒', 'IC': '冰晶', 
     'PL': '冰粒', 'GR': '冰雹', 'GS': '小冰雹', 'UP': '未知降水', 'FG': '雾',
     'BR': '轻雾', 'HZ': '霾', 'DU': '浮尘', 'SA': '扬沙', 'VA': '火山灰',
     'PY': '喷雾', 'SQ': '飑', 'FC': '漏斗云', 'DS': '尘暴', 'SS': '沙暴',
-    'PO': '尘卷/沙卷', 'TS': '雷暴', 'SH': '阵性', 'FZ': '冻结', 'BL': '低吹',
-    'DR': '高吹', 'MI': '浅薄', 'BC': '片状', 'PR': '部分', 'RE': '最近',
-    
-    // 强度
-    '-': '轻微', '+': '强烈', 'VC': '附近',
-    
-    // 云量
+    'PO': '尘卷/沙卷', 'TS': '雷暴', 'SH': '阵性', 'FZ': '冻结',
     'SKC': '碧空', 'CLR': '无云', 'NSC': '无显著云', 'FEW': '少云',
     'SCT': '散云', 'BKN': '裂云', 'OVC': '阴天', 'VV': '垂直能见度',
-    
-    // 飞行类别
     'VFR': '目视飞行规则', 'MVFR': '边缘目视飞行规则', 
     'IFR': '仪表飞行规则', 'LIFR': '低仪表飞行规则',
-    
-    // 特殊现象
-    'CAVOK': '云高和能见度正常', 'NSW': '无显著天气', 'NIL': '无'
+    'CAVOK': '云高和能见度正常', 'NSW': '无显著天气', 'NIL': '无',
+    '-': '轻微', '+': '强烈', 'VC': '附近'
 };
 
 // 风向翻译
@@ -35,9 +25,71 @@ const windDirections = {
     'VRB': '变化'
 };
 
-// 天气显示模块 - 只负责显示逻辑
-import { fetchMETAR, formatMETARTime } from './metar.js';
-import { fetchTAF, formatTAFTime } from './taf.js';
+// 获取METAR数据
+async function fetchMETAR(icaoCode = 'VHHH') {
+    const url = `https://aviationweather.gov/api/data/metar?ids=${icaoCode}&format=json`;
+    
+    try {
+        const response = await fetch(url);
+        
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        const data = await response.json();
+        
+        if (data && data.length > 0) {
+            return {
+                success: true,
+                data: data[0],
+                timestamp: new Date().toISOString()
+            };
+        } else {
+            throw new Error('No METAR data available');
+        }
+        
+    } catch (error) {
+        console.error('Error fetching METAR data:', error);
+        return {
+            success: false,
+            error: error.message,
+            timestamp: new Date().toISOString()
+        };
+    }
+}
+
+// 获取TAF数据
+async function fetchTAF(icaoCode = 'VHHH') {
+    const url = `https://aviationweather.gov/api/data/taf?ids=${icaoCode}&format=json`;
+    
+    try {
+        const response = await fetch(url);
+        
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        const data = await response.json();
+        
+        if (data && data.length > 0) {
+            return {
+                success: true,
+                data: data[0],
+                timestamp: new Date().toISOString()
+            };
+        } else {
+            throw new Error('No TAF data available');
+        }
+        
+    } catch (error) {
+        console.error('Error fetching TAF data:', error);
+        return {
+            success: false,
+            error: error.message,
+            timestamp: new Date().toISOString()
+        };
+    }
+}
 
 // 格式化时间
 function formatTime(timestamp) {
@@ -110,28 +162,23 @@ function formatMETARDetails(metarData) {
     
     let details = [];
     
-    // 机场信息
     if (metarData.name) {
         details.push(`<strong>机场：</strong>${metarData.name} (${metarData.icaoId || 'VHHH'})`);
     }
     
-    // 观测时间
     if (metarData.obsTime) {
         const obsTime = formatTime(metarData.obsTime);
         details.push(`<strong>观测时间：</strong>${obsTime}`);
     }
     
-    // 温度
     if (metarData.temp !== null && metarData.temp !== undefined) {
         details.push(`<strong>温度：</strong>${metarData.temp}°C`);
     }
     
-    // 露点
     if (metarData.dewp !== null && metarData.dewp !== undefined) {
         details.push(`<strong>露点：</strong>${metarData.dewp}°C`);
     }
     
-    // 风信息
     if (metarData.wdir !== null && metarData.wspd !== null) {
         const windDir = translateWindDirection(metarData.wdir);
         let windInfo = `<strong>风：</strong>${windDir} ${metarData.wspd}节`;
@@ -141,42 +188,23 @@ function formatMETARDetails(metarData) {
         details.push(windInfo);
     }
     
-    // 能见度
     if (metarData.visib !== null && metarData.visib !== undefined) {
         details.push(`<strong>能见度：</strong>${metarData.visib}英里`);
     }
     
-    // 气压
     if (metarData.altim !== null && metarData.altim !== undefined) {
         const pressureHpa = Math.round(metarData.altim * 33.864);
         details.push(`<strong>气压：</strong>${metarData.altim} inHg (${pressureHpa} hPa)`);
     }
     
-    // 天气现象
     if (metarData.wxString) {
         const translated = translateWeatherPhenomena(metarData.wxString);
         details.push(`<strong>天气现象：</strong>${metarData.wxString} (${translated})`);
     }
     
-    // 飞行类别
     if (metarData.fltCat) {
         const fltCatTranslated = weatherTranslations[metarData.fltCat] || metarData.fltCat;
         details.push(`<strong>飞行类别：</strong>${metarData.fltCat} (${fltCatTranslated})`);
-    }
-    
-    // 云量信息
-    if (metarData.clouds && metarData.clouds.length > 0) {
-        const cloudInfo = metarData.clouds.map(cloud => {
-            let cloudDesc = `${weatherTranslations[cloud.cover] || cloud.cover}`;
-            if (cloud.base) {
-                cloudDesc += ` 云底${cloud.base * 100}英尺`;
-            }
-            if (cloud.type) {
-                cloudDesc += ` (${cloud.type})`;
-            }
-            return cloudDesc;
-        }).join(', ');
-        details.push(`<strong>云量：</strong>${cloudInfo}`);
     }
     
     return details.join('<br>');
@@ -188,25 +216,21 @@ function formatTAFDetails(tafData) {
     
     let details = [];
     
-    // 机场信息
     if (tafData.name) {
         details.push(`<strong>机场：</strong>${tafData.name} (${tafData.icaoId || 'VHHH'})`);
     }
     
-    // 发布时间
     if (tafData.issueTime) {
         const issueTime = formatTime(tafData.issueTime);
         details.push(`<strong>发布时间：</strong>${issueTime}`);
     }
     
-    // 有效期
     if (tafData.validTimeFrom && tafData.validTimeTo) {
         const validFrom = formatTime(tafData.validTimeFrom);
         const validTo = formatTime(tafData.validTimeTo);
         details.push(`<strong>有效期：</strong>${validFrom} 至 ${validTo}`);
     }
     
-    // 预报详情
     if (tafData.fcsts && tafData.fcsts.length > 0) {
         details.push('<strong>预报详情：</strong>');
         tafData.fcsts.forEach((fcst, index) => {
@@ -236,10 +260,6 @@ function formatTAFDetails(tafData) {
                 fcstDetails.push(`天气现象: ${fcst.wxString} (${translated})`);
             }
             
-            if (fcst.probability) {
-                fcstDetails.push(`概率: ${fcst.probability}%`);
-            }
-            
             if (fcstDetails.length > 0) {
                 details.push(`&nbsp;&nbsp;预报 ${index + 1}: ${fcstDetails.join(', ')}`);
             }
@@ -254,7 +274,6 @@ async function loadLiveMETAR() {
     const container = document.getElementById('live-weather-content');
     if (!container) return;
     
-    // 显示加载状态
     container.innerHTML = `
         <div class="weather-loading">
             <i class="fas fa-spinner fa-spin"></i> 正在获取METAR数据...
@@ -310,7 +329,6 @@ async function loadLiveTAF() {
     const container = document.getElementById('live-weather-content');
     if (!container) return;
     
-    // 显示加载状态
     container.innerHTML = `
         <div class="weather-loading">
             <i class="fas fa-spinner fa-spin"></i> 正在获取TAF数据...
@@ -366,7 +384,6 @@ function switchWeatherType(type) {
     const metarBtn = document.getElementById('metar-btn');
     const tafBtn = document.getElementById('taf-btn');
     
-    // 更新按钮状态
     if (type === 'metar') {
         metarBtn.classList.add('active');
         tafBtn.classList.remove('active');
@@ -396,7 +413,6 @@ function initLiveWeather() {
 
 // 当文档加载完成后初始化
 document.addEventListener('DOMContentLoaded', function() {
-    // 检查是否在service-center页面且有实时天气容器
     if (document.getElementById('live-weather-container')) {
         initLiveWeather();
     }
