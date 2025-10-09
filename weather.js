@@ -1,8 +1,9 @@
-// api/weather.js - 统一的天气API和前端功能
+// weather.js - 使用公共CORS代理
 // VAAHK - 虚拟香港机场管理局
 
-// 检查是否在Vercel Functions环境中
-const isServerless = typeof window === 'undefined';
+// 使用公共CORS代理
+const CORS_PROXY = 'https://cors-anywhere.herokuapp.com/';
+// 或者使用这个备选代理：'https://api.allorigins.win/raw?url='
 
 // 天气翻译映射表
 const weatherTranslations = {
@@ -28,11 +29,10 @@ const windDirections = {
     'VRB': '变化'
 };
 
-// ========== 核心API函数 ==========
-
-// 获取METAR数据
+// 获取METAR数据 - 使用CORS代理
 async function fetchMETAR(icaoCode = 'VHHH') {
-    const url = `https://aviationweather.gov/api/data/metar?ids=${icaoCode}&format=json`;
+    const targetUrl = `https://aviationweather.gov/api/data/metar?ids=${icaoCode}&format=json`;
+    const url = `${CORS_PROXY}${targetUrl}`;
     
     try {
         const response = await fetch(url);
@@ -63,9 +63,10 @@ async function fetchMETAR(icaoCode = 'VHHH') {
     }
 }
 
-// 获取TAF数据
+// 获取TAF数据 - 使用CORS代理
 async function fetchTAF(icaoCode = 'VHHH') {
-    const url = `https://aviationweather.gov/api/data/taf?ids=${icaoCode}&format=json`;
+    const targetUrl = `https://aviationweather.gov/api/data/taf?ids=${icaoCode}&format=json`;
+    const url = `${CORS_PROXY}${targetUrl}`;
     
     try {
         const response = await fetch(url);
@@ -95,8 +96,6 @@ async function fetchTAF(icaoCode = 'VHHH') {
         };
     }
 }
-
-// ========== 工具函数 ==========
 
 // 格式化时间
 function formatTime(timestamp) {
@@ -138,19 +137,16 @@ function translateWeatherPhenomena(wxString) {
     let translation = '';
     let remaining = wxString;
     
-    // 处理强度前缀
     if (remaining.startsWith('-') || remaining.startsWith('+')) {
         translation += weatherTranslations[remaining[0]] + ' ';
         remaining = remaining.substring(1);
     }
     
-    // 处理VC前缀
     if (remaining.startsWith('VC')) {
         translation += weatherTranslations['VC'] + ' ';
         remaining = remaining.substring(2);
     }
     
-    // 尝试匹配已知的天气代码
     const codes = Object.keys(weatherTranslations).sort((a, b) => b.length - a.length);
     for (const code of codes) {
         if (remaining.startsWith(code)) {
@@ -293,96 +289,6 @@ function formatTAFDetails(tafData) {
     return details.join('<br>');
 }
 
-// ========== Vercel Functions 处理逻辑 ==========
-
-// Vercel Serverless Function 处理器
-async function handleApiRequest(req, res) {
-    // 设置CORS头
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-    
-    // 处理预检请求
-    if (req.method === 'OPTIONS') {
-        return res.status(200).end();
-    }
-    
-    const { type = 'metar', icao = 'VHHH' } = req.query;
-    
-    try {
-        let result;
-        if (type === 'metar') {
-            result = await fetchMETAR(icao);
-        } else if (type === 'taf') {
-            result = await fetchTAF(icao);
-        } else {
-            return res.status(400).json({ 
-                success: false, 
-                error: 'Invalid type. Use "metar" or "taf".' 
-            });
-        }
-        
-        res.status(200).json(result);
-        
-    } catch (error) {
-        console.error('API Error:', error);
-        res.status(500).json({
-            success: false,
-            error: error.message,
-            timestamp: new Date().toISOString()
-        });
-    }
-}
-
-// ========== 前端显示逻辑 ==========
-
-// 通过代理获取数据（前端使用）
-async function fetchMETARProxy(icaoCode = 'VHHH') {
-    const url = `/api/weather?type=metar&icao=${icaoCode}`;
-    
-    try {
-        const response = await fetch(url);
-        
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        
-        const result = await response.json();
-        return result;
-        
-    } catch (error) {
-        console.error('Error fetching METAR data:', error);
-        return {
-            success: false,
-            error: error.message,
-            timestamp: new Date().toISOString()
-        };
-    }
-}
-
-async function fetchTAFProxy(icaoCode = 'VHHH') {
-    const url = `/api/weather?type=taf&icao=${icaoCode}`;
-    
-    try {
-        const response = await fetch(url);
-        
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        
-        const result = await response.json();
-        return result;
-        
-    } catch (error) {
-        console.error('Error fetching TAF data:', error);
-        return {
-            success: false,
-            error: error.message,
-            timestamp: new Date().toISOString()
-        };
-    }
-}
-
 // 加载实时METAR数据
 async function loadLiveMETAR() {
     const container = document.getElementById('live-weather-content');
@@ -395,7 +301,7 @@ async function loadLiveMETAR() {
     `;
     
     try {
-        const result = await fetchMETARProxy('VHHH');
+        const result = await fetchMETAR('VHHH');
         
         if (result.success) {
             const metarData = result.data;
@@ -460,7 +366,7 @@ async function loadLiveTAF() {
     `;
     
     try {
-        const result = await fetchTAFProxy('VHHH');
+        const result = await fetchTAF('VHHH');
         
         if (result.success) {
             const tafData = result.data;
@@ -545,23 +451,14 @@ function initLiveWeather() {
     }, 5 * 60 * 1000);
 }
 
-// ========== 导出逻辑 ==========
+// 暴露函数到全局作用域
+window.switchWeatherType = switchWeatherType;
+window.loadLiveMETAR = loadLiveMETAR;
+window.loadLiveTAF = loadLiveTAF;
 
-// 如果是Vercel Functions环境，导出API处理器
-if (isServerless) {
-    module.exports = handleApiRequest;
-} 
-// 如果是浏览器环境，将函数暴露到全局作用域
-else {
-    // 暴露函数到全局作用域供HTML调用
-    window.switchWeatherType = switchWeatherType;
-    window.loadLiveMETAR = loadLiveMETAR;
-    window.loadLiveTAF = loadLiveTAF;
-    
-    // 自动初始化
-    document.addEventListener('DOMContentLoaded', function() {
-        if (document.getElementById('live-weather-container')) {
-            initLiveWeather();
-        }
-    });
-}
+// 自动初始化
+document.addEventListener('DOMContentLoaded', function() {
+    if (document.getElementById('live-weather-container')) {
+        initLiveWeather();
+    }
+});
