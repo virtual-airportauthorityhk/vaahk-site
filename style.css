@@ -1039,190 +1039,50 @@ body.join-us .card p strong {
     border-top: 2px solid var(--text-green);
 }
 
-/* weather-widget.css */
+/* 天气组件样式 - 与解码器保持一致 */
 .weather-widget {
-    background: #f8f9fa;
-    border: 1px solid #dee2e6;
-    border-radius: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
     margin-bottom: 20px;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: white;
 }
 
 .weather-header {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: white;
-    padding: 15px 20px;
-    border-radius: 8px 8px 0 0;
+    background: #f8f9fa;
+    border-bottom: 1px solid #ddd;
+    padding: 15px;
 }
 
 .weather-header h2 {
     margin: 0 0 10px 0;
-    font-size: 1.4em;
-    font-weight: 600;
+    font-size: 1.2em;
+    color: #333;
 }
 
 .weather-tabs {
     display: flex;
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 6px;
-    padding: 4px;
+    border-bottom: 1px solid #ddd;
 }
 
-.tab-button {
-    flex: 1;
+.weather-tab {
+    padding: 8px 16px;
     background: none;
     border: none;
-    color: white;
-    padding: 8px 16px;
-    border-radius: 4px;
+    border-bottom: 2px solid transparent;
     cursor: pointer;
-    font-size: 0.9em;
-    font-weight: 500;
-    transition: all 0.3s ease;
+    color: #666;
 }
 
-.tab-button.active {
-    background: rgba(255, 255, 255, 0.2);
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+.weather-tab.active {
+    color: #007bff;
+    border-bottom-color: #007bff;
+    background: #fff;
 }
 
-.tab-button:hover:not(.active) {
-    background: rgba(255, 255, 255, 0.1);
-}
-
-.weather-content {
-    padding: 20px;
-}
-
-.tab-content {
+.weather-tab-content {
     display: none;
 }
 
-.tab-content.active {
+.weather-tab-content.active {
     display: block;
-    animation: fadeIn 0.3s ease-in;
-}
-
-@keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
-}
-
-.weather-data {
-    background: white;
-    border-radius: 6px;
-    padding: 15px;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-}
-
-.weather-item {
-    display: flex;
-    margin-bottom: 8px;
-    padding: 4px 0;
-    border-bottom: 1px solid #f1f3f4;
-}
-
-.weather-item:last-child {
-    border-bottom: none;
-    margin-bottom: 0;
-}
-
-.weather-label {
-    font-weight: 600;
-    color: #495057;
-    min-width: 120px;
-    font-size: 0.9em;
-}
-
-.weather-value {
-    color: #212529;
-    flex: 1;
-    font-size: 0.9em;
-}
-
-.raw-text {
-    font-family: 'Courier New', monospace;
-    background: #f8f9fa;
-    padding: 4px 8px;
-    border-radius: 4px;
-    border: 1px solid #e9ecef;
-    word-break: break-all;
-}
-
-.weather-loading, .weather-error {
-    text-align: center;
-    padding: 40px 20px;
-    color: #6c757d;
-    font-style: italic;
-}
-
-.weather-error {
-    color: #dc3545;
-    background: #f8d7da;
-    border-radius: 6px;
-    border: 1px solid #f5c6cb;
-}
-
-.taf-forecasts {
-    margin-top: 15px;
-}
-
-.taf-forecast {
-    background: #f8f9fa;
-    border: 1px solid #e9ecef;
-    border-radius: 6px;
-    padding: 12px;
-    margin-bottom: 10px;
-}
-
-.taf-forecast:last-child {
-    margin-bottom: 0;
-}
-
-.taf-period {
-    font-weight: 600;
-    color: #495057;
-    margin-bottom: 8px;
-    font-size: 0.9em;
-    padding-bottom: 4px;
-    border-bottom: 1px dashed #dee2e6;
-}
-
-.taf-details .weather-item {
-    margin-bottom: 4px;
-    padding: 2px 0;
-}
-
-.taf-details .weather-label {
-    min-width: 80px;
-    font-size: 0.85em;
-}
-
-.taf-details .weather-value {
-    font-size: 0.85em;
-}
-
-/* 响应式设计 */
-@media (max-width: 768px) {
-    .weather-item {
-        flex-direction: column;
-    }
-    
-    .weather-label {
-        min-width: auto;
-        margin-bottom: 2px;
-    }
-    
-    .weather-header {
-        padding: 12px 15px;
-    }
-    
-    .weather-content {
-        padding: 15px;
-    }
-    
-    .tab-button {
-        padding: 6px 12px;
-        font-size: 0.85em;
-    }
 }
