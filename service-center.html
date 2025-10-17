@@ -71,31 +71,28 @@
                     <p>为您提供专业的航空信息解读服务</p>
                 </div>
 
-                <!-- 实时天气信息 -->
-<div class="live-weather-container" id="live-weather-container">
-    <h3><i class="fas fa-cloud-sun-rain"></i> 香港国际机场实时天气</h3>
-    <p class="text-indent">获取香港国际机场(VHHH)最新的METAR和TAF实时数据，数据来源：Aviation Weather Center API</p>
-    
-    <div class="weather-tabs">
-        <button class="weather-tab active" id="metar-btn" onclick="switchWeatherType('metar')">
-            METAR
-        </button>
-        <button class="weather-tab" id="taf-btn" onclick="switchWeatherType('taf')">
-            TAF
-        </button>
+<!-- 气象数据组件 -->
+<div class="weather-widget">
+    <div class="weather-header">
+        <h2>香港国际机场实时METAR及TAF</h2>
+        <div class="weather-tabs">
+            <button class="tab-button active" data-tab="metar">METAR</button>
+            <button class="tab-button" data-tab="taf">TAF</button>
+        </div>
     </div>
-    
-    <div class="weather-content" id="live-weather-content">
-        <!-- 内容将通过JavaScript动态加载 -->
-    </div>
-    
-    <div style="margin-top: 20px; text-align: center;">
-        <small style="color: var(--dark-grey);">
-            <i class="fas fa-info-circle"></i> 
-            数据每5分钟自动更新 | 来源: aviationweather.gov
-        </small>
+    <div class="weather-content">
+        <div id="metar-content" class="tab-content active">
+            <!-- METAR内容将通过JavaScript加载 -->
+        </div>
+        <div id="taf-content" class="tab-content">
+            <!-- TAF内容将通过JavaScript加载 -->
+        </div>
     </div>
 </div>
+
+<!-- 引入样式和脚本 -->
+<link rel="stylesheet" href="weather-widget.css">
+<script src="weather.js"></script>
 
             <!-- METAR解码器 -->
             <div class="tool-container" id="metar">
