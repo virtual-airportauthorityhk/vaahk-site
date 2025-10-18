@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>虚拟香港航空服务中心 - 虚拟香港机场管理局</title>
+    <title>服务中心 - 虚拟香港机场管理局</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -31,7 +31,7 @@
                 <div class="nav-right">
                     <ul class="nav-links">
                         <li><a href="index.html">主页</a></li>
-                        <li><a class="active" href="service-center.html">虚拟香港航空服务中心</a></li>
+                        <li><a class="active" href="service-center.html">服务中心</a></li>
                         <li><a href="aviation-info.html">航空知识</a></li>
                         <li><a href="online-flight-event.html">连飞活动</a></li>
                         <li><a href="structure.html">架构</a></li>
@@ -52,7 +52,7 @@
         <div class="mobile-nav" id="mobile-nav">
             <ul class="mobile-nav-links">
                 <li><a href="index.html">主页</a></li>
-                <li><a class="active" href="service-center.html">虚拟香港航空服务中心</a></li>
+                <li><a class="active" href="service-center.html">服务中心</a></li>
                 <li><a href="aviation-info.html">航空知识</a></li>
                 <li><a href="online-flight-event.html">连飞活动</a></li>
                 <li><a href="structure.html">架构</a></li>
@@ -67,19 +67,20 @@
         <section class="section">
             <div class="container">
                 <div class="section-title">
-                    <h1>虚拟香港航空服务中心</h1>
+                    <h1>服务中心</h1>
                     <p>为您提供专业的航空信息解读服务</p>
                 </div>
 
-<!-- 气象数据组件 -->
-<div class="weather-widget">
+                <!-- 实时天气数据组件 -->
+<div class="weather-widget" id="weather-widget">
     <div class="weather-header">
-        <h2>香港国际机场实时METAR及TAF</h2>
+        <h2><i class="fas fa-cloud-sun"></i> 香港国际机场实时METAR及TAF</h2>
         <div class="weather-tabs">
             <button class="tab-button active" data-tab="metar">METAR</button>
             <button class="tab-button" data-tab="taf">TAF</button>
         </div>
     </div>
+    
     <div class="weather-content">
         <div id="metar-content" class="tab-content active">
             <!-- METAR内容将通过JavaScript加载 -->
@@ -88,11 +89,12 @@
             <!-- TAF内容将通过JavaScript加载 -->
         </div>
     </div>
+    
+    <div class="weather-footer">
+        <p id="weather-last-updated">最后更新: --</p>
+        <p class="weather-auto-refresh">每5分钟自动更新</p>
+    </div>
 </div>
-
-<!-- 引入样式和脚本 -->
-<link rel="stylesheet" href="weather-widget.css">
-<script src="weather.js"></script>
 
             <!-- METAR解码器 -->
             <div class="tool-container" id="metar">
