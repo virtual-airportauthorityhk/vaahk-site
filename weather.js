@@ -1,10 +1,10 @@
-// 香港国际机场实时METAR和TAF数据获取 - 修复版
+// 香港国际机场实时METAR和TAF数据获取
 class WeatherService {
     constructor() {
         this.metarAPI = 'https://aviationweather.gov/api/data/metar?ids=VHHH&format=raw';
         this.tafAPI = 'https://aviationweather.gov/api/data/taf?ids=VHHH&format=raw';
         this.currentDisplay = 'metar';
-        this.refreshInterval = 300000; // 5分钟
+        this.refreshInterval = 300000; 
         this.intervalId = null;
         this.metarInfo = null;
         this.tafInfo = null;
@@ -150,7 +150,7 @@ class WeatherService {
             rawOb: rawData,
             reportTime: this.formatTime(now),
             receiptTime: this.formatTime(now),
-            // 从原始METAR中提取基本信息（简化处理）
+            // 从原始METAR中提取基本信息
             station: rawData.split(' ')[0] || 'VHHH',
             time: this.extractTimeFromMetar(rawData)
         };
