@@ -1371,48 +1371,198 @@ body.join-us .card p strong {
 
 /* 天气组件样式 - 与解码器保持一致 */
 .weather-widget {
-    border: 1px solid #ddd;
-    border-radius: 4px;
+    background: var(--white);
+    border-radius: 12px;
+    padding: 30px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+    margin-bottom: 35px;
+    border: 1px solid var(--medium-grey);
+    border-left: 4px solid var(--light-green);
+}
+
+.weather-widget h2 {
+    font-size: 1.5rem;
     margin-bottom: 20px;
-    background: white;
+    color: var(--black);
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
 .weather-header {
-    background: #f8f9fa;
-    border-bottom: 1px solid #ddd;
-    padding: 15px;
-}
-
-.weather-header h2 {
-    margin: 0 0 10px 0;
-    font-size: 1.2em;
-    color: #333;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    gap: 15px;
 }
 
 .weather-tabs {
     display: flex;
-    border-bottom: 1px solid #ddd;
+    gap: 5px;
+    background: var(--light-grey);
+    padding: 4px;
+    border-radius: 8px;
 }
 
-.weather-tab {
+.tab-button {
     padding: 8px 16px;
-    background: none;
+    background: transparent;
     border: none;
-    border-bottom: 2px solid transparent;
+    border-radius: 6px;
     cursor: pointer;
-    color: #666;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    color: var(--dark-grey);
 }
 
-.weather-tab.active {
-    color: #007bff;
-    border-bottom-color: #007bff;
-    background: #fff;
+.tab-button.active {
+    background: linear-gradient(135deg, var(--light-green), var(--hover-green));
+    color: var(--black);
 }
 
-.weather-tab-content {
+.tab-button:not(.active):hover {
+    background: var(--medium-grey);
+}
+
+.weather-content {
+    margin-top: 20px;
+}
+
+.tab-content {
     display: none;
 }
 
-.weather-tab-content.active {
+.tab-content.active {
     display: block;
+    animation: fadeIn 0.5s ease;
+}
+
+.weather-raw h4 {
+    color: var(--text-green);
+    margin-bottom: 10px;
+    font-size: 1.1rem;
+}
+
+.weather-raw-text {
+    background: var(--light-grey);
+    padding: 15px;
+    border-radius: 6px;
+    border: 1px solid var(--medium-grey);
+    font-family: 'Courier New', monospace;
+    font-size: 0.95rem;
+    color: var(--black);
+    line-height: 1.4;
+    word-break: break-all;
+    margin-bottom: 20px;
+}
+
+.weather-details {
+    background: var(--light-grey);
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid var(--medium-grey);
+}
+
+.result-item {
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px dashed var(--medium-grey);
+}
+
+.result-item:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+}
+
+.result-item strong {
+    color: var(--text-green);
+    font-weight: 600;
+}
+
+.weather-loading {
+    text-align: center;
+    padding: 40px 20px;
+    color: var(--dark-grey);
+}
+
+.weather-loading i {
+    font-size: 2rem;
+    color: var(--text-green);
+    margin-bottom: 15px;
+}
+
+.weather-loading p {
+    font-size: 1.1rem;
+    margin: 0;
+}
+
+.weather-error {
+    text-align: center;
+    padding: 40px 20px;
+    color: #dc3545;
+}
+
+.weather-error i {
+    font-size: 2rem;
+    margin-bottom: 15px;
+}
+
+.weather-error p {
+    font-size: 1.1rem;
+    margin: 0 0 15px 0;
+}
+
+.weather-footer {
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 1px solid var(--medium-grey);
+    text-align: center;
+}
+
+#weather-last-updated {
+    color: var(--dark-grey);
+    font-size: 0.9rem;
+    margin: 0 0 5px 0;
+    font-weight: 500;
+}
+
+.weather-auto-refresh {
+    color: var(--dark-grey);
+    font-size: 0.85rem;
+    margin: 0;
+    font-style: italic;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .weather-header {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .weather-tabs {
+        justify-content: center;
+    }
+    
+    .weather-widget {
+        padding: 20px;
+    }
+    
+    .weather-raw-text {
+        font-size: 0.85rem;
+        padding: 12px;
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
