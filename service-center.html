@@ -71,48 +71,6 @@
                     <p>为您提供专业的航空信息解读服务</p>
                 </div>
 
-                <!-- 香港国际机场实时METAR及TAF -->
-<div class="weather-widget">
-    <div class="weather-header">
-        <h3 class="weather-title">港国际机场实时METAR及TAF</h3>
-        <div class="weather-status">
-            <span class="status-indicator" id="weatherStatus">正在加载...</span>
-            <button class="refresh-btn" onclick="initializeWeatherWidget()" title="刷新天气数据">刷新</button>
-        </div>
-    </div>
-    
-    <div class="weather-tabs">
-        <button class="tab-button active" onclick="showWeatherTab('metar')">METAR</button>
-        <button class="tab-button" onclick="showWeatherTab('taf')">TAF</button>
-    </div>
-    
-    <div class="weather-content">
-        <div id="metarTab" class="weather-tab active">
-            <div class="weather-grid" id="metarGrid">
-                <div class="weather-item">
-                    <div class="weather-label">当前天气数据</div>
-                    <div class="weather-value" id="metarData">正在获取数据...</div>
-                    <div class="weather-time" id="metarTime"></div>
-                </div>
-            </div>
-        </div>
-        
-        <div id="tafTab" class="weather-tab">
-            <div class="weather-grid" id="tafGrid">
-                <div class="weather-item">
-                    <div class="weather-label">天气预报数据</div>
-                    <div class="weather-value" id="tafData">正在获取数据...</div>
-                    <div class="weather-time" id="tafTime"></div>
-                </div>
-            </div>
-        </div>
-    </div>
-    
-    <div class="weather-footer">
-        <small>数据来源：Aviation Weather Center | 每5分钟自动更新</small>
-    </div>
-</div>
-
             <!-- METAR解码器 -->
             <div class="tool-container" id="metar">
                 <h3><i class="fas fa-cloud-sun"></i> METAR 解码器</h3>
