@@ -72,27 +72,44 @@
                 </div>
 
                 <!-- 香港国际机场实时METAR及TAF -->
-<div class="weather-widget" id="weather-widget">
+<div class="weather-widget">
     <div class="weather-header">
-        <h2><i class="fas fa-cloud-sun"></i> 香港国际机场实时METAR及TAF</h2>
-        <div class="weather-tabs">
-            <button class="tab-button active" data-tab="metar">METAR</button>
-            <button class="tab-button" data-tab="taf">TAF</button>
+        <h3 class="weather-title">港国际机场实时METAR及TAF</h3>
+        <div class="weather-status">
+            <span class="status-indicator" id="weatherStatus">正在加载...</span>
+            <button class="refresh-btn" onclick="initializeWeatherWidget()" title="刷新天气数据">刷新</button>
         </div>
     </div>
     
+    <div class="weather-tabs">
+        <button class="tab-button active" onclick="showWeatherTab('metar')">METAR</button>
+        <button class="tab-button" onclick="showWeatherTab('taf')">TAF</button>
+    </div>
+    
     <div class="weather-content">
-        <div id="metar-content" class="tab-content active">
-            <!-- METAR内容将通过JavaScript加载 -->
+        <div id="metarTab" class="weather-tab active">
+            <div class="weather-grid" id="metarGrid">
+                <div class="weather-item">
+                    <div class="weather-label">当前天气数据</div>
+                    <div class="weather-value" id="metarData">正在获取数据...</div>
+                    <div class="weather-time" id="metarTime"></div>
+                </div>
+            </div>
         </div>
-        <div id="taf-content" class="tab-content">
-            <!-- TAF内容将通过JavaScript加载 -->
+        
+        <div id="tafTab" class="weather-tab">
+            <div class="weather-grid" id="tafGrid">
+                <div class="weather-item">
+                    <div class="weather-label">天气预报数据</div>
+                    <div class="weather-value" id="tafData">正在获取数据...</div>
+                    <div class="weather-time" id="tafTime"></div>
+                </div>
+            </div>
         </div>
     </div>
     
     <div class="weather-footer">
-        <p id="weather-last-updated">最后更新: --</p>
-        <p class="weather-auto-refresh">每5分钟自动更新 - 香港国际机场 (VHHH)</p>
+        <small>数据来源：Aviation Weather Center | 每5分钟自动更新</small>
     </div>
 </div>
 
