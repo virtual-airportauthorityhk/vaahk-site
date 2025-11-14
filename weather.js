@@ -1,6 +1,3 @@
-// weather.js - 香港国际机场实时METAR及TAF API
-// VAAHK - 虚拟香港机场管理局
-
 class WeatherAPI {
     constructor() {
         this.baseURL = 'https://aviationweather.gov/api/data';
