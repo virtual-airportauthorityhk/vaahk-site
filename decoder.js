@@ -1,6 +1,3 @@
-// METAR和TAF解码器功能
-// VAAHK - 虚拟广州进近管制中心
-
 // METAR解码功能
 function decodeMETAR() {
     const metarText = document.getElementById('metar-input').value.trim();
@@ -19,12 +16,7 @@ function decodeMETAR() {
         'ZBAA': '北京首都国际机场',
         'ZSSS': '上海虹桥国际机场',
         'ZSPD': '上海浦东国际机场',
-        'RJTT': '东京羽田国际机场',
-        'RKPK': '釜山金海国际机场',
-        'RKSI': '首尔仁川国际机场',
-        'WMKK': '吉隆坡国际机场',
         'WSSS': '新加坡樟宜机场',
-        'VTBS': '曼谷素万那普机场'
     };
 
     // 天气现象代码映射
@@ -338,12 +330,7 @@ function decodeTAF() {
         'ZBAA': '北京首都国际机场',
         'ZSSS': '上海虹桥国际机场',
         'ZSPD': '上海浦东国际机场',
-        'RJTT': '东京羽田国际机场',
-        'RKPK': '釜山金海国际机场',
-        'RKSI': '首尔仁川国际机场',
-        'WMKK': '吉隆坡国际机场',
         'WSSS': '新加坡樟宜机场',
-        'VTBS': '曼谷素万那普机场'
     };
 
     // 当前处理的时间段
@@ -397,7 +384,7 @@ function decodeTAF() {
                 resultHTML += `<div class="result-item"><strong>预报风况</strong>: ${windInfo}</div>`;
             }
         }
-        // 能见度 (与METAR相同)
+        // 能见度
         else if (part.match(/^\d{4}$/) || part.match(/^\d{4}[NSEW]?$/) || part.match(/^[PM]?\d{1,2}\/\d{1,2}(SM|KM)$/)) {
             let visibilityInfo = '';
 
@@ -438,7 +425,7 @@ function decodeTAF() {
                 resultHTML += `<div class="result-item"><strong>预报能见度</strong>: ${visibilityInfo}</div>`;
             }
         }
-        // 天气现象 (与METAR相同)
+        // 天气现象
         else if (part.match(/^(\+|-|VC)?(TS|SH|FZ|BL|DR|MI|BC|PR|RA|DZ|SN|SG|IC|PL|GR|GS|UP|BR|FG|FU|VA|DU|SA|HZ|PY|PO|SQ|FC|SS|DS)$/)) {
             // 这里可以使用与METAR相同的天气解析逻辑
             // 简化处理，直接显示代码
@@ -448,7 +435,7 @@ function decodeTAF() {
                 resultHTML += `<div class="result-item"><strong>预报天气现象</strong>: ${part}</div>`;
             }
         }
-        // 云量 (与METAR相同)
+        // 云量
         else if (part.match(/^(VV|FEW|SCT|BKN|OVC|SKC|NSC|CLR)\d{3}/) || part === 'SKC' || part === 'NSC' || part === 'CLR') {
             let cloudInfo = '';
 

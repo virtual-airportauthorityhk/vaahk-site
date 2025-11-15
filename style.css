@@ -1,5 +1,3 @@
-/* 虚拟香港机场管理局网站样式 */
-
 /* 配色方案 */
 :root {
     --white: #ffffff;
@@ -99,6 +97,34 @@ table,
     background: #f8d7da;
     border-radius: 6px;
     border: 1px solid #f5c6cb;
+}
+
+/* 页面加载器样式 */
+.site-loader {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255,255,255,0.95);
+    z-index: 2000;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+.site-loader.hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+.loader-circle {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    border: 6px solid var(--light-grey);
+    border-top-color: var(--text-green);
+    animation: spin 1s linear infinite;
+}
+@keyframes spin {
+    to { transform: rotate(360deg); }
 }
 
 .forecast-section {
@@ -365,15 +391,15 @@ main {
 /* 移动端导航样式 */
 .mobile-nav {
     display: none;
-    /* 默认隐藏 */
-    position: fixed;
-    top: 85px;
+    position: absolute;
+    top: 100%;
     left: 0;
     width: 100%;
     background: var(--white);
-    padding: 15px 0;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 0;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
     z-index: 999;
+    border-top: 2px solid var(--text-green);
 }
 
 .mobile-nav.active {
@@ -383,7 +409,6 @@ main {
 @media (min-width: 769px) {
     .mobile-nav {
         display: none !important;
-        /* 确保在大屏幕上始终隐藏 */
     }
 
     .hamburger-menu {
@@ -402,13 +427,23 @@ main {
     }
 
     .mobile-nav {
-        top: 70px;
-        /* 移动端导航栏高度调整 */
+        position: fixed;
+        top: auto;
+        bottom: 0;
+        width: 100%;
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.3s ease;
+    }
+
+    .mobile-nav.active {
+        display: flex;
+        max-height: calc(100vh - 70px);
+        overflow-y: auto;
     }
 
     .real-time-clock {
         display: none;
-        /* 在小屏幕上隐藏时钟 */
     }
 
     .nav-right {
@@ -1142,6 +1177,7 @@ body.join-us .card p strong {
     padding: 0;
     display: flex;
     flex-direction: column;
+    width: 100%;
 }
 
 .mobile-nav-links li {
@@ -1154,7 +1190,7 @@ body.join-us .card p strong {
 
 .mobile-nav-links li a {
     display: block;
-    padding: 15px 20px;
+    padding: 16px 20px;
     text-decoration: none;
     color: var(--black);
     font-weight: 500;
@@ -1166,11 +1202,8 @@ body.join-us .card p strong {
 .mobile-nav-links li a.active {
     background-color: var(--light-green);
     color: var(--black);
-}
-
-/* 移动端菜单改进 */
-.mobile-nav {
-    border-top: 2px solid var(--text-green);
+    border-left: 4px solid var(--text-green);
+    padding-left: 16px;
 }
 
 /* 天气组件样式 - 与解码器保持一致的设计 */
