@@ -5,41 +5,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>虚拟香港机场管理局</title>
-    <!-- Favicon (placeholder SVG) -->
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='75' font-size='75' fill='%23228B22'%3E%E2%9C%88%3C/text%3E%3C/svg%3E">
-    <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'%3E%3Ctext y='130' font-size='130' fill='%23228B22'%3E%E2%9C%88%3C/text%3E%3C/svg%3E">
-
-    <!-- SEO meta -->
-    <meta name="description" content="虚拟香港机场管理局（VAAHK）- 提供航空知识、虚拟飞行服务及信息解码工具">
-    <meta name="keywords" content="虚拟机场,航空,METAR,TAF,香港机场,VAAHK">
-    <meta name="author" content="虚拟香港机场管理局">
-
-    <!-- Open Graph (社交分享) -->
-    <meta property="og:title" content="虚拟香港机场管理局">
-    <meta property="og:description" content="虚拟香港机场管理局（VAAHK）- 提供航空知识、虚拟飞行服务及信息解码工具">
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://your-site.example/">
-    <meta property="og:image" content="https://your-site.example/og-image.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
-    <!-- Analytics placeholder: replace G-XXXXXXX with your ID -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXX"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);} 
-        gtag('js', new Date());
-        gtag('config', 'G-XXXXXXX');
-    </script>
 </head>
 
 <body>
-    <!-- 页面加载器（首页） -->
-    <div id="site-loader" class="site-loader">
-        <div class="loader-circle" aria-hidden="true"></div>
-    </div>
+
     <header>
         <div class="container">
             <!-- 第一行：时间日期 -->
@@ -91,27 +62,9 @@
     </header>
 
     <main>
-        <script>
-            // Hide loader once page loads
-            (function(){
-                function hideLoader(){
-                    var loader = document.getElementById('site-loader');
-                    if(loader){ 
-                        loader.classList.add('hidden'); 
-                        setTimeout(function(){ loader.remove(); }, 350); 
-                    }
-                }
-                if(document.readyState === 'complete'){
-                    hideLoader();
-                } else {
-                    window.addEventListener('load', hideLoader);
-                    document.addEventListener('DOMContentLoaded', function(){ setTimeout(hideLoader,300); });
-                }
-            })();
-        </script>
         <!-- 英雄区域 -->
         <div class="hero">
-            <div class="hero-content">
+            <div class="hero-content fade-in-up">
                 <h1>欢迎访问虚拟香港机场管理局网站</h1>
                 <p class="text-indent">
                     在这里，您将踏入一场关于航空的奇妙之旅。我们深知每一次飞行都承载着乘客的梦想与期待。因此，我们致力于打造一个集高效、便捷、安全于一体的虚拟航空枢纽。我们坚信，每一次飞行都是一次全新的开始。在虚拟航空枢纽，我们将携手合作伙伴，共同为您创造难忘的航空旅行体验。期待您的光临，愿您的旅程充满惊喜与快乐!
@@ -122,71 +75,101 @@
         <div class="container">
             <div class="section-content">
                 <!-- 公告区域 -->
-                <div class="content-container">
+                <div class="content-container fade-in-up delay-100">
                     <h3><i class="fas fa-bullhorn"></i> 最新公告</h3>
-                    <div class="announcement-item">
-                        <div class="announcement-date"><strong>发布日期: 2025年8月22日</strong></div>
-                        <div>
+                    <div class="announcement-item important">
+                        <div class="announcement-header">
+                            <span class="announcement-tag important-tag">重要</span>
+                            <div class="announcement-date"><strong>发布日期: 2025年11月16日</strong></div>
+                        </div>
+                        <div class="announcement-content">
+                            <strong>2025全虚航秋季校企招飞考试 已开放报名</strong><br>
+                            2025全虚航秋季校企招飞考试（空中交通管制职业技能鉴定考试）已开放报名，详情：进QQ群1048910805<br>
+                            虚拟香港国际航空学院 VHKIAA
+                        </div>
+                    </div>
+                    <div class="announcement-item update">
+                        <div class="announcement-header">
+                            <span class="announcement-tag update-tag">更新</span>
+                            <div class="announcement-date"><strong>发布日期: 2025年8月22日</strong></div>
+                        </div>
+                        <div class="announcement-content">
                             <strong>METAR及TAF解码器更新</strong><br>
                             METAR及TAF解码器更新，可以提供更加详细的解码服务。
                         </div>
                     </div>
-                    <div class="announcement-item">
-                        <div class="announcement-date"><strong>发布日期: 2025年8月21日</strong></div>
-                        <div>
+                    <div class="announcement-item info">
+                        <div class="announcement-header">
+                            <span class="announcement-tag info-tag">信息</span>
+                            <div class="announcement-date"><strong>发布日期: 2025年8月21日</strong></div>
+                        </div>
+                        <div class="announcement-content">
                             <strong>网站开始测试</strong><br>
                             虚拟香港机场管理局网站现已开始测试阶段，欢迎各位提出宝贵意见。
                         </div>
                     </div>
 
-                    <!-- 历史公告区域 (默认隐藏) -->
+                    <!-- 历史公告区域 -->
                     <div class="hidden-announcements" id="hidden-announcements">
-                        <div class="announcement-item">
-                            <div class="announcement-item">
+                        <div class="announcement-item apology">
+                            <div class="announcement-header">
+                                <span class="announcement-tag apology-tag">致歉</span>
                                 <div class="announcement-date"><strong>发布日期: 2025年7月1日</strong></div>
-                                <div>
-                                    <strong></strong><br>
-                                    尊敬的活动协办方及参加者：
-                                    在7月1日的"香港特别行政区回归28周年纪念 · 京港连飞活动"中，我们（虚拟香港机场管理局
-                                    VAAHK）未能达到预期的活动效果，我们对此深表歉意。我们认识到活动中的沟通不足给参与者带来了不便，我们对此负有不可推卸的责任。
-                                    我们对协办方的辛勤工作和支持表示衷心的感谢。没有您的参与和贡献，活动不可能顺利进行。
-                                    我们特别感谢您在活动中的耐心和理解。针对此次活动中出现的问题，我们将重新审视并调整相关规则，以确保未来能提供更优质的体验。我们承诺将加强活动前的准备和协调工作，尽量减少此类情况再次发生。
-                                    我们期待在未来的活动中继续得到您的支持，并再次为您提供更加完美的体验。
-                                    感谢您的理解与合作。
-                                    虚拟香港机场管理局 客户服务与体验部
-                                    2025年7月1日
-                                </div>
                             </div>
-                            <div class="announcement-date"><strong>发布日期: 2025年6月26日</strong></div>
-                            <div>
+                            <div class="announcement-content">
+                                <strong>关于香港回归28周年纪念活动的致歉声明</strong><br>
+                                尊敬的活动协办方及参加者：<br>
+                                在7月1日的"香港特别行政区回归28周年纪念 · 京港连飞活动"中，我们（虚拟香港机场管理局VAAHK）未能达到预期的活动效果，我们对此深表歉意。我们认识到活动中的沟通不足给参与者带来了不便，我们对此负有不可推卸的责任。<br>
+                                我们对协办方的辛勤工作和支持表示衷心的感谢。没有您的参与和贡献，活动不可能顺利进行。<br>
+                                我们特别感谢您在活动中的耐心和理解。针对此次活动中出现的问题，我们将重新审视并调整相关规则，以确保未来能提供更优质的体验。我们承诺将加强活动前的准备和协调工作，尽量减少此类情况再次发生。<br>
+                                我们期待在未来的活动中继续得到您的支持，并再次为您提供更加完美的体验。<br>
+                                感谢您的理解与合作。<br>
+                                虚拟香港机场管理局 客户服务与体验部<br>
+                                2025年7月1日
+                            </div>
+                        </div>
+                        <div class="announcement-item event">
+                            <div class="announcement-header">
+                                <span class="announcement-tag event-tag">活动</span>
+                                <div class="announcement-date"><strong>发布日期: 2025年6月26日</strong></div>
+                            </div>
+                            <div class="announcement-content">
                                 <strong>香港回归28周年纪念 · 京港连飞活动举办</strong><br>
                                 为庆祝香港回归祖国28周年，虚拟香港机场管理局(VAAHK)联合多家虚拟航空公司举办京港连飞活动，欢迎各位飞行爱好者参与！
                             </div>
-                            <div class="announcement-item">
+                        </div>
+                        <div class="announcement-item establishment">
+                            <div class="announcement-header">
+                                <span class="announcement-tag establishment-tag">成立</span>
                                 <div class="announcement-date"><strong>发布日期: 2025年5月13日</strong></div>
-                                <div>
-                                    <strong>天际航空正式成立</strong><br>
-                                    虚拟香港机场管理局旗下天际航空(SkyLine Airline)正式成立，致力于为虚拟航空爱好者提供高质量服务。
-                                </div>
                             </div>
-                            <div class="announcement-item">
+                            <div class="announcement-content">
+                                <strong>天际航空正式成立</strong><br>
+                                虚拟香港机场管理局旗下天际航空(SkyLine Airline)正式成立，致力于为虚拟航空爱好者提供高质量服务。
+                            </div>
+                        </div>
+                        <div class="announcement-item establishment">
+                            <div class="announcement-header">
+                                <span class="announcement-tag establishment-tag">成立</span>
                                 <div class="announcement-date"><strong>发布日期: 2024年10月20日</strong></div>
-                                <div>
-                                    <strong>虚拟香港机场管理局式成立</strong><br>
-                                    虚拟香港机场管理局VAAHK 正式成立！
-                                </div>
+                            </div>
+                            <div class="announcement-content">
+                                <strong>虚拟香港机场管理局正式成立</strong><br>
+                                虚拟香港机场管理局VAAHK 正式成立！
                             </div>
                         </div>
+                    </div>
 
-                        <div class="show-more-btn">
-                            <button class="btn" id="show-more-btn">显示历史公告</button>
-                        </div>
+                    <div class="show-more-btn">
+                        <button class="btn btn-outline" id="show-more-btn">
+                            <i class="fas fa-history"></i> 显示历史公告
+                        </button>
                     </div>
                 </div>
             </div>
 
             <!-- 最近连飞活动 -->
-            <div class="content-container">
+            <div class="content-container fade-in-up delay-200">
                 <h3><i class="fas fa-calendar-alt"></i> 最近连飞活动</h3>
                 <div class="card">
                     <div class="card-icon"><i class="fas fa-plane"></i></div>
@@ -195,8 +178,7 @@
                         <p><strong>航线：</strong> 上海浦东国际机场 (ZSPD) - 香港国际机场 (VHHH)</p>
                         <p><strong>日期：</strong> 2025年10月19日</p>
                         <p><strong>时间：</strong> 13：25 (UTC+8)</p>
-                        <p><strong>简介：</strong> 为庆祝虚拟香港机场管理局 VAAHK 成立一周年，虚拟香港机场管理局 VAAHK 联合 挽苑航空集团
-                            WAG　举办一周年连飞活动，欢迎各位飞行爱好者参与！</p>
+                        <p><strong>简介：</strong> 为庆祝虚拟香港机场管理局 VAAHK 成立一周年，虚拟香港机场管理局 VAAHK 联合 挽苑航空集团 WAG　举办一周年连飞活动，欢迎各位飞行爱好者参与！</p>
                     </div>
                     <div class="text-center">
                         <a href="404.html" class="btn"
@@ -207,12 +189,12 @@
             </div>
 
             <!-- 快速服务入口 -->
-            <div class="section-title">
+            <div class="section-title fade-in-up delay-300">
                 <h2>快速服务入口</h2>
                 <p>专业的航空信息解读服务</p>
             </div>
             <div class="card-grid">
-                <div class="card">
+                <div class="card fade-in-left delay-400">
                     <div class="card-icon"><i class="fas fa-cloud-sun"></i></div>
                     <h3>METAR解码</h3>
                     <p>实时天气报告解码服务，为您提供准确的机场天气信息</p>
@@ -220,7 +202,7 @@
                         <a href="service-center.html" class="btn">立即使用</a>
                     </div>
                 </div>
-                <div class="card">
+                <div class="card fade-in-left delay-500">
                     <div class="card-icon"><i class="fas fa-chart-line"></i></div>
                     <h3>TAF解码</h3>
                     <p>机场天气预报解码服务，助您了解未来天气趋势</p>
@@ -228,7 +210,7 @@
                         <a href="service-center.html" class="btn">立即使用</a>
                     </div>
                 </div>
-                <div class="card">
+                <div class="card fade-in-left delay-600">
                     <div class="card-icon"><i class="fas fa-radio"></i></div>
                     <h3>ATIS信息</h3>
                     <p>自动终端情报服务，获取最新的机场运行信息</p>
@@ -239,10 +221,10 @@
             </div>
 
             <!-- 关于我们简介 -->
-            <div class="section-title">
+            <div class="section-title fade-in-up delay-700">
                 <h2>关于我们</h2>
             </div>
-            <div class="content-container">
+            <div class="content-container fade-in-scale delay-800">
                 <p class="text-indent">
                     2024年10月20日，虚拟香港机场管理局及虚拟香港民航处正式成立，前身为四川虚拟航空负责香港国际机场事务的部门。随着四川虚拟航空停运，香港机管局与香港民航处应运而生，填补了管理空白。香港民航处并入香港机管局后，双方资源整合，提升管理效能，构建了包括气象预报、情报服务、空中交通管制及航线规划在内的全面航空服务体系，推动虚拟航空事业稳健发展。
                 </p>
@@ -298,6 +280,7 @@
     </footer>
 
     <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
+    <script src="报错处理/error-handling.js"></script>
     <script src="timer.js"></script>
     <script>
         // 汉堡菜单功能

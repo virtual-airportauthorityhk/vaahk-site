@@ -4,64 +4,393 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>虚拟香港机场管理局 VAAHK 一周年连飞活动</title>
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='75' font-size='75' fill='%23228B22'%3E%E2%9C%88%3C/text%3E%3C/svg%3E">
-    <meta name="description" content="虚拟香港机场管理局（VAAHK）- 提供航空知识、虚拟飞行服务及信息解码工具">
-    <meta name="keywords" content="虚拟机场,航空,METAR,TAF,香港机场,VAAHK">
-    <meta name="author" content="虚拟香港机场管理局">
-    <meta property="og:title" content="虚拟香港机场管理局">
-    <meta property="og:description" content="虚拟香港机场管理局（VAAHK）- 提供航空知识、虚拟飞行服务及信息解码工具">
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXX"></script>
+    <title>活动详情 - 虚拟香港机场管理局</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <header>
+        <div class="container">
+            <!-- 第一行：时间日期 -->
+            <div class="top-row">
+                <div class="time-date-display">
+                    <span id="current-time"></span>
+                    <span id="current-date"></span>
+                </div>
+            </div>
+
+            <!-- 第二行：Logo和导航 -->
+            <nav class="bottom-row">
+                <div class="logo">
+                    <h1>虚拟香港机场管理局</h1>
+                </div>
+                <div class="nav-right">
+                    <ul class="nav-links">
+                        <li><a href="index.html">主页</a></li>
+                        <li><a href="service-center.html">服务中心</a></li>
+                        <li><a href="aviation-info.html">航空知识</a></li>
+                        <li><a class="active" href="online-flight-event.html">连飞活动</a></li>
+                        <li><a href="structure.html">架构</a></li>
+                        <li><a href="join-us.html">加入我们</a></li>
+                        <li><a href="contact-us.html">联系我们</a></li>
+                        <li><a href="about-us.html">关于我们</a></li>
+                    </ul>
+                    <button class="hamburger-menu" id="hamburger-menu">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </button>
+                </div>
+            </nav>
+        </div>
+
+        <!-- 移动端导航菜单 -->
+        <div class="mobile-nav" id="mobile-nav">
+            <ul class="mobile-nav-links">
+                <li><a href="index.html">主页</a></li>
+                <li><a href="service-center.html">服务中心</a></li>
+                <li><a href="aviation-info.html">航空知识</a></li>
+                <li><a href="online-flight-event.html">连飞活动</a></li>
+                <li><a href="structure.html">架构</a></li>
+                <li><a href="join-us.html">加入我们</a></li>
+                <li><a href="contact-us.html">联系我们</a></li>
+                <li><a href="about-us.html">关于我们</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <main>
+        <!-- 活动详情页面 -->
+        <section class="section">
+            <div class="container">
+                <div class="section-title fade-in-up">
+                    <h1>活动详情</h1>
+                    <p>了解我们的虚拟飞行活动详细信息</p>
+                </div>
+
+                <!-- 活动选择卡片 -->
+                <div class="content-container fade-in-up delay-100">
+                    <h3><i class="fas fa-calendar-alt"></i> 选择活动查看详情</h3>
+                    <div class="events-grid">
+                        <div class="card fade-in-left delay-200">
+                            <div class="card-icon"><i class="fas fa-plane"></i></div>
+                            <h3>香港回归28周年纪念 · 京港连飞活动</h3>
+                            <div style="margin: 20px 0;">
+                                <p><strong>航线：</strong> 北京首都国际机场 (ZBAA) - 香港国际机场 (VHHH)</p>
+                                <p><strong>日期：</strong> 2025年7月1日</p>
+                                <p><strong>时间：</strong> 13：00 (UTC+8)</p>
+                                <p><strong>简介：</strong> 为庆祝香港回归祖国28周年，虚拟香港机场管理局(VAAHK)联合多家虚拟航空公司举办京港连飞活动，欢迎各位飞行爱好者参与！</p>
+                            </div>
+                            <div class="text-center">
+                                <a href="#beijing-hongkong" class="btn">查看详情</a>
+                            </div>
+                        </div>
+                        
+                        <div class="card fade-in-left delay-300">
+                            <div class="card-icon"><i class="fas fa-globe"></i></div>
+                            <h3>VAAHK成立一周年纪念连飞活动</h3>
+                            <div style="margin: 20px 0;">
+                                <p><strong>航线：</strong> 上海浦东国际机场 (ZSPD) - 香港国际机场 (VHHH)</p>
+                                <p><strong>日期：</strong> 2025年8月15日</p>
+                                <p><strong>时间：</strong> 14：00 (UTC+8)</p>
+                                <p><strong>简介：</strong> 为庆祝虚拟香港机场管理局 VAAHK 成立一周年，虚拟香港机场管理局 VAAHK 联合挽苑航空集团 WAG 举办一周年连飞活动，欢迎各位飞行爱好者参与！</p>
+                            </div>
+                            <div class="text-center">
+                                <a href="#vaahk-anniversary" class="btn">查看详情</a>
+                            </div>
+                        </div>
+                        
+                        <div class="card fade-in-left delay-400">
+                            <div class="card-icon"><i class="fas fa-users"></i></div>
+                            <h3>周末欢乐飞 · 广州香港连飞</h3>
+                            <div style="margin: 20px 0;">
+                                <p><strong>航线：</strong> 广州白云国际机场 (ZGGG) - 香港国际机场 (VHHH)</p>
+                                <p><strong>日期：</strong> 每周六、周日</p>
+                                <p><strong>时间：</strong> 19：00 (UTC+8)</p>
+                                <p><strong>简介：</strong> 轻松愉快的周末飞行活动，适合各个水平的飞行爱好者参与，体验珠三角地区的空中交通。</p>
+                            </div>
+                            <div class="text-center">
+                                <a href="#weekend-fun" class="btn">查看详情</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 活动详细信息 -->
+                <div class="content-container fade-in-up delay-500">
+                    <!-- 北京香港连飞活动详情 -->
+                    <div id="beijing-hongkong" class="event-detail-section">
+                        <h2><i class="fas fa-plane"></i> 香港回归28周年纪念 · 京港连飞活动</h2>
+                        <div class="event-detail-grid">
+                            <div class="detail-card">
+                                <h3><i class="fas fa-route"></i> 航线信息</h3>
+                                <ul>
+                                    <li><strong>出发机场：</strong> 北京首都国际机场 (ZBAA)</li>
+                                    <li><strong>目的机场：</strong> 香港国际机场 (VHHH)</li>
+                                    <li><strong>飞行距离：</strong> 约1,980公里</li>
+                                    <li><strong>预计飞行时间：</strong> 约3小时30分钟</li>
+                                    <li><strong>推荐机型：</strong> A320、B737、A330、B777</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="detail-card">
+                                <h3><i class="fas fa-clock"></i> 时间安排</h3>
+                                <ul>
+                                    <li><strong>集合时间：</strong> 12：30 (UTC+8)</li>
+                                    <li><strong>起飞时间：</strong> 13：00 (UTC+8)</li>
+                                    <li><strong>预计到达：</strong> 16：30 (UTC+8)</li>
+                                    <li><strong>活动时长：</strong> 约4小时</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="detail-card">
+                                <h3><i class="fas fa-users"></i> 参与要求</h3>
+                                <ul>
+                                    <li>具备基本的飞行模拟器操作经验</li>
+                                    <li>能够进行语音通讯（推荐）</li>
+                                    <li>遵守空中交通管制指令</li>
+                                    <li>使用真实航班号或虚拟航班号</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="detail-card">
+                                <h3><i class="fas fa-gift"></i> 活动特色</h3>
+                                <ul>
+                                    <li>专业ATC管制服务</li>
+                                    <li>实时飞行跟踪</li>
+                                    <li>活动纪念证书</li>
+                                    <li>精彩飞行回放</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- VAAHK周年活动详情 -->
+                    <div id="vaahk-anniversary" class="event-detail-section">
+                        <h2><i class="fas fa-globe"></i> VAAHK成立一周年纪念连飞活动</h2>
+                        <div class="event-detail-grid">
+                            <div class="detail-card">
+                                <h3><i class="fas fa-route"></i> 航线信息</h3>
+                                <ul>
+                                    <li><strong>出发机场：</strong> 上海浦东国际机场 (ZSPD)</li>
+                                    <li><strong>目的机场：</strong> 香港国际机场 (VHHH)</li>
+                                    <li><strong>飞行距离：</strong> 约1,250公里</li>
+                                    <li><strong>预计飞行时间：</strong> 约2小时30分钟</li>
+                                    <li><strong>推荐机型：</strong> A320、B737、A350、B787</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="detail-card">
+                                <h3><i class="fas fa-clock"></i> 时间安排</h3>
+                                <ul>
+                                    <li><strong>集合时间：</strong> 13：30 (UTC+8)</li>
+                                    <li><strong>起飞时间：</strong> 14：00 (UTC+8)</li>
+                                    <li><strong>预计到达：</strong> 16：30 (UTC+8)</li>
+                                    <li><strong>活动时长：</strong> 约3小时</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="detail-card">
+                                <h3><i class="fas fa-users"></i> 参与要求</h3>
+                                <ul>
+                                    <li>具备中高级飞行模拟器操作经验</li>
+                                    <li>必须能够进行语音通讯</li>
+                                    <li>熟悉仪表飞行程序</li>
+                                    <li>使用虚拟航空公司涂装</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="detail-card">
+                                <h3><i class="fas fa-gift"></i> 活动特色</h3>
+                                <ul>
+                                    <li>VAAHK一周年特别纪念涂装</li>
+                                    <li>全程专业ATC服务</li>
+                                    <li>飞行技能评比</li>
+                                    <li>限量版纪念徽章</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 周末欢乐飞详情 -->
+                    <div id="weekend-fun" class="event-detail-section">
+                        <h2><i class="fas fa-users"></i> 周末欢乐飞 · 广州香港连飞</h2>
+                        <div class="event-detail-grid">
+                            <div class="detail-card">
+                                <h3><i class="fas fa-route"></i> 航线信息</h3>
+                                <ul>
+                                    <li><strong>出发机场：</strong> 广州白云国际机场 (ZGGG)</li>
+                                    <li><strong>目的机场：</strong> 香港国际机场 (VHHH)</li>
+                                    <li><strong>飞行距离：</strong> 约150公里</li>
+                                    <li><strong>预计飞行时间：</strong> 约40分钟</li>
+                                    <li><strong>推荐机型：</strong> A320、B737、CRJ、ATR</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="detail-card">
+                                <h3><i class="fas fa-clock"></i> 时间安排</h3>
+                                <ul>
+                                    <li><strong>集合时间：</strong> 18：45 (UTC+8)</li>
+                                    <li><strong>起飞时间：</strong> 19：00 (UTC+8)</li>
+                                    <li><strong>预计到达：</strong> 19：40 (UTC+8)</li>
+                                    <li><strong>活动时长：</strong> 约1小时</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="detail-card">
+                                <h3><i class="fas fa-users"></i> 参与要求</h3>
+                                <ul>
+                                    <li>适合所有水平的飞行爱好者</li>
+                                    <li>新手友好，提供指导</li>
+                                    <li>自愿语音通讯</li>
+                                    <li>轻松愉快的飞行氛围</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="detail-card">
+                                <h3><i class="fas fa-gift"></i> 活动特色</h3>
+                                <ul>
+                                    <li>新手指导服务</li>
+                                    <li>简化飞行程序</li>
+                                    <li>社交飞行体验</li>
+                                    <li>每周定期举办</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 报名信息 -->
+                <div class="content-container fade-in-up delay-700">
+                    <div class="text-center" style="margin: 50px 0;">
+                        <h3>想要参与活动？</h3>
+                        <p style="margin: 20px 0; color: var(--dark-grey);">立即报名参加我们的虚拟飞行活动</p>
+                        <a href="join-us.html" class="btn">立即报名</a>
+                        <a href="contact-us.html" class="btn btn-secondary">联系我们</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <!-- 左边：快速链接 -->
+                <div class="footer-section">
+                    <h3>快速链接</h3>
+                    <ul class="footer-links">
+                        <li><a href="service-center.html">服务中心</a></li>
+                        <li><a href="aviation-info.html">航空知识</a></li>
+                        <li><a href="online-flight-event.html">联飞活动</a></li>
+                        <li><a href="structure.html">架构</a></li>
+                    </ul>
+                </div>
+
+                <!-- 中间：参与我们 -->
+                <div class="footer-section">
+                    <h3>参与我们</h3>
+                    <ul class="footer-links">
+                        <li><a href="join-us.html">加入我们</a></li>
+                        <li><a href="contact-us.html">联系我们</a></li>
+                        <li><a href="about-us.html">关于我们</a></li>
+                    </ul>
+                </div>
+
+                <!-- 右边：QQ群和电邮 -->
+                <div class="footer-section">
+                    <h3>联系我们</h3>
+                    <div class="footer-contact">
+                        <p><strong>QQ交流群:</strong> <a href="https://qm.qq.com/q/8POrKppSRa">937248928</a></p>
+                        <p><strong>电邮:</strong> <a
+                                href="mailto:airportauthorityhk.virtual@gmail.com">airportauthorityhk.virtual@gmail.com</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2025 虚拟香港机场管理局 VAAHK</p>
+                <p class="disclaimer">声明：我们是航空爱好者成立的虚拟香港机场管理局，不是现实的香港机场管理局。如果您想访问现实中的香港机场管理局，请访问<a
+                        href="https://www.hongkongairport.com" target="_blank">https://www.hongkongairport.com</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
+    <script src="报错处理/error-handling.js"></script>
+    <script src="timer.js"></script>
     <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);} 
-        gtag('js', new Date());
-        gtag('config', 'G-XXXXXXX');
+        // 汉堡菜单功能
+        document.addEventListener('DOMContentLoaded', function () {
+            const hamburgerMenu = document.getElementById('hamburger-menu');
+            const mobileNav = document.getElementById('mobile-nav');
+
+            if (hamburgerMenu && mobileNav) {
+                // 点击汉堡菜单按钮
+                hamburgerMenu.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    mobileNav.classList.toggle('active');
+                    hamburgerMenu.classList.toggle('active');
+                });
+
+                // 点击菜单项时关闭菜单
+                const mobileNavLinks = mobileNav.querySelectorAll('a');
+                mobileNavLinks.forEach(link => {
+                    link.addEventListener('click', function () {
+                        mobileNav.classList.remove('active');
+                        hamburgerMenu.classList.remove('active');
+                    });
+                });
+
+                // 点击页面其他区域关闭菜单
+                document.addEventListener('click', function (e) {
+                    if (!hamburgerMenu.contains(e.target) && !mobileNav.contains(e.target)) {
+                        mobileNav.classList.remove('active');
+                        hamburgerMenu.classList.remove('active');
+                    }
+                });
+            }
+
+            // 页面动画效果
+            const animateElements = document.querySelectorAll('.card, .content-container, .contact-item, .tool-container');
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            });
+
+            animateElements.forEach(element => {
+                element.style.opacity = '0';
+                element.style.transform = 'translateY(20px)';
+                element.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                observer.observe(element);
+            });
+
+            // 平滑滚动到活动详情
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
+            });
+        });
     </script>
-    <style>
-        body {
-            font-family: 'Microsoft YaHei', Arial, sans-serif;
-            line-height: 1.6;
-            margin: 0;
-            padding: 0;
-            background-color: #f5f5f5;
-            color: #333;
-        }
+</body>
 
-        .container {
-            max-width: 1000px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: #fff;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-
-        header {
-            background-color: #005baa;
-            color: white;
-            padding: 20px;
-            text-align: center;
-            margin-bottom: 20px;
-            border-radius: 5px;
-        }
-
-        h1 {
-            margin: 0;
-            font-size: 28px;
-        }
-
-        h2 {
-            color: #005baa;
-            border-bottom: 2px solid #005baa;
-            padding-bottom: 5px;
-            margin-top: 25px;
-        }
-
-        .info-box {
-            background-color: #f9f9f9;
-            border-left: 4px solid #005baa;
-            padding: 15px;
-            margin: 15px 0;
+</html>
         }
 
         table {
@@ -136,90 +465,33 @@
 
 <body>
     <div class="container">
-        <header>
-            <h1>虚拟香港机场管理局 VAAHK 一周年连飞活动</h1>
-            <p>2025年10月19日 | RFS多人连飞活动</p>
+        <header class="fade-in-up">
+            <h1>纪念南京大屠杀主题联飞活动</h1>
+            <p>2025年12月13日 | RFS多人连飞活动</p>
         </header>
+        <main>
+            <section class="fade-in-up delay-100">
+                <h2>活动简介</h2>
+                <p>南京大屠杀国家公祭日特别连飞活动，牢记历史，勿忘国耻，振兴中华。</p>
 
-        <section>
-            <h2>活动简介</h2>
-            <p>为庆祝虚拟香港机场管理局 VAAHK 成立一周年，虚拟香港机场管理局 VAAHK 联合 挽苑航空集团 WAG　举办一周年连飞活动，欢迎各位飞行爱好者参与！</p>
-
-            <div class="info-box">
-                <p><strong>活动日期：</strong>2025年10月19日（星期日）</p>
-                <p><strong>活动时间：</strong>13:00（准备），12:25（放行）</p>
-                <p><strong>飞行时长：</strong>约3小时</p>
-                <p><strong>活动服务器：</strong>官方一服</p>
-            </div>
-
-            <a href="https://wag.fltsim.app/activity/112" class="btn">点击此处报名参加活动</a>
-        </section>
-
-        <section>
-            <h2>飞行信息</h2>
-            <table>
-                <tr>
-                    <th>项目</th>
-                    <th>详情</th>
-                </tr>
-                <tr>
-                    <td>起飞机场</td>
-                    <td>上海浦东国际机场 (ZSPD)</td>
-                </tr>
-                <tr>
-                    <td>停机位</td>
-                    <td>101-108, 120-190</td>
-                </tr>
-                <tr>
-                    <td>起飞跑道</td>
-                    <td>16L/R</td>
-                </tr>
-                <tr>
-                    <td>降落机场</td>
-                    <td>香港国际机场（VHHH）</td>
-                </tr>
-                <tr>
-                    <td>停机位</td>
-                    <td>S/W/N 12, 23-71(R)</td>
-                </tr>
-                <tr>
-                    <td>降落跑道</td>
-                    <td>25C/L</td>
-                </tr>
-                <tr>
-                    <td>适用机型</td>
-                    <td>
-                        空客A320系列、A330系列（A330-700L除外）、A340系列、A350系列、A380系列<br>
-                        波音B747系列、B777系列、B787系列
-                    </td>
-                </tr>
-                <tr>
-                    <td>适用涂装</td>
-                    <td>无限制</td>
-                </tr>
-            </table>
-
-            <section>
-                <h2>通讯频道</h2>
-                <div class="info-box">
-                    <p><strong>南山频道频率：</strong></p>
-                    <p class="frequency-item"><strong>上海浦东国际机场 地面/离场：</strong>1953769</p>
-                    <p class="frequency-item"><strong>上海浦东国际机场/香港国际机场 塔台：</strong>1953768</p>
-                    <p class="frequency-item"><strong>区调：</strong>1953767</p>
-                    <p class="frequency-item"><strong>香港国际机场 进近：</strong>1953766</p>
+                <div class="info-box fade-in-left delay-200">
+                    <p><strong>活动日期：</strong>2025年12月13日（星期六）</p>
+                    <p><strong>活动时间：</strong>19：30</p>
+                    <p><strong>飞行时长：</strong>约2小时</p>
+                    <p><strong>活动服务器：</strong>-</p>
                 </div>
             </section>
 
-            <section>
+            <section class="fade-in-up delay-1100">
                 <h2>组织机构</h2>
-                <div class="info-box">
-                    <p class="sponsor-item"><strong>主办单位：</strong>虚拟香港机场管理局 VAAHK</p>
-                    <p class="sponsor-item"><strong>协办单位：</strong>挽苑航空集团</p>
+                <div class="info-box fade-in-left delay-1200">
+                    <p class="sponsor-item"><strong>主办单位：</strong>挽苑航空集团 WAGWAG</p>
+                    <p class="sponsor-item"><strong>协办单位：</strong>虚拟香港机场管理局 VAAHK、Flight simulation-SKYTEAM 天合联盟</p>
             </section>
 
-            <section>
+            <section class="fade-in-up delay-1300">
                 <h2>活动咨询</h2>
-                <div class="info-box">
+                <div class="info-box fade-in-left delay-1400">
                     <p><strong>官方邮箱：</strong>airportauthorityhk.virtual@gmail.com</p>
                     <p><strong>官方网站：</strong><a href="https://vaahk-site.vercel.app/">https://vaahk-site.vercel.app</a>
                     </p>
@@ -232,6 +504,7 @@
                 <p>本活动为虚拟飞行爱好者交流活动，与真实航空公司及机构无关</p>
             </footer>
     </div>
+    <script src="报错处理/error-handling.js"></script>
 </body>
 
 </html>
