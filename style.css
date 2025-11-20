@@ -41,7 +41,6 @@ table,
     max-width: 100%;
     overflow-x: auto;
     word-break: break-word;
-    /* 超长单词或全角字符强制断行 */
 }
 
 /* 增加内容容器之间的间距 */
@@ -52,6 +51,9 @@ table,
 /* 服务入口和其他卡片的间距 */
 .card-grid {
     margin-top: 40px;
+    margin-bottom: 40px;
+    gap: 35px;
+}
 
 /* 解码器结果样式 */
 .result-content {
@@ -215,8 +217,6 @@ table,
         font-size: 1.1rem;
     }
 }
-    margin-bottom: 40px;
-}
 
 /* 重置基本布局 */
 body {
@@ -253,7 +253,6 @@ header {
     padding: 0;
     text-align: center;
     overflow: hidden;
-    /* 关键修复：让hero区域顶部对齐导航栏底部 */
     margin-top: -85px;
     padding-top: 85px;
 }
@@ -267,19 +266,16 @@ main {
 /* 为公告栏增加更多上边距 */
 .content-container:first-of-type {
     margin-top: 40px;
-    /* 增加第一个内容容器的上边距 */
 }
 
 /* 确保移动端也有适当间距 */
 @media (max-width: 768px) {
     header {
         height: 70px;
-        /* 移动端导航栏高度稍小 */
     }
 
     .hero {
         margin-top: 70px;
-        /* 与header高度相同 */
         height: calc(100vh - 70px);
     }
 
@@ -289,12 +285,10 @@ main {
 
     .hero-content {
         padding: 15px;
-        /* 移动端内边距调整 */
     }
 
     .hero h1 {
         font-size: 2rem;
-        /* 移动端标题调整 */
         margin-bottom: 15px;
     }
 
@@ -327,7 +321,6 @@ main {
 #current-time,
 #current-date {
     font-family: 'Inter', 'Microsoft JhengHei', monospace;
-    /* 确保时间和日期使用相同字体 */
 }
 
 #current-time {
@@ -451,15 +444,6 @@ main {
     }
 }
 
-/* 如果还需要更紧凑的布局，可以调整container */
-.container {
-    width: 95%;
-    /* 从90%增加到95% */
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 15px;
-}
-
 /* 页面内容样式 */
 main {
     margin-top: 80px;
@@ -467,7 +451,7 @@ main {
     padding: 0;
 }
 
-/* 英雄区域样式 - 修复空白问题 */
+/* 英雄区域样式 */
 .hero {
     background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
         url('https://ttgchina.ttgchina.2017.ttgchina.com/wp-content/uploads/sites/5/2024/07/1.-Hong-Kong-International-Airport.jpg');
@@ -481,7 +465,6 @@ main {
     position: relative;
     overflow: hidden;
     margin-top: -10px;
-    /* 修复与导航栏的空白 */
 }
 
 .hero-content {
@@ -660,37 +643,6 @@ main {
     font-size: 1.1rem;
 }
 
-/* 按钮颜色变体 */
-.btn-primary {
-    background: linear-gradient(135deg, #007bff, #0056b3);
-    box-shadow: 0 6px 20px rgba(0, 123, 255, 0.3);
-}
-
-.btn-primary:hover {
-    background: linear-gradient(135deg, #0056b3, #004085);
-    box-shadow: 0 12px 30px rgba(0, 123, 255, 0.5);
-}
-
-.btn-danger {
-    background: linear-gradient(135deg, #dc3545, #c82333);
-    box-shadow: 0 6px 20px rgba(220, 53, 69, 0.3);
-}
-
-.btn-danger:hover {
-    background: linear-gradient(135deg, #c82333, #bd2130);
-    box-shadow: 0 12px 30px rgba(220, 53, 69, 0.5);
-}
-
-.btn-warning {
-    background: linear-gradient(135deg, #ffc107, #e0a800);
-    box-shadow: 0 6px 20px rgba(255, 193, 7, 0.3);
-}
-
-.btn-warning:hover {
-    background: linear-gradient(135deg, #e0a800, #d39e00);
-    box-shadow: 0 12px 30px rgba(255, 193, 7, 0.5);
-}
-
 /* 活动详情页面样式 */
 .event-detail-section {
     margin: 40px 0;
@@ -857,6 +809,10 @@ main {
     gap: 30px;
 }
 
+/* ================================ */
+/* 卡片悬停效果 - 统一版本 */
+/* ================================ */
+
 .card {
     background: var(--white);
     border-radius: 16px;
@@ -868,6 +824,7 @@ main {
     overflow: hidden;
 }
 
+/* 优雅的边框悬停效果 */
 .card::before {
     content: '';
     position: absolute;
@@ -883,69 +840,151 @@ main {
     left: 100%;
 }
 
+/* 简洁的悬浮提升效果 */
 .card:hover {
-    transform: translateY(-10px) scale(1.02);
-    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px rgba(144, 238, 144, 0.15);
     border-color: var(--light-green);
 }
 
-.card:hover .card-icon {
-    transform: scale(1.15) rotate(5deg);
-    color: var(--hover-green);
-}
-
-.card:hover h3 {
-    color: var(--hover-green);
-    transform: translateY(-3px);
-}
-
+/* 卡片图标统一动画效果 */
 .card-icon {
     font-size: 2.8rem;
     color: var(--text-green);
     margin-bottom: 20px;
     text-align: center;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
+    display: inline-block;
+    transform-origin: center;
+    width: 100%; /* 新增：确保图标容器占满宽度 */
 }
 
-.card-icon::after {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 120%;
-    height: 120%;
-    background: transparent;
-    transform: translate(-50%, -50%) scale(0);
-    transition: transform 0.4s ease;
-    border-radius: 50%;
+/* 统一图标效果：放大 + 右下倾斜 + 荧光发光 */
+.card:hover .card-icon {
+    transform: scale(1.2) translate(5px, 5px) rotate(5deg);
+    color: #90ee90; /* 直接用你原来的浅绿色 */
+    text-shadow: 0 0 10px rgba(144, 238, 144, 0.4);
 }
-
-.card:hover .card-icon::after {
-    transform: translate(-50%, -50%) scale(0);
-}
-
-.card h3 {
-    font-size: 1.6rem;
-    margin-bottom: 15px;
-    color: var(--black);
-    text-align: center;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    position: relative;
-}
-
-.card p {
-    color: var(--dark-grey);
-    line-height: 1.7;
-    margin-bottom: 20px;
+/* 卡片标题颜色过渡效果 */
+.card h3, .card h4 {
     transition: color 0.3s ease;
 }
 
-.card:hover p {
-    color: var(--text-color);
-    margin-bottom: 15px;
-    text-align: justify;
-    line-height: 1.8;
+.card:hover h3, .card:hover h4 {
+    color: var(--text-green);
+}
+
+/* 内容卡片悬停效果 */
+.content-container {
+    transition: all 0.4s ease;
+}
+
+.content-container:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(144, 238, 144, 0.1);
+    border-top-color: var(--hover-green);
+}
+
+/* 联系信息卡片特殊效果 */
+.contact-item {
+    transition: all 0.3s ease;
+}
+
+.contact-item:hover {
+    transform: translateX(10px);
+    background: linear-gradient(135deg, var(--light-grey) 0%, rgba(144, 238, 144, 0.1) 100%);
+    border-left-color: var(--hover-green);
+}
+
+.contact-item:hover .contact-icon {
+    transform: scale(1.2) translate(5px, 5px) rotate(5deg);
+    color: var(--hover-green);
+    text-shadow: 0 0 15px rgba(144, 238, 144, 0.6);
+}
+
+/* 工具容器悬停效果 */
+.tool-container {
+    transition: all 0.4s ease;
+}
+
+.tool-container:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 30px rgba(144, 238, 144, 0.12);
+    border-left-color: var(--hover-green);
+}
+
+/* 活动卡片特殊效果 */
+.events-grid .card {
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.events-grid .card:hover {
+    transform: translateY(-12px) scale(1.02);
+    box-shadow: 0 25px 50px rgba(144, 238, 144, 0.2);
+}
+
+.events-grid .card:hover .card-icon {
+    transform: scale(1.3) translate(5px, 5px) rotate(5deg);
+    text-shadow: 0 0 30px rgba(144, 238, 144, 0.9);
+}
+
+/* 组织结构卡片效果 */
+.org-item {
+    transition: all 0.4s ease;
+}
+
+.org-item:hover {
+    background: linear-gradient(135deg, var(--light-grey) 0%, rgba(144, 238, 144, 0.15) 100%);
+    transform: translateX(8px);
+    border-left-color: var(--hover-green);
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+    .card:hover {
+        transform: translateY(-4px);
+    }
+    
+    .card:hover .card-icon {
+        transform: scale(1.1) translate(3px, 3px) rotate(3deg);
+    }
+    
+    .events-grid .card:hover {
+        transform: translateY(-6px) scale(1.01);
+    }
+    
+    .events-grid .card:hover .card-icon {
+        transform: scale(1.15) translate(3px, 3px) rotate(3deg);
+    }
+    
+    .contact-item:hover {
+        transform: translateX(5px);
+    }
+    
+    .contact-item:hover .contact-icon {
+        transform: scale(1.1) translate(3px, 3px) rotate(3deg);
+    }
+}
+
+/* 为特定页面添加特殊效果 */
+body.join-us .card {
+    border-left: 4px solid transparent;
+    transition: all 0.4s ease;
+}
+
+body.join-us .card:hover {
+    border-left-color: var(--light-green);
+    background: linear-gradient(135deg, var(--white) 0%, rgba(144, 238, 144, 0.05) 100%);
+}
+
+/* 服务页面工具卡片特殊效果 */
+body.service-center .tool-container:hover h3 {
+    color: var(--text-green);
+}
+
+body.service-center .tool-container:hover .btn {
+    background: linear-gradient(135deg, var(--hover-green), var(--text-green));
 }
 
 .text-center {
@@ -1142,6 +1181,7 @@ main {
     width: 30px;
     text-align: center;
     margin-top: 2px;
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .contact-content h4 {
@@ -1426,7 +1466,6 @@ footer::before {
 .footer-content {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
-    /* 三等分 */
     gap: 40px;
     margin-bottom: 30px;
 }
@@ -1610,16 +1649,6 @@ footer::before {
     }
 }
 
-/* 增加卡片网格的间距 */
-.card-grid {
-    gap: 35px !important;
-    /* 从30px增加到35px */
-}
-
-.card {
-    margin-bottom: 20px;
-}
-
 /* 页面内容加载动画 */
 .fade-in-up {
     opacity: 0;
@@ -1762,103 +1791,9 @@ footer::before {
     transform: translateY(0);
 }
 
-/* 悬停动画效果 */
-.hover-lift {
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.hover-lift:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
-}
-
-.hover-scale {
-    transition: transform 0.3s ease;
-}
-
-.hover-scale:hover {
-    transform: scale(1.05);
-}
-
-.hover-glow {
-    transition: box-shadow 0.3s ease;
-}
-
-.hover-glow:hover {
-    box-shadow: 0 0 20px rgba(144, 238, 144, 0.4);
-}
-
-/* 脉冲动画 */
-.pulse {
-    animation: pulse 2s infinite;
-}
-
-@keyframes pulse {
-    0% {
-        transform: scale(1);
-    }
-    50% {
-        transform: scale(1.05);
-    }
-    100% {
-        transform: scale(1);
-    }
-}
-
-/* 摇摆动画 */
-.wiggle {
-    animation: wiggle 1s ease-in-out infinite;
-}
-
-@keyframes wiggle {
-    0%, 100% {
-        transform: rotate(-3deg);
-    }
-    50% {
-        transform: rotate(3deg);
-    }
-}
-
-/* 渐变背景动画 */
-.gradient-animation {
-    background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
-    background-size: 400% 400%;
-    animation: gradientShift 15s ease infinite;
-}
-
-@keyframes gradientShift {
-    0% {
-        background-position: 0% 50%;
-    }
-    50% {
-        background-position: 100% 50%;
-    }
-    100% {
-        background-position: 0% 50%;
-    }
-}
-
-/* 文字打字机效果 */
-.typewriter {
-    overflow: hidden;
-    border-right: .15em solid var(--text-green);
-    white-space: nowrap;
-    animation: typing 3.5s steps(40, end), blink-caret .75s step-end infinite;
-}
-
-@keyframes typing {
-    from { width: 0 }
-    to { width: 100% }
-}
-
-@keyframes blink-caret {
-    from, to { border-color: transparent }
-    50% { border-color: var(--text-green); }
-}
-
 /* 页脚免责声明链接样式 */
 .footer-bottom .disclaimer a {
-    color: #28a745; /* 保持与其他链接一致的绿色 */
+    color: #28a745;
 }
 
 /* 天气数据显示样式 */
@@ -2031,14 +1966,6 @@ footer::before {
     }
 }
 
-/* 招募岗位标题统一左对齐 - 只针对加入我们页面 */
-body.join-us .card p strong {
-    display: block;
-    text-align: left;
-    font-weight: bold;
-    margin-bottom: 5px;
-}
-
 /* 实时天气控制区域样式 */
 .weather-controls {
     display: flex;
@@ -2194,4 +2121,12 @@ body.join-us .card p strong {
     color: var(--black);
     border-left: 4px solid var(--text-green);
     padding-left: 16px;
+}
+
+/* 招募岗位标题统一左对齐 - 只针对加入我们页面 */
+body.join-us .card p strong {
+    display: block;
+    text-align: left;
+    font-weight: bold;
+    margin-bottom: 5px;
 }
