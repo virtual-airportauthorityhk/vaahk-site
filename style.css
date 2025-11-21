@@ -2210,3 +2210,97 @@ body.join-us .card p strong {
     font-size: 0.6em;
     color: #3b83e7;
 }
+
+/* 正能量句子展示样式 */
+.positive-quote-section {
+    background: linear-gradient(135deg, rgba(144, 238, 144, 0.05), rgba(34, 139, 34, 0.03));
+    padding: 30px 0;
+    margin-bottom: 40px;
+    border-bottom: 1px solid var(--light-grey);
+}
+
+.positive-quote-card {
+    display: flex;
+    align-items: center;
+    background: var(--white);
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+    border-left: 4px solid var(--text-green);
+    position: relative;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.quote-icon {
+    font-size: 2rem;
+    color: var(--light-green);
+    margin-right: 20px;
+    opacity: 0.7;
+}
+
+.quote-content {
+    flex: 1;
+}
+
+.quote-text {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    color: var(--black);
+    margin-bottom: 10px;
+    font-style: italic;
+}
+
+.quote-author {
+    font-size: 0.9rem;
+    color: var(--dark-grey);
+    font-weight: 500;
+    text-align: right;
+}
+
+.quote-refresh {
+    margin-left: 20px;
+}
+
+.refresh-btn {
+    background: var(--light-green);
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: var(--white);
+    transition: all 0.3s ease;
+    font-size: 0.9rem;
+}
+
+.refresh-btn:hover {
+    background: var(--text-green);
+    transform: rotate(90deg);
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .positive-quote-card {
+        flex-direction: column;
+        text-align: center;
+        padding: 20px;
+    }
+    
+    .quote-icon {
+        margin-right: 0;
+        margin-bottom: 15px;
+    }
+    
+    .quote-refresh {
+        margin-left: 0;
+        margin-top: 15px;
+    }
+    
+    .quote-author {
+        text-align: center;
+    }
+}
