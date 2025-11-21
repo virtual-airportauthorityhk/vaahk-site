@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -29,7 +28,7 @@
                     <ul class="nav-links">
                         <li><a href="index.html">主页</a></li>
                         <li><a href="service-center.html">服务中心</a></li>
-                        <li><a href="aviation-info.html">航空知识</a></li>
+                        <li><a class="active" href="aviation-info.html">航空知识</a></li>
                         <li><a href="online-flight-event.html">连飞活动</a></li>
                         <li><a href="structure.html">架构</a></li>
                         <li><a href="join-us.html">加入我们</a></li>
@@ -237,17 +236,14 @@
                     <h3>联系我们</h3>
                     <div class="footer-contact">
                         <p><strong>QQ交流群:</strong> <a href="https://qm.qq.com/q/8POrKppSRa">937248928</a></p>
-                        <p><strong>电邮:</strong> <a
-                                href="mailto:info@virtual-vaahk.org">info@virtual-vaahk.org</a>
-                        </p>
+                        <p><strong>电邮:</strong> <a href="mailto:info@virtual-vaahk.org">info@virtual-vaahk.org</a></p>
                     </div>
                 </div>
             </div>
 
             <div class="footer-bottom">
                 <p>&copy; 2025 虚拟香港机场管理局 VAAHK</p>
-                <p class="disclaimer">声明：我们是航空爱好者成立的虚拟香港机场管理局，不是现实的香港机场管理局。如果您想访问现实中的香港机场管理局，请访问<a
-                        href="https://www.hongkongairport.com" target="_blank">https://www.hongkongairport.com</a></p>
+                <p class="disclaimer">声明：我们是航空爱好者成立的虚拟香港机场管理局，不是现实的香港机场管理局。如果您想访问现实中的香港机场管理局，请访问<a href="https://www.hongkongairport.com" target="_blank">https://www.hongkongairport.com</a></p>
             </div>
         </div>
     </footer>
@@ -270,7 +266,7 @@
                     hamburgerMenu.classList.toggle('active');
                 });
 
-                // 点击菜单项时关閭菜单
+                // 点击菜单项时关闭菜单
                 const mobileNavLinks = mobileNav.querySelectorAll('a');
                 mobileNavLinks.forEach(link => {
                     link.addEventListener('click', function () {
@@ -279,7 +275,7 @@
                     });
                 });
 
-                // 点击页面其他区域关閭菜单
+                // 点击页面其他区域关闭菜单
                 document.addEventListener('click', function (e) {
                     if (!hamburgerMenu.contains(e.target) && !mobileNav.contains(e.target)) {
                         mobileNav.classList.remove('active');
@@ -309,5 +305,4 @@
         });
     </script>
 </body>
-
 </html>
