@@ -4,507 +4,807 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>活动详情 - 虚拟香港机场管理局</title>
+    <title>香港特别行政区回归28周年纪念 · 京港连飞活动</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="style.css">
-</head>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-<body>
-    <header>
-        <div class="container">
-            <!-- 第一行：时间日期 -->
-            <div class="top-row">
-                <div class="time-date-display">
-                    <span id="current-time"></span>
-                    <span id="current-date"></span>
-                </div>
-            </div>
+        :root {
+            --primary-color: #005baa;
+            --secondary-color: #2c5530;
+            --accent-color: #90a955;
+            --light-bg: #f8f9fa;
+            --dark-text: #1a1a1a;
+            --light-text: #ffffff;
+            --border-color: #e8e8e8;
+            --shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+            --gradient: linear-gradient(135deg, #005baa 0%, #2c5530 100%);
+        }
 
-            <!-- 第二行：Logo和导航 -->
-            <nav class="bottom-row">
-                <div class="logo">
-                    <h1>虚拟香港机场管理局</h1>
-                </div>
-                <div class="nav-right">
-                    <ul class="nav-links">
-                        <li><a href="index.html">主页</a></li>
-                        <li><a href="service-center.html">服务中心</a></li>
-                        <li><a href="aviation-info.html">航空知识</a></li>
-                        <li><a class="active" href="online-flight-event.html">连飞活动</a></li>
-                        <li><a href="structure.html">架构</a></li>
-                        <li><a href="join-us.html">加入我们</a></li>
-                        <li><a href="contact-us.html">联系我们</a></li>
-                        <li><a href="about-us.html">关于我们</a></li>
-                    </ul>
-                    <button class="hamburger-menu" id="hamburger-menu">
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                    </button>
-                </div>
-            </nav>
-        </div>
+        body {
+            font-family: 'Inter', 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.7;
+            background: #fefefe;
+            color: var(--dark-text);
+            overflow-x: hidden;
+            min-height: 100vh;
+            font-weight: 300;
+        }
 
-        <!-- 移动端导航菜单 -->
-        <div class="mobile-nav" id="mobile-nav">
-            <ul class="mobile-nav-links">
-                <li><a href="index.html">主页</a></li>
-                <li><a href="service-center.html">服务中心</a></li>
-                <li><a href="aviation-info.html">航空知识</a></li>
-                <li><a href="online-flight-event.html">连飞活动</a></li>
-                <li><a href="structure.html">架构</a></li>
-                <li><a href="join-us.html">加入我们</a></li>
-                <li><a href="contact-us.html">联系我们</a></li>
-                <li><a href="about-us.html">关于我们</a></li>
-            </ul>
-        </div>
-    </header>
+        /* 几何背景 */
+        .geometric-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.03;
+            background:
+                radial-gradient(circle at 20% 80%, var(--primary-color) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, var(--secondary-color) 0%, transparent 50%);
+        }
 
-    <main>
-        <!-- 活动详情页面 -->
-        <section class="section">
-            <div class="container">
-                <div class="section-title fade-in-up">
-                    <h1>活动详情</h1>
-                    <p>了解我们的虚拟飞行活动详细信息</p>
-                </div>
+        .geometric-shape {
+            position: fixed;
+            border: 1px solid rgba(0, 91, 170, 0.1);
+            z-index: -1;
+        }
 
-                <!-- 活动选择卡片 -->
-                <div class="content-container fade-in-up delay-100">
-                    <h3><i class="fas fa-calendar-alt"></i> 选择活动查看详情</h3>
-                    <div class="events-grid">
-                        <div class="card fade-in-left delay-200">
-                            <div class="card-icon"><i class="fas fa-plane"></i></div>
-                            <h3>香港回归28周年纪念 · 京港连飞活动</h3>
-                            <div style="margin: 20px 0;">
-                                <p><strong>航线：</strong> 北京首都国际机场 (ZBAA) - 香港国际机场 (VHHH)</p>
-                                <p><strong>日期：</strong> 2025年7月1日</p>
-                                <p><strong>时间：</strong> 13：00 (UTC+8)</p>
-                                <p><strong>简介：</strong> 为庆祝香港回归祖国28周年，虚拟香港机场管理局(VAAHK)联合多家虚拟航空公司举办京港连飞活动，欢迎各位飞行爱好者参与！</p>
-                            </div>
-                            <div class="text-center">
-                                <a href="#beijing-hongkong" class="btn">查看详情</a>
-                            </div>
-                        </div>
-                        
-                        <div class="card fade-in-left delay-300">
-                            <div class="card-icon"><i class="fas fa-globe"></i></div>
-                            <h3>VAAHK成立一周年纪念连飞活动</h3>
-                            <div style="margin: 20px 0;">
-                                <p><strong>航线：</strong> 上海浦东国际机场 (ZSPD) - 香港国际机场 (VHHH)</p>
-                                <p><strong>日期：</strong> 2025年8月15日</p>
-                                <p><strong>时间：</strong> 14：00 (UTC+8)</p>
-                                <p><strong>简介：</strong> 为庆祝虚拟香港机场管理局 VAAHK 成立一周年，虚拟香港机场管理局 VAAHK 联合挽苑航空集团 WAG 举办一周年连飞活动，欢迎各位飞行爱好者参与！</p>
-                            </div>
-                            <div class="text-center">
-                                <a href="#vaahk-anniversary" class="btn">查看详情</a>
-                            </div>
-                        </div>
-                        
-                        <div class="card fade-in-left delay-400">
-                            <div class="card-icon"><i class="fas fa-users"></i></div>
-                            <h3>周末欢乐飞 · 广州香港连飞</h3>
-                            <div style="margin: 20px 0;">
-                                <p><strong>航线：</strong> 广州白云国际机场 (ZGGG) - 香港国际机场 (VHHH)</p>
-                                <p><strong>日期：</strong> 每周六、周日</p>
-                                <p><strong>时间：</strong> 19：00 (UTC+8)</p>
-                                <p><strong>简介：</strong> 轻松愉快的周末飞行活动，适合各个水平的飞行爱好者参与，体验珠三角地区的空中交通。</p>
-                            </div>
-                            <div class="text-center">
-                                <a href="#weekend-fun" class="btn">查看详情</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+        .shape-1 {
+            top: 10%;
+            right: 5%;
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            animation: float 25s ease-in-out infinite;
+        }
 
-                <!-- 活动详细信息 -->
-                <div class="content-container fade-in-up delay-500">
-                    <!-- 北京香港连飞活动详情 -->
-                    <div id="beijing-hongkong" class="event-detail-section">
-                        <h2><i class="fas fa-plane"></i> 香港回归28周年纪念 · 京港连飞活动</h2>
-                        <div class="event-detail-grid">
-                            <div class="detail-card">
-                                <h3><i class="fas fa-route"></i> 航线信息</h3>
-                                <ul>
-                                    <li><strong>出发机场：</strong> 北京首都国际机场 (ZBAA)</li>
-                                    <li><strong>目的机场：</strong> 香港国际机场 (VHHH)</li>
-                                    <li><strong>飞行距离：</strong> 约1,980公里</li>
-                                    <li><strong>预计飞行时间：</strong> 约3小时30分钟</li>
-                                    <li><strong>推荐机型：</strong> A320、B737、A330、B777</li>
-                                </ul>
-                            </div>
-                            
-                            <div class="detail-card">
-                                <h3><i class="fas fa-clock"></i> 时间安排</h3>
-                                <ul>
-                                    <li><strong>集合时间：</strong> 12：30 (UTC+8)</li>
-                                    <li><strong>起飞时间：</strong> 13：00 (UTC+8)</li>
-                                    <li><strong>预计到达：</strong> 16：30 (UTC+8)</li>
-                                    <li><strong>活动时长：</strong> 约4小时</li>
-                                </ul>
-                            </div>
-                            
-                            <div class="detail-card">
-                                <h3><i class="fas fa-users"></i> 参与要求</h3>
-                                <ul>
-                                    <li>具备基本的飞行模拟器操作经验</li>
-                                    <li>能够进行语音通讯（推荐）</li>
-                                    <li>遵守空中交通管制指令</li>
-                                    <li>使用真实航班号或虚拟航班号</li>
-                                </ul>
-                            </div>
-                            
-                            <div class="detail-card">
-                                <h3><i class="fas fa-gift"></i> 活动特色</h3>
-                                <ul>
-                                    <li>专业ATC管制服务</li>
-                                    <li>实时飞行跟踪</li>
-                                    <li>活动纪念证书</li>
-                                    <li>精彩飞行回放</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
+        .shape-2 {
+            bottom: 15%;
+            left: 8%;
+            width: 150px;
+            height: 150px;
+            transform: rotate(45deg);
+            animation: float 30s ease-in-out infinite reverse;
+        }
 
-                    <!-- VAAHK周年活动详情 -->
-                    <div id="vaahk-anniversary" class="event-detail-section">
-                        <h2><i class="fas fa-globe"></i> VAAHK成立一周年纪念连飞活动</h2>
-                        <div class="event-detail-grid">
-                            <div class="detail-card">
-                                <h3><i class="fas fa-route"></i> 航线信息</h3>
-                                <ul>
-                                    <li><strong>出发机场：</strong> 上海浦东国际机场 (ZSPD)</li>
-                                    <li><strong>目的机场：</strong> 香港国际机场 (VHHH)</li>
-                                    <li><strong>飞行距离：</strong> 约1,250公里</li>
-                                    <li><strong>预计飞行时间：</strong> 约2小时30分钟</li>
-                                    <li><strong>推荐机型：</strong> A320、B737、A350、B787</li>
-                                </ul>
-                            </div>
-                            
-                            <div class="detail-card">
-                                <h3><i class="fas fa-clock"></i> 时间安排</h3>
-                                <ul>
-                                    <li><strong>集合时间：</strong> 13：30 (UTC+8)</li>
-                                    <li><strong>起飞时间：</strong> 14：00 (UTC+8)</li>
-                                    <li><strong>预计到达：</strong> 16：30 (UTC+8)</li>
-                                    <li><strong>活动时长：</strong> 约3小时</li>
-                                </ul>
-                            </div>
-                            
-                            <div class="detail-card">
-                                <h3><i class="fas fa-users"></i> 参与要求</h3>
-                                <ul>
-                                    <li>具备中高级飞行模拟器操作经验</li>
-                                    <li>必须能够进行语音通讯</li>
-                                    <li>熟悉仪表飞行程序</li>
-                                    <li>使用虚拟航空公司涂装</li>
-                                </ul>
-                            </div>
-                            
-                            <div class="detail-card">
-                                <h3><i class="fas fa-gift"></i> 活动特色</h3>
-                                <ul>
-                                    <li>VAAHK一周年特别纪念涂装</li>
-                                    <li>全程专业ATC服务</li>
-                                    <li>飞行技能评比</li>
-                                    <li>限量版纪念徽章</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
+        @keyframes float {
 
-                    <!-- 周末欢乐飞详情 -->
-                    <div id="weekend-fun" class="event-detail-section">
-                        <h2><i class="fas fa-users"></i> 周末欢乐飞 · 广州香港连飞</h2>
-                        <div class="event-detail-grid">
-                            <div class="detail-card">
-                                <h3><i class="fas fa-route"></i> 航线信息</h3>
-                                <ul>
-                                    <li><strong>出发机场：</strong> 广州白云国际机场 (ZGGG)</li>
-                                    <li><strong>目的机场：</strong> 香港国际机场 (VHHH)</li>
-                                    <li><strong>飞行距离：</strong> 约150公里</li>
-                                    <li><strong>预计飞行时间：</strong> 约40分钟</li>
-                                    <li><strong>推荐机型：</strong> A320、B737、CRJ、ATR</li>
-                                </ul>
-                            </div>
-                            
-                            <div class="detail-card">
-                                <h3><i class="fas fa-clock"></i> 时间安排</h3>
-                                <ul>
-                                    <li><strong>集合时间：</strong> 18：45 (UTC+8)</li>
-                                    <li><strong>起飞时间：</strong> 19：00 (UTC+8)</li>
-                                    <li><strong>预计到达：</strong> 19：40 (UTC+8)</li>
-                                    <li><strong>活动时长：</strong> 约1小时</li>
-                                </ul>
-                            </div>
-                            
-                            <div class="detail-card">
-                                <h3><i class="fas fa-users"></i> 参与要求</h3>
-                                <ul>
-                                    <li>适合所有水平的飞行爱好者</li>
-                                    <li>新手友好，提供指导</li>
-                                    <li>自愿语音通讯</li>
-                                    <li>轻松愉快的飞行氛围</li>
-                                </ul>
-                            </div>
-                            
-                            <div class="detail-card">
-                                <h3><i class="fas fa-gift"></i> 活动特色</h3>
-                                <ul>
-                                    <li>新手指导服务</li>
-                                    <li>简化飞行程序</li>
-                                    <li>社交飞行体验</li>
-                                    <li>每周定期举办</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- 报名信息 -->
-                <div class="content-container fade-in-up delay-700">
-                    <div class="text-center" style="margin: 50px 0;">
-                        <h3>想要参与活动？</h3>
-                        <p style="margin: 20px 0; color: var(--dark-grey);">立即报名参加我们的虚拟飞行活动</p>
-                        <a href="join-us.html" class="btn">立即报名</a>
-                        <a href="contact-us.html" class="btn btn-secondary">联系我们</a>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <footer>
-        <div class="container">
-            <div class="footer-content">
-                <!-- 左边：快速链接 -->
-                <div class="footer-section">
-                    <h3>快速链接</h3>
-                    <ul class="footer-links">
-                        <li><a href="service-center.html">服务中心</a></li>
-                        <li><a href="aviation-info.html">航空知识</a></li>
-                        <li><a href="online-flight-event.html">联飞活动</a></li>
-                        <li><a href="structure.html">架构</a></li>
-                    </ul>
-                </div>
-
-                <!-- 中间：参与我们 -->
-                <div class="footer-section">
-                    <h3>参与我们</h3>
-                    <ul class="footer-links">
-                        <li><a href="join-us.html">加入我们</a></li>
-                        <li><a href="contact-us.html">联系我们</a></li>
-                        <li><a href="about-us.html">关于我们</a></li>
-                    </ul>
-                </div>
-
-                <!-- 右边：QQ群和电邮 -->
-                <div class="footer-section">
-                    <h3>联系我们</h3>
-                    <div class="footer-contact">
-                        <p><strong>QQ交流群:</strong> <a href="https://qm.qq.com/q/8POrKppSRa">937248928</a></p>
-                        <p><strong>电邮:</strong> <a
-                                href="mailto:info@virtual-vaahk.org">info@virtual-vaahk.org</a>
-                        </p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="footer-bottom">
-                <p>&copy; 2025 虚拟香港机场管理局 VAAHK</p>
-                <p class="disclaimer">声明：我们是航空爱好者成立的虚拟香港机场管理局，不是现实的香港机场管理局。如果您想访问现实中的香港机场管理局，请访问<a
-                        href="https://www.hongkongairport.com" target="_blank">https://www.hongkongairport.com</a></p>
-            </div>
-        </div>
-    </footer>
-
-    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
-    <script src="报错处理/error-handling.js"></script>
-    <script src="timer.js"></script>
-    <script>
-        // 汉堡菜单功能
-        document.addEventListener('DOMContentLoaded', function () {
-            const hamburgerMenu = document.getElementById('hamburger-menu');
-            const mobileNav = document.getElementById('mobile-nav');
-
-            if (hamburgerMenu && mobileNav) {
-                // 点击汉堡菜单按钮
-                hamburgerMenu.addEventListener('click', function (e) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    mobileNav.classList.toggle('active');
-                    hamburgerMenu.classList.toggle('active');
-                });
-
-                // 点击菜单项时关闭菜单
-                const mobileNavLinks = mobileNav.querySelectorAll('a');
-                mobileNavLinks.forEach(link => {
-                    link.addEventListener('click', function () {
-                        mobileNav.classList.remove('active');
-                        hamburgerMenu.classList.remove('active');
-                    });
-                });
-
-                // 点击页面其他区域关闭菜单
-                document.addEventListener('click', function (e) {
-                    if (!hamburgerMenu.contains(e.target) && !mobileNav.contains(e.target)) {
-                        mobileNav.classList.remove('active');
-                        hamburgerMenu.classList.remove('active');
-                    }
-                });
+            0%,
+            100% {
+                transform: translateY(0px) rotate(0deg);
             }
 
-            // 页面动画效果
-            const animateElements = document.querySelectorAll('.card, .content-container, .contact-item, .tool-container');
+            50% {
+                transform: translateY(-20px) rotate(180deg);
+            }
+        }
 
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.style.opacity = '1';
-                        entry.target.style.transform = 'translateY(0)';
-                    }
-                });
-            });
+        /* 主要内容区域 */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 60px 20px;
+            position: relative;
+        }
 
-            animateElements.forEach(element => {
-                element.style.opacity = '0';
-                element.style.transform = 'translateY(20px)';
-                element.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-                observer.observe(element);
-            });
+        header {
+            text-align: center;
+            margin-bottom: 80px;
+            padding: 80px 40px;
+            background: var(--gradient);
+            color: var(--light-text);
+            border-radius: 24px;
+            box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden;
+        }
 
-            // 平滑滚动到活动详情
-            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-                anchor.addEventListener('click', function (e) {
-                    e.preventDefault();
-                    const target = document.querySelector(this.getAttribute('href'));
-                    if (target) {
-                        target.scrollIntoView({
-                            behavior: 'smooth',
-                            block: 'start'
-                        });
-                    }
-                });
-            });
-        });
-    </script>
-</body>
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background:
+                linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.1) 50%, transparent 70%);
+            animation: shine 8s ease-in-out infinite;
+        }
 
-</html>
+        @keyframes shine {
+
+            0%,
+            100% {
+                transform: translateX(-100%);
+            }
+
+            50% {
+                transform: translateX(100%);
+            }
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            line-height: 1.1;
+        }
+
+        .subtitle {
+            font-size: 1.4rem;
+            font-weight: 300;
+            opacity: 0.9;
+            letter-spacing: 0.3px;
+        }
+
+        section {
+            margin-bottom: 60px;
+            background: var(--light-text);
+            border-radius: 20px;
+            padding: 50px 40px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            position: relative;
+        }
+
+        section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: var(--gradient);
+            border-radius: 4px 0 0 4px;
+            transition: all 0.4s ease;
+        }
+
+        section:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.12);
+        }
+
+        section:hover::before {
+            width: 6px;
+        }
+
+        h2 {
+            color: var(--dark-text);
+            font-size: 2.2rem;
+            margin-bottom: 30px;
+            font-weight: 600;
+            letter-spacing: -0.3px;
+            position: relative;
+            display: inline-block;
+        }
+
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 40px;
+            height: 3px;
+            background: var(--gradient);
+            transition: width 0.4s ease;
+        }
+
+        section:hover h2::after {
+            width: 80px;
+        }
+
+        h2 i {
+            margin-right: 15px;
+            color: var(--primary-color);
+            font-size: 1.8rem;
+        }
+
+        /* 组织机构卡片设计 */
+        .org-card {
+            background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+            border: 1px solid var(--border-color);
+            padding: 30px;
+            margin: 30px 0;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .org-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--gradient);
+            opacity: 0;
+            border-radius: 16px;
+            transition: opacity 0.3s ease;
+            z-index: 0;
+        }
+
+        .org-card:hover {
+            transform: translateX(8px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+        }
+
+        .org-card:hover::before {
+            opacity: 1;
+        }
+
+        .org-card:hover .sponsor-item {
+            color: var(--light-text);
+            border-bottom-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .org-card:hover .sponsor-item::before {
+            color: var(--light-text);
+        }
+
+        /* 频率卡片设计 */
+        .frequency-card {
+            background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+            border: 1px solid var(--border-color);
+            padding: 30px;
+            margin: 30px 0;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .frequency-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--gradient);
+            opacity: 0;
+            border-radius: 16px;
+            transition: opacity 0.3s ease;
+            z-index: 0;
+        }
+
+        .frequency-card:hover {
+            transform: translateX(8px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+        }
+
+        .frequency-card:hover::before {
+            opacity: 1;
+        }
+
+        .frequency-card:hover .frequency-item {
+            color: var(--light-text);
+            border-left-color: rgba(255, 255, 255, 0.5);
+        }
+
+        .sponsor-item {
+            margin-bottom: 15px;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+            position: relative;
+            z-index: 1;
+        }
+
+        .sponsor-item::before {
+            content: '▸';
+            position: absolute;
+            left: -20px;
+            color: var(--primary-color);
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+
+        .sponsor-item:hover {
+            transform: translateX(15px);
+            border-bottom-color: var(--primary-color);
+        }
+
+        .sponsor-item:hover::before {
+            opacity: 1;
+            left: -15px;
+        }
+
+        .sponsor-item:last-child {
+            border-bottom: none;
+        }
+
+        .frequency-item {
+            margin: 12px 0;
+            padding: 15px 20px;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 12px;
+            border-left: 4px solid var(--primary-color);
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.03);
+            position: relative;
+            z-index: 1;
+        }
+
+        .frequency-card:hover .frequency-item {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .frequency-item:hover {
+            transform: translateX(8px);
+            border-left-color: var(--accent-color);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
-            margin: 20px 0;
+            margin: 30px 0;
+            background: var(--light-text);
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 6px 25px rgba(0, 0, 0, 0.06);
+            transition: all 0.3s ease;
         }
 
-        table,
-        th,
-        td {
-            border: 1px solid #ddd;
+        table:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.1);
         }
 
         th,
         td {
-            padding: 12px;
+            padding: 20px;
             text-align: left;
+            border-bottom: 1px solid var(--border-color);
         }
 
         th {
-            background-color: #005baa;
+            background: var(--gradient);
             color: white;
+            font-weight: 600;
+            font-size: 1rem;
+            letter-spacing: 0.5px;
         }
 
-        tr:nth-child(even) {
-            background-color: #f2f2f2;
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        tr:hover {
+            background: linear-gradient(90deg, rgba(0, 91, 170, 0.03) 0%, transparent 100%);
         }
 
         footer {
             text-align: center;
-            margin-top: 30px;
-            padding: 20px;
-            background-color: #333;
+            margin-top: 80px;
+            padding: 50px 40px;
+            background: var(--gradient);
             color: white;
-            border-radius: 5px;
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden;
+        }
+
+        footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background:
+                radial-gradient(circle at 30% 70%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 70% 30%, rgba(255, 255, 255, 0.05) 0%, transparent 50%);
         }
 
         .btn {
-            display: inline-block;
-            background-color: #005baa;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--gradient);
             color: white;
-            padding: 10px 20px;
+            padding: 18px 36px;
             text-decoration: none;
-            border-radius: 5px;
-            margin: 10px 0;
-            font-weight: bold;
-            transition: background-color 0.3s;
+            border-radius: 50px;
+            margin: 25px 0;
+            font-weight: 500;
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            box-shadow: 0 8px 25px rgba(0, 91, 170, 0.3);
+            border: none;
+            cursor: pointer;
+            font-size: 1.1rem;
+            letter-spacing: 0.5px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .btn:hover::before {
+            left: 100%;
         }
 
         .btn:hover {
-            background-color: #003d7a;
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 15px 35px rgba(0, 91, 170, 0.4);
         }
 
-        .contact-info {
-            margin: 15px 0;
+        .btn i {
+            margin-right: 12px;
+            font-size: 1.2rem;
         }
 
-        .contact-info p {
-            margin: 8px 0;
+        .highlight {
+            color: var(--primary-color);
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            position: relative;
         }
 
+        .highlight::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: var(--primary-color);
+            transition: width 0.3s ease;
+        }
+
+        .highlight:hover::after {
+            width: 100%;
+        }
+
+        /* 动画效果 */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(40px);
+            animation: fadeInUp 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+        }
+
+        .fade-in-delay-1 {
+            animation-delay: 0.3s;
+        }
+
+        .fade-in-delay-2 {
+            animation-delay: 0.6s;
+        }
+
+        .fade-in-delay-3 {
+            animation-delay: 0.9s;
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .container {
+                padding: 30px 15px;
+            }
+
+            h1 {
+                font-size: 2.5rem;
+            }
+
+            .subtitle {
+                font-size: 1.2rem;
+            }
+
+            section {
+                padding: 30px 25px;
+            }
+
+            h2 {
+                font-size: 1.8rem;
+            }
+
+            th,
+            td {
+                padding: 15px;
+            }
+
+            .geometric-shape {
+                display: none;
+            }
+        }
+
+        /* 优雅卡片设计 */
+        .elegant-card {
+            background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+            border: 1px solid var(--border-color);
+            padding: 30px;
+            margin: 30px 0;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .elegant-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--gradient);
+            opacity: 0;
+            border-radius: 16px;
+            transition: opacity 0.3s ease;
+            z-index: 0;
+        }
+
+        .elegant-card:hover {
+            transform: translateX(8px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+        }
+
+        .elegant-card:hover::before {
+            opacity: 1;
+        }
+
+        /* 修复文字颜色问题 */
+        .elegant-card>* {
+            position: relative;
+            z-index: 1;
+            transition: color 0.3s ease;
+        }
+
+        .elegant-card:hover>* {
+            color: var(--light-text) !important;
+        }
+
+        /* 确保链接在悬停时也变为白色 */
+        .elegant-card:hover .highlight {
+            color: var(--light-text) !important;
+        }
+
+        .elegant-card:hover .highlight::after {
+            background: var(--light-text);
+        }
+
+        /* 赞助商项目样式 */
         .sponsor-item {
-            margin-bottom: 8px;
+            margin-bottom: 15px;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+            position: relative;
+            z-index: 1;
         }
 
-        .frequency-item {
-            margin: 6px 0;
+        .sponsor-item::before {
+            content: '▸';
+            position: absolute;
+            left: -20px;
+            color: var(--primary-color);
+            opacity: 0;
+            transition: all 0.3s ease;
         }
+
+        .elegant-card:hover .sponsor-item::before {
+            color: var(--light-text);
+        }
+
+        .sponsor-item:hover {
+            transform: translateX(15px);
+            border-bottom-color: var(--primary-color);
+        }
+
+        .elegant-card:hover .sponsor-item:hover {
+            border-bottom-color: rgba(255, 255, 255, 0.5);
+        }
+
+        .sponsor-item:hover::before {
+            opacity: 1;
+            left: -15px;
+        }
+
+        .sponsor-item:last-child {
+            border-bottom: none;
+        }
+
+        /* 频率项目样式 */
+        .frequency-item {
+            margin: 12px 0;
+            padding: 15px 20px;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 12px;
+            border-left: 4px solid var(--primary-color);
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.03);
+            position: relative;
+            z-index: 1;
+        }
+
+        .elegant-card:hover .frequency-item {
+            background: rgba(255, 255, 255, 0.1);
+            border-left-color: rgba(255, 255, 255, 0.5);
+        }
+
+        .frequency-item:hover {
+            transform: translateX(8px);
+            border-left-color: var(--accent-color);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .elegant-card:hover .frequency-item:hover {
+            border-left-color: var(--light-text);
+        }
+
+        /* 其他样式保持不变... */
     </style>
 </head>
 
 <body>
+    <!-- 几何背景 -->
+    <div class="geometric-bg"></div>
+    <div class="geometric-shape shape-1"></div>
+    <div class="geometric-shape shape-2"></div>
+
     <div class="container">
-        <header class="fade-in-up">
+        <header class="fade-in">
             <h1>纪念南京大屠杀主题联飞活动</h1>
-            <p>2025年12月13日 | RFS多人连飞活动</p>
+            <p class="subtitle">南京大屠杀纪念日特别活动 · 2025年12月13日</p>
         </header>
-        <main>
-            <section class="fade-in-up delay-100">
-                <h2>活动简介</h2>
-                <p>南京大屠杀国家公祭日特别连飞活动，牢记历史，勿忘国耻，振兴中华。</p>
 
-                <div class="info-box fade-in-left delay-200">
-                    <p><strong>活动日期：</strong>2025年12月13日（星期六）</p>
-                    <p><strong>活动时间：</strong>19：30</p>
-                    <p><strong>飞行时长：</strong>约2小时</p>
-                    <p><strong>活动服务器：</strong>-</p>
-                </div>
-            </section>
+        <section class="fade-in fade-in-delay-1">
+            <h2><i class="fas fa-info-circle"></i> 活动简介</h2>
+            <p>纪念南京大屠杀遇难同胞 弘扬爱国主义精神 牢记历史 勿忘国耻 振兴中华。</p>
 
-            <section class="fade-in-up delay-1100">
-                <h2>组织机构</h2>
-                <div class="info-box fade-in-left delay-1200">
-                    <p class="sponsor-item"><strong>主办单位：</strong>挽苑航空集团 WAGWAG</p>
-                    <p class="sponsor-item"><strong>协办单位：</strong>虚拟香港机场管理局 VAAHK、Flight simulation-SKYTEAM 天合联盟</p>
-            </section>
+            <div class="elegant-card">
+                <p><strong>活动日期：</strong>2025年12月13日（星期六）</p>
+                <p><strong>活动时间：</strong>19:30</p>
+                <p><strong>飞行时长：</strong>约2小时</p>
+                <p><strong>活动服务器：</strong>待定</p>
+            </div>
 
-            <section class="fade-in-up delay-1300">
-                <h2>活动咨询</h2>
-                <div class="info-box fade-in-left delay-1400">
-                    <p><strong>官方邮箱：</strong>info@virtual-vaahk.org</p>
-                    <p><strong>官方网站：</strong><a href="https://vaahk-site.vercel.app/">https://vaahk-site.vercel.app</a>
-                    </p>
-                    <p><strong>交流群组：</strong><a href="https://qm.qq.com/q/DnKr6KZT3O">点击加入QQ群</a></p>
-                </div>
-            </section>
+            <a href="https://wag.fltsim.app/activity/153" class="btn">
+                <i class="fas fa-paper-plane"></i> 立即报名参加活动
+            </a>
+        </section>
 
-            <footer>
-                <p>&copy; 2025 虚拟香港机场管理局 VAAHK</p>
-                <p>本活动为虚拟飞行爱好者交流活动，与真实航空公司及机构无关</p>
-            </footer>
+        <section class="fade-in fade-in-delay-2">
+            <h2><i class="fas fa-plane"></i> 飞行信息</h2>
+            <table>
+                <tr>
+                    <th>项目</th>
+                    <th>详情</th>
+                </tr>
+                <tr>
+                    <td>起飞机场</td>
+                    <td>北京大兴国际机场 ZBAD</td>
+                </tr>
+                <tr>
+                    <td>起飞跑道</td>
+                    <td>待定</td>
+                </tr>
+                <tr>
+                    <td>降落机场</td>
+                    <td>南京禄口国际机场 ZSNJ</td>
+                </tr>
+                <tr>
+                    <td>降落跑道</td>
+                    <td>待定</td>
+                </tr>
+                <tr>
+                    <td>适用机型</td>
+                    <td>
+                        空客A320<br>
+                        波音B737MAX
+                    </td>
+                </tr>
+                <tr>
+                    <td>适用涂装</td>
+                    <td>中国国际航空、中国南方航空、中国东方航空、中华航空</td>
+                </tr>
+            </table>
+
+            <h3><i class="fas fa-route"></i> 航路信息</h3>
+            <div class="elegant-card">
+                <p><strong>KML航路文件：</strong> <a href="404.html" class="highlight">本次活动无KML</a>
+            </div>
+
+            <h3><i class="fas fa-broadcast-tower"></i> 通讯频道</h3>
+            <div class="elegant-card">
+                <p><strong>南山频道频率：</strong></p>
+                <p class="frequency-item"><strong>放行：</strong>526175</p>
+                <p class="frequency-item"><strong>地面：</strong>1855658</p>
+                <p class="frequency-item"><strong>进近：</strong>509033</p>
+                <p class="frequency-item"><strong>塔台：</strong>517808</p>
+                <p class="frequency-item"><strong>区调：</strong>553232</p>
+            </div>
+        </section>
+
+        <section class="fade-in fade-in-delay-2">
+            <h2><i class="fas fa-sitemap"></i> 组织机构</h2>
+            <div class="elegant-card">
+                <p class="sponsor-item"><strong>主办单位：</strong></p>
+                <p class="sponsor-item">虚拟香港机场管理局 VAAHK</p>
+                <p class="sponsor-item"><strong>协办单位：</strong></p>
+                <p class="sponsor-item">挽苑航空集团 WAG</p>
+                <p class="sponsor-item">虚拟天合联盟 SKYTEAM</p>
+            </div>
+        </section>
+
+        <section class="fade-in fade-in-delay-3">
+            <h2><i class="fas fa-headset"></i> 活动咨询</h2>
+            <div class="elegant-card">
+                <p><strong>官方邮箱：</strong>info@virtual-vaahk.org</p>
+                <p><strong>交流群组：</strong><a href="https://qm.qq.com/q/DnKr6KZT3O" class="highlight">点击加入QQ群</a></p>
+            </div>
+        </section>
+
+        <footer class="fade-in fade-in-delay-3">
+            <p>© 2025 虚拟香港机场管理局 VAAHK - 京港连飞活动</p>
+            <p>本活动为虚拟飞行爱好者交流活动，与真实航空公司及机构无关</p>
+        </footer>
     </div>
-    <script src="报错处理/error-handling.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // 滚动动画
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.animationPlayState = 'running';
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+
+            document.querySelectorAll('.fade-in').forEach(el => {
+                el.style.animationPlayState = 'paused';
+                observer.observe(el);
+            });
+
+            // 添加视差滚动效果
+            window.addEventListener('scroll', () => {
+                const scrolled = window.pageYOffset;
+                const shapes = document.querySelectorAll('.geometric-shape');
+
+                shapes.forEach((shape, index) => {
+                    const speed = 0.5 + (index * 0.1);
+                    shape.style.transform = `translateY(${scrolled * speed}px) rotate(${scrolled * 0.1}deg)`;
+                });
+            });
+        });
+    </script>
 </body>
 
 </html>

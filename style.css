@@ -2189,7 +2189,16 @@ body.join-us .card p strong {
     }
 }
 
+/* 数据来源样式 */
 .data-source {
+    justify-content: flex-end;
+    text-align: right;
+    font-size: 0.8em;
+    color: #666;
+}
+
+/* 说明文字样式 */
+.sup-note {
     justify-content: flex-end;
     text-align: right;
     font-size: 0.8em;

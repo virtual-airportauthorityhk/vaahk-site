@@ -127,6 +127,9 @@
                     <div class="data-source">
                         <span>资料来源：香港天文台 (HKO)</span>
                     </div>
+                    <div class="sup-note">
+                        <span>解码器基于静态数据与前端脚本实现，目前仅支持部分机场，解码结果仅供参考，不保证 100% 准确性。如发现差异，请以官方气象或管制信息为准。</span>
+                    </div>
                 </div>
 
                 <!-- TAF解码器 -->
@@ -149,6 +152,9 @@
 
                     <div class="data-source">
                         <span>资料来源：香港天文台 (HKO)</span>
+                    </div>
+                    <div class="sup-note">
+                        <span>解码器基于静态数据与前端脚本实现，目前仅支持部分机场，解码结果仅供参考，不保证 100% 准确性。如发现差异，请以官方气象或管制信息为准。</span>
                     </div>
                 </div>
 
@@ -174,7 +180,7 @@
                     <div class="frequency-section">
                         <h4>香港飞行情报区 Hong Kong FIR (VHHK)</h4>
                         <p><strong>管制单位：</strong>香港区域管制中心（Hong Kong ACC）<br>
-                            <strong>呼号（Call Sign）：</strong>Hong Kong Radar
+                            <strong>呼号（Call Sign）：</strong>Hong Kong Radar<div class="sup-note"><span>频率摘自香港民航处 AIP，仅供模拟飞行参考，实时数据请以最新 AIP/NOTAM 为准。</span></div>
                         </p>
                         <div class="text-center">
                             <button class="btn" onclick="toggleFrequency('fir-frequencies')">显示/隐藏频率列表</button>
@@ -316,7 +322,7 @@
                     <div class="frequency-section">
                         <h4>香港终端管制区 Hong Kong TMA</h4>
                         <p><strong>管制单位：</strong>香港进近管制（Hong Kong Approach）<br>
-                            <strong>呼号：</strong>Hong Kong Radar
+                            <strong>呼号：</strong>Hong Kong Radar<div class="sup-note"><span>频率摘自香港民航处 AIP，仅供模拟飞行参考，实时数据请以最新 AIP/NOTAM 为准。</span></div>
                         </p>
                         <div class="text-center">
                             <button class="btn" onclick="toggleFrequency('tma-frequencies')">显示/隐藏频率列表</button>
@@ -459,7 +465,7 @@
                         <h4>香港控制区 Hong Kong CTR</h4>
                         <p><strong>管制单位：</strong>香港塔台（Hong Kong Tower）/ 进近（Hong Kong Approach）<br>
                             <strong>呼号：</strong>Hong Kong Tower, Hong Kong Zone, Hong Kong Approach, Hong Kong
-                            Departure
+                            Departure<div class="sup-note"><span>频率摘自香港民航处 AIP，仅供模拟飞行参考，实时数据请以最新 AIP/NOTAM 为准。</span></div>
                         </p>
                         <div class="text-center">
                             <button class="btn" onclick="toggleFrequency('ctr-frequencies')">显示/隐藏频率列表</button>
@@ -537,7 +543,7 @@
                     <div class="frequency-section">
                         <h4>香港 TMA 以南空域 South of Hong Kong TMA</h4>
                         <p><strong>管制单位：</strong>香港区域管制（Hong Kong ACC）/ 香港情报服务（Hong Kong Information）<br>
-                            <strong>呼号：</strong>Hong Kong Radar, Hong Kong Information
+                            <strong>呼号：</strong>Hong Kong Radar, Hong Kong Information<div class="sup-note"><span>频率摘自香港民航处 AIP，仅供模拟飞行参考，实时数据请以最新 AIP/NOTAM 为准。</span></div>
                         </p>
                         <div class="text-center">
                             <button class="btn" onclick="toggleFrequency('south-tma-frequencies')">显示/隐藏频率列表</button>
@@ -615,7 +621,7 @@
                     <div class="frequency-section">
                         <h4>香港 TMA 下方空域 Airspace Beneath Hong Kong TMA</h4>
                         <p><strong>管制单位：</strong>香港飞行情报服务 (Hong Kong FIS)<br>
-                            <strong>呼号：</strong>Hong Kong Information
+                            <strong>呼号：</strong>Hong Kong Information<div class="sup-note"><span>频率摘自香港民航处 AIP，仅供模拟飞行参考，实时数据请以最新 AIP/NOTAM 为准。</span></div>
                         </p>
                         <div class="text-center">
                             <button class="btn" onclick="toggleFrequency('beneath-tma-frequencies')">显示/隐藏频率列表</button>
@@ -652,7 +658,7 @@
 
                     <div class="frequency-section">
                         <h4>搜索与救援 (SAR) 专用频率</h4>
-                        <p><strong>呼号：</strong>Hong Kong Rescue</p>
+                        <p><strong>呼号：</strong>Hong Kong Rescue<div class="sup-note"><span>频率摘自香港民航处 AIP，仅供模拟飞行参考，实时数据请以最新 AIP/NOTAM 为准。</span></div></p>
                         <div class="text-center">
                             <button class="btn" onclick="toggleFrequency('sar-frequencies')">显示/隐藏频率列表</button>
                         </div>
@@ -688,7 +694,7 @@
 
                     <div class="frequency-section">
                         <h4>终端过渡航路 Terminal Transition Routes</h4>
-                        <p><strong>管制单位：</strong>香港进近/离场 (Hong Kong Approach/Departure)</p>
+                        <p><strong>管制单位：</strong>香港进近/离场 (Hong Kong Approach/Departure)<div class="sup-note"><span>频率摘自香港民航处 AIP，仅供模拟飞行参考，实时数据请以最新 AIP/NOTAM 为准。</span></div></p>
                         <div class="text-center">
                             <button class="btn" onclick="toggleFrequency('transition-frequencies')">显示/隐藏频率列表</button>
                         </div>
@@ -775,13 +781,6 @@
                         </div>
                     </div>
                 </div>
-
-                <p class="text-indent">
-                    <small>注1：本解码器基于静态数据与前端脚本实现，目前仅支持部分机场，解码结果仅供参考，不保证 100% 准确性。如发现差异，请以官方气象或管制信息为准。</small>
-                </p>
-                <p class="text-indent">
-                    <small>注2：本频率表摘自香港民航处 AIP，仅供模拟飞行参考，实时数据请以最新 AIP/NOTAM 为准。</small>
-                </p>
             </div>
         </section>
     </main>
