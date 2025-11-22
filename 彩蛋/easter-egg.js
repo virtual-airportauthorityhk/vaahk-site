@@ -2,7 +2,6 @@
 const eggMessages = {
     // 正能量句子 - 用于主页展示
     positive: [
-        // 来自社区成员的正能量句子
         {
             message: "记住每天保持微笑，Tomorrow everything will be fine.",
             author: "影云烁"
@@ -75,46 +74,6 @@ const eggMessages = {
             message: "爱是假的所以去爱世界吧",
             author: "电音汽水"
         },
-        
-        // 新增：经典励志名言
-        {
-            message: "天空没有极限，正如你的潜力无限。勇敢起飞，追逐属于你的蓝天！",
-            author: "虚拟香港机场管理局 VAAHK"
-        },
-        {
-            message: "每一次飞行都是对梦想的追逐，愿你的旅途充满阳光与希望！",
-            author: "虚拟香港机场管理局 VAAHK"
-        },
-        {
-            message: "在虚拟的天空中，我们创造真实的友谊和难忘的回忆。",
-            author: "虚拟香港机场管理局 VAAHK"
-        },
-        {
-            message: "航空不仅是一种技术，更是一种连接人心的艺术。",
-            author: "虚拟香港机场管理局 VAAHK"
-        },
-        {
-            message: "梦想如飞机引擎，一旦启动就无法停止。",
-            author: "虚拟香港机场管理局 VAAHK"
-        },
-        {
-            message: "在模拟飞行的世界里，每个人都可以成为自己人生的机长。",
-            author: "虚拟香港机场管理局 VAAHK"
-        },
-        {
-            message: "耐心和细致是飞行的基石，也是成功的密码。",
-            author: "虚拟香港机场管理局 VAAHK"
-        },
-        {
-            message: "无论风雨，我们始终在虚拟的天空中为你护航。",
-            author: "虚拟香港机场管理局 VAAHK"
-        },
-        {
-            message: "每一次安全的起降，都是团队协作的完美体现。",
-            author: "虚拟香港机场管理局 VAAHK"
-        },
-        
-        // 新增：经典励志名言（网络收集）
         {
             message: "生活就像骑自行车，想要保持平衡，就必须不断前进。",
             author: "爱因斯坦"
@@ -192,6 +151,38 @@ const eggMessages = {
             author: "孔融"
         },
         {
+            message: "实现不可能的唯一方法就是相信它是可能的。",
+            author: "《爱丽丝梦游仙境》"
+        },
+        {
+            message: "相信自己能做到，你就已经成功了一半。",
+            author: "西奥多·罗斯福"
+        },
+        {
+            message: "不要走别人铺好的路，而是走别人没有走过的路，留下自己的足迹。",
+            author: "佚名"
+        },
+        {
+            message: "信心、毅力、勇气三者具备，则天下没有做不成的事。",
+            author: "佚名"
+        },
+        {
+            message: "人生最大的成就，是从失败中站起来。",
+            author: "佚名"
+        },
+        {
+            message: "成功不是终点，失败也不是致命的，重要的是继续前行的勇气。",
+            author: "温斯顿·丘吉尔"
+        },
+        {
+            message: "幸福不是现成的东西，它来自于你的行动。",
+            author: "佚名"
+        },
+        {
+            message: "我们最大的敌人不是别人可能是自己。",
+            author: "佚名"
+        },
+        {
             message: "长风破浪会有时，直挂云帆济沧海。",
             author: "李白"
         },
@@ -212,23 +203,41 @@ const eggMessages = {
             author: "王勃"
         },
         {
-            message: "人生得意须尽欢，莫使金樽空对月。",
-            author: "李白"
+            message: "天空没有极限，正如你的潜力无限。",
+            author: "佚名"
         },
         {
-            message: "不经一番寒彻骨，怎得梅花扑鼻香。",
-            author: "黄蘖禅师"
+            message: "每一次飞行都是对梦想的追逐",
+            author: "佚名"
         },
         {
-            message: "宝剑锋从磨砺出，梅花香自苦寒来。",
-            author: "俗语"
+            message: "在虚拟的天空中，我们创造真实的友谊和难忘的回忆。",
+            author: "佚名"
         },
         {
-            message: "千淘万漉虽辛苦，吹尽狂沙始到金。",
-            author: "刘禹锡"
+            message: "航空不仅是一种技术，更是一种连接人心的艺术。",
+            author: "佚名"
         },
-        
-        // 新增：航空相关名言
+        {
+            message: "梦想如飞机引擎，一旦启动就无法停止。让我们一起飞向更远的地方！",
+            author: "佚名"
+        },
+        {
+            message: "在模拟飞行的世界里，每个人都可以成为自己人生的机长。",
+            author: "佚名"
+        },
+        {
+            message: "耐心和细致是飞行的基石，也是成功的密码。",
+            author: "佚名"
+        },
+        {
+            message: "无论风雨，我们始终在虚拟的天空中为你护航。",
+            author: "佚名"
+        },
+        {
+            message: "每一次安全的起降，都是团队协作的完美体现。",
+            author: "佚名"
+        },
         {
             message: "飞机是凝聚了人类智慧与勇气的伟大发明。",
             author: "莱特兄弟"
@@ -239,7 +248,7 @@ const eggMessages = {
         },
         {
             message: "机场比婚礼殿堂见证了更多真挚的吻，医院的墙比教堂听到了更多的祈祷。",
-            author: "网络名言"
+            author: "佚名"
         },
         {
             message: "真正的发现之旅不在于寻找新风景，而在于拥有新的眼光。",
@@ -251,22 +260,18 @@ const eggMessages = {
         },
         {
             message: "飞行不是一种爱好，而是一种生活方式。",
-            author: "航空爱好者"
+            author: "虚拟香港机场管理局 VAAHK"
         },
         {
             message: "在云端，我们找到了真正的自由。",
-            author: "飞行员格言"
+            author: "虚拟香港机场管理局 VAAHK"
         },
         {
             message: "每一次起飞都是新的开始，每一次降落都是圆满的结束。",
-            author: "航空谚语"
+            author: "虚拟香港机场管理局 VAAHK"
         },
         {
-            message: "天空是极限，但我们的梦想没有极限。",
-            author: "航空梦想家"
-        },
-        {
-            message: "在虚拟的天空中，我们编织着真实的航空梦想。",
+            message: "民用航空器的极限是45000英尺，但我们的梦想没有极限",
             author: "虚拟香港机场管理局 VAAHK"
         }
     ],
@@ -326,6 +331,10 @@ const eggMessages = {
             author: "DerTigerTyp"
         },
         {
+            message: "别干了和我干",
+            author: "佚名"
+        },
+        {
             message: "打断加一死全家",
             author: "某连飞平台"
         },
@@ -355,3 +364,8 @@ const eggMessages = {
         }
     ]
 };
+
+// 导出供其他文件使用
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports = eggMessages;
+}
