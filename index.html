@@ -81,14 +81,14 @@
                     </div>
                     <div class="quote-content">
                         <div class="quote-text" id="positive-quote-text">
-                            "每一次飞行都是对梦想的追逐，愿你的旅途充满阳光与希望！"
+                            "民用航空器的极限是45000英尺，但我们的梦想没有极限"
                         </div>
                         <div class="quote-author" id="positive-quote-author">
-                            - 虚拟香港机场管理局
+                            - 虚拟香港机场管理局 VAAHK
                         </div>
                     </div>
                     <div class="quote-refresh">
-                        <button class="refresh-btn" id="refresh-quote" title="换一句名言">
+                        <button class="refresh-btn" id="refresh-quote" title="换一句">
                             <i class="fas fa-redo-alt"></i>
                         </button>
                     </div>
@@ -393,15 +393,11 @@
             const quoteAuthor = document.getElementById('positive-quote-author');
             const refreshBtn = document.getElementById('refresh-quote');
 
-            console.log('正能量句子功能初始化...'); // 调试信息
-
             // 显示随机正能量句子
             function showRandomQuote() {
-                console.log('显示随机句子...'); // 调试信息
 
                 // 检查彩蛋数据是否加载
                 if (typeof eggMessages === 'undefined') {
-                    console.log('彩蛋数据未加载');
 
                     const randomIndex = Math.floor(Math.random() * defaultQuotes.length);
                     const randomQuote = defaultQuotes[randomIndex];
@@ -416,8 +412,6 @@
                 if (quotes && quotes.length > 0) {
                     const randomIndex = Math.floor(Math.random() * quotes.length);
                     const randomQuote = quotes[randomIndex];
-
-                    console.log('显示句子:', randomQuote); 
 
                     quoteText.textContent = `"${randomQuote.message}"`;
                     quoteAuthor.textContent = `- ${randomQuote.author}`;
@@ -435,18 +429,13 @@
 
             // 初始显示
             if (quoteText && quoteAuthor) {
-                console.log('找到正能量句子元素，开始初始化'); 
                 showRandomQuote();
-            } else {
-                console.log('未找到正能量句子元素'); 
             }
 
             // 点击刷新按钮
             if (refreshBtn) {
-                console.log('找到刷新按钮'); 
                 refreshBtn.addEventListener('click', function (e) {
                     e.preventDefault();
-                    console.log('刷新按钮被点击'); 
 
                     // 添加旋转动画
                     this.style.transform = 'rotate(360deg)';
